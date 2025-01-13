@@ -30,6 +30,21 @@ func main() {
 	dhost := net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: 0}
 	remote := snet.UDPAddr{IA: dia, Host: &dhost}
 	destIAs := []snet.UDPAddr{remote, snet.UDPAddr{IA: addr.MustIAFrom( addr.ISD(71), addr.AS(8589934666)), Host: &dhost}}
+	args := os.Args
+	if len(args) < 3 {
+		fmt.Println("Run with arguments: ./bin/scion-go-multiping local-ia \"dest-ia-1 dest-ia-2 ... dest-ia-n\"")
+		fmt.Println("Running with default values.")
+		//os.Exit(0)
+	} else {
+		localIA := args[1]
+		sia, _ = addr.ParseIA(localIA)
+		var destinationIAs []snet.UDPAddr
+		for _, destIA := range strings.Split(args[2], " ") {
+			ia, _ := addr.ParseIA(destIA)
+			destinationIAs = append(destinationIAs, snet.UDPAddr{IA: ia, Host: &dhost})
+		}
+		destIAs = destinationIAs
+	}
 
 	for _, r := range destIAs {
 		// Short interval
