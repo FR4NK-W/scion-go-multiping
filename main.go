@@ -166,7 +166,7 @@ func getDispatcherPath() string {
 }
 
 func getSaddr() net.IP {
-	ip := net.ParseIP("10.44.25.2")
+	ip := net.ParseIP("129.132.19.216")
 	udpAddr := net.UDPAddr{IP: ip, Port: 443}
 	var err error
 	var conn *net.UDPConn
