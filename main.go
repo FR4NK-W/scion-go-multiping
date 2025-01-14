@@ -15,21 +15,22 @@ import (
 	"github.com/scionproto/scion/pkg/log"
 	"github.com/scionproto/scion/pkg/private/common"
 	"github.com/scionproto/scion/pkg/private/serrors"
-	"github.com/scionproto/scion/private/topology/underlay"
 	"github.com/scionproto/scion/pkg/snet"
 	"github.com/scionproto/scion/pkg/snet/path"
 	"github.com/scionproto/scion/pkg/sock/reliable"
+	"github.com/scionproto/scion/private/topology/underlay"
 )
 
 func main() {
 	fmt.Println("Go multiping")
 
 	saddr := net.UDPAddr{IP: getSaddr(), Port: 0}
-	sia := addr.MustIAFrom( addr.ISD(64), addr.AS(8589934601))
-	dia := addr.MustIAFrom( addr.ISD(71), addr.AS(559))
+	fmt.Println("saddr", saddr)
+	sia := addr.MustIAFrom(addr.ISD(64), addr.AS(8589934601))
+	dia := addr.MustIAFrom(addr.ISD(71), addr.AS(559))
 	dhost := net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: 0}
 	remote := snet.UDPAddr{IA: dia, Host: &dhost}
-	destIAs := []snet.UDPAddr{remote, snet.UDPAddr{IA: addr.MustIAFrom( addr.ISD(71), addr.AS(8589934666)), Host: &dhost}}
+	destIAs := []snet.UDPAddr{remote, snet.UDPAddr{IA: addr.MustIAFrom(addr.ISD(71), addr.AS(8589934666)), Host: &dhost}}
 	args := os.Args
 	if len(args) < 3 {
 		fmt.Println("Run with arguments: ./bin/scion-go-multiping local-ia \"dest-ia-1 dest-ia-2 ... dest-ia-n\"")
@@ -62,8 +63,9 @@ func runPing(sia addr.IA, saddr net.UDPAddr, r snet.UDPAddr, interval time.Durat
 	ctx := context.TODO()
 	replies := make(chan reply, 50)
 	id := snet.RandomSCMPIdentifer()
+	dispSockerPath := getDispatcherPath()
 	svc := snet.DefaultPacketDispatcherService{
-		Dispatcher: reliable.NewDispatcher(""),
+		Dispatcher: reliable.NewDispatcher(dispSockerPath),
 		SCMPHandler: scmpHandler{
 			id:      id,
 			replies: replies,
@@ -77,9 +79,9 @@ func runPing(sia addr.IA, saddr net.UDPAddr, r snet.UDPAddr, interval time.Durat
 	saddr.Port = int(port)
 
 	p := pinger{
-		interval: 10 * time.Second,
-		timeout:  time.Second,
-
+		interval:      interval,
+		timeout:       time.Second,
+		pld:           make([]byte, 8),
 		id:            id,
 		conn:          conn,
 		local:         &snet.UDPAddr{IA: sia, Host: &saddr},
@@ -90,21 +92,36 @@ func runPing(sia addr.IA, saddr net.UDPAddr, r snet.UDPAddr, interval time.Durat
 	p.Ping(ctx, &r)
 }
 
+func getDispatcherPath() string {
+	pathCandidates := []string{
+		"/var/run/dispatcher/default.sock",
+		"/run/shm/dispatcher/default.sock",
+	}
+	for _, candidate := range pathCandidates {
+		if fInfo, err := os.Stat(candidate); err == nil && fInfo.Mode()&os.ModeSocket != 0 {
+			return candidate
+		}
+	}
+	return ""
+}
+
 func getSaddr() net.IP {
 	ip := net.ParseIP("129.132.19.216")
 	udpAddr := net.UDPAddr{IP: ip, Port: 443}
-	if conn, err := net.DialUDP(udpAddr.Network(), nil, &udpAddr); err == nil {
-		return net.ParseIP(conn.LocalAddr().String())
+	var err error
+	var conn *net.UDPConn
+	if conn, err = net.DialUDP(udpAddr.Network(), nil, &udpAddr); err == nil {
+		return net.ParseIP(netip.MustParseAddrPort(conn.LocalAddr().String()).Addr().String())
 	}
 	return nil
 }
 
 type Update struct {
-	Size int
-	Source snet.SCIONAddress
+	Size     int
+	Source   snet.SCIONAddress
 	Sequence int
-	RTT time.Duration
-	State State
+	RTT      time.Duration
+	State    State
 }
 
 type State int
@@ -116,26 +133,26 @@ const (
 )
 
 type Stats struct {
-	Sent int
-	Received int
+	Sent       int
+	Received   int
 	AvgLatency float64
 }
 
 type pinger struct {
 	interval time.Duration
-	timeout time.Duration
+	timeout  time.Duration
 
-	id uint16
-	conn snet.PacketConn
-	local *snet.UDPAddr
-	replies <- chan reply
-	errHandler func(error)
+	id            uint16
+	conn          snet.PacketConn
+	local         *snet.UDPAddr
+	replies       <-chan reply
+	errHandler    func(error)
 	updateHandler func(Update)
 
-	pld []byte
-	sentSequence int
+	pld              []byte
+	sentSequence     int
 	receivedSequence int
-	stats Stats
+	stats            Stats
 }
 
 func (p *pinger) Ping(ctx context.Context, remote *snet.UDPAddr) (Stats, error) {
@@ -200,8 +217,8 @@ func (p *pinger) send(remote *snet.UDPAddr) error {
 	binary.BigEndian.PutUint64(p.pld, uint64(time.Now().UnixNano()))
 	pkt, err := packSCMPrequest(p.local, remote, snet.SCMPEchoRequest{
 		Identifier: p.id,
-		SeqNumber: uint16(sequence),
-		Payload: p.pld,
+		SeqNumber:  uint16(sequence),
+		Payload:    p.pld,
 	})
 	if err != nil {
 		return err
@@ -209,7 +226,7 @@ func (p *pinger) send(remote *snet.UDPAddr) error {
 	nextHop := remote.NextHop
 	if nextHop == nil && p.local.IA.Equal(remote.IA) {
 		nextHop = &net.UDPAddr{
-			IP: remote.Host.IP,
+			IP:   remote.Host.IP,
 			Port: underlay.EndhostPort,
 			Zone: remote.Host.Zone,
 		}
@@ -231,7 +248,7 @@ func (p *pinger) receive(reply reply) {
 		state = AfterTimeout
 	case int(reply.Reply.SeqNumber) == p.receivedSequence:
 		state = Duplicate
-	case int(reply.Reply.SeqNumber) == p.receivedSequence + 1:
+	case int(reply.Reply.SeqNumber) == p.receivedSequence+1:
 		state = Success
 		p.receivedSequence = int(reply.Reply.SeqNumber)
 	default:
@@ -240,11 +257,11 @@ func (p *pinger) receive(reply reply) {
 	p.stats.Received++
 	if p.updateHandler != nil {
 		p.updateHandler(Update{
-			RTT: rtt,
+			RTT:      rtt,
 			Sequence: int(reply.Reply.SeqNumber),
-			Size: reply.Size,
-			Source: reply.Source,
-			State: state,
+			Size:     reply.Size,
+			Source:   reply.Source,
+			State:    state,
 		})
 	}
 }
@@ -284,14 +301,14 @@ func packSCMPrequest(local, remote *snet.UDPAddr, req snet.SCMPEchoRequest) (*sn
 	pkt := &snet.Packet{
 		PacketInfo: snet.PacketInfo{
 			Destination: snet.SCIONAddress{
-				IA: remote.IA,
+				IA:   remote.IA,
 				Host: addr.HostIP(remoteHostIP),
 			},
 			Source: snet.SCIONAddress{
-				IA: local.IA,
+				IA:   local.IA,
 				Host: addr.HostIP(localHostIP),
 			},
-			Path: remote.Path,
+			Path:    remote.Path,
 			Payload: req,
 		},
 	}
@@ -301,13 +318,13 @@ func packSCMPrequest(local, remote *snet.UDPAddr, req snet.SCMPEchoRequest) (*sn
 type reply struct {
 	Received time.Time
 	Source   snet.SCIONAddress
-	Size int
-	Reply snet.SCMPEchoReply
-	Error error
+	Size     int
+	Reply    snet.SCMPEchoReply
+	Error    error
 }
 
 type scmpHandler struct {
-	id	uint16
+	id      uint16
 	replies chan<- reply
 }
 
@@ -316,10 +333,10 @@ func (h scmpHandler) Handle(pkt *snet.Packet) error {
 
 	h.replies <- reply{
 		Received: time.Now(),
-		Source: pkt.Source,
-		Size: len(pkt.Bytes),
-		Reply: echo,
-		Error: err,
+		Source:   pkt.Source,
+		Size:     len(pkt.Bytes),
+		Reply:    echo,
+		Error:    err,
 	}
 	return nil
 }
