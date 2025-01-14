@@ -24,6 +24,8 @@ type PathStatistics struct {
 	Success      bool
 	MinLatency   float64
 	MaxLatency   float64
+	MinHops      float64
+	MaxMaxHops   float64
 	LookupTime   time.Time
 	ActivePaths  int
 	MaxPaths     int
