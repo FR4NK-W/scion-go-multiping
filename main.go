@@ -106,7 +106,6 @@ func main() {
 	bestProbeTicker := time.NewTicker(1 * time.Second)
 	go func() {
 		for range bestProbeTicker.C {
-			fmt.Println("Probing prober.ProbeBest") // XXX: LOG
 			_, err := prober.ProbeBest()
 			if err != nil {
 				fmt.Println("Error probing paths:", err)

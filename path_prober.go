@@ -248,7 +248,6 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 		Paths: make([]PathStatus, min(pb.maxPathsToProbe, len(dest.PathStates))),
 	}
 	var eg errgroup.Group
-	fmt.Println("PathProber iterating pingPathSets.Paths for ", dest.RemoteAddr.String()) // XXX: LOG
 	for _, path := range pingPathSets.Paths[dest.RemoteAddr.String()] {
 		eg.Go(func() error {
 			// TODO: Reuse pingers here
@@ -292,7 +291,6 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 				update = u
 			}
 			// TODO: Stats here?
-			fmt.Println("PathProber SinglePing to ", rAddr) // XXX: LOG
 			_, err = p.SinglePing(ctx, rAddr)
 			if err != nil {
 				return err
@@ -323,7 +321,6 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 	for _, dest := range pb.destinations {
 		eg.Go(func() error {
 			destAddrStr := dest.RemoteAddr.String()
-			fmt.Println("Probing pb.ProbeDestBest") // XXX: LOG
 			probeResult, err := pb.ProbeDestBest(destAddrStr)
 			if err != nil {
 				return err
