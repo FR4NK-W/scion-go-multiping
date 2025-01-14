@@ -189,7 +189,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 
 			var update Update
 			p.updateHandler = func(u Update) {
-				fmt.Println("Got update ", u)
+				// fmt.Println("Got update ", u)
 				update = u
 			}
 			// TODO: Stats here?

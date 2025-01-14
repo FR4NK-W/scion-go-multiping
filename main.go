@@ -66,7 +66,7 @@ func main() {
 		return
 	}
 
-	results, err := prober.ProbeAll()
+	_, err = prober.ProbeAll()
 	// TODO: Error handling?
 	if err != nil {
 		fmt.Println("Error probing paths:", err)
@@ -84,21 +84,11 @@ func main() {
 		}
 	}
 
-	// TODO: Write to SQLite here
-	for dest, destResult := range results.Destinations {
-		fmt.Println("Destination:", dest)
-		for _, pathStatus := range destResult.Paths {
-			fmt.Println("Path:", pathStatus.Path)
-			fmt.Println("State:", pathStatus.State)
-			fmt.Println("Latency:", pathStatus.Latency)
-		}
-	}
-
 	// Sample usage, might be put into some other function or loop
 	probeTicker := time.NewTicker(60 * time.Second)
 	go func() {
 		for range probeTicker.C {
-			results, err := prober.ProbeAll()
+			_, err := prober.ProbeAll()
 			// TODO: Error handling?
 			if err != nil {
 				fmt.Println("Error probing paths:", err)
@@ -106,14 +96,14 @@ func main() {
 			}
 
 			// TODO: Write to SQLite here
-			for dest, destResult := range results.Destinations {
+			/*for dest, destResult := range results.Destinations {
 				fmt.Println("Destination:", dest)
 				for _, pathStatus := range destResult.Paths {
 					fmt.Println("Path:", pathStatus.Path)
 					fmt.Println("State:", pathStatus.State)
 					fmt.Println("Latency:", pathStatus.Latency)
 				}
-			}
+			}*/
 		}
 	}()
 	defer probeTicker.Stop()
@@ -134,6 +124,7 @@ func runPing(sia addr.IA, saddr net.UDPAddr, r snet.UDPAddr, interval time.Durat
 		},
 	}
 
+	// TODO: Here we need the paths from the path prober
 	paths, err := host().queryPaths(ctx, r.IA)
 	r.Path = paths[0].Dataplane()
 
