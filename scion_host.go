@@ -101,10 +101,7 @@ func findSciond(ctx context.Context) (daemon.Connector, error) {
 }
 
 func findDispatcher() (reliable.Dispatcher, error) {
-	path, err := findDispatcherSocket()
-	if err != nil {
-		return nil, err
-	}
+	path := getDispatcherPath()
 	dispatcher := reliable.NewDispatcher(path)
 	return dispatcher, nil
 }

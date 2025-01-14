@@ -164,10 +164,9 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 					replies: replies,
 				},
 			}
-			saddr := dest.RemoteAddr.Copy()
-			udpAddr := saddr.Host
+			udpAddr := pb.localAddr
 
-			conn, port, err := svc.Register(ctx, saddr.IA, udpAddr, addr.SvcNone)
+			conn, port, err := svc.Register(ctx, pb.localIA, &udpAddr, addr.SvcNone)
 			if err != nil {
 				return err
 			}
@@ -179,13 +178,14 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 				pld:           make([]byte, 8),
 				id:            id,
 				conn:          conn,
-				local:         &snet.UDPAddr{IA: saddr.IA, Host: udpAddr},
+				local:         &snet.UDPAddr{IA: pb.localIA, Host: &udpAddr},
 				replies:       replies,
 				errHandler:    nil,
 				updateHandler: nil,
 			}
 			rAddr := dest.RemoteAddr.Copy()
 			rAddr.Path = pathStatus.Path.Dataplane()
+			rAddr.NextHop = pathStatus.Path.UnderlayNextHop()
 
 			var update Update
 			p.updateHandler = func(u Update) {
@@ -202,10 +202,10 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 
 			pathStatus.Latency = rtt
 			result.Paths = append(result.Paths, PathStatus{
-				State:   PATH_STATE_PROBED,
-				Path:    pathStatus.Path,
-				Latency: rtt,
-				// Fingerprint: // TODO: Calculate fingerprint
+				State:       PATH_STATE_PROBED,
+				Path:        pathStatus.Path,
+				Latency:     rtt,
+				Fingerprint: pathStatus.Fingerprint,
 			})
 			return nil
 		})

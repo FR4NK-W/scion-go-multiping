@@ -49,12 +49,11 @@ func main() {
 
 	/*for _, r := range destIAs {
 		// Short interval
-		go runPing(sia, saddr, r, 10*time.Second)
-	}
+		go runPing(sia, saddr, r, 2*time.Second)
+	}*/
 
 	// Long interval
-	runPing(sia, saddr, remote, 60*time.Second)
-	*/
+	// runPing(sia, saddr, remote, 60*time.Second)
 
 	// Path prober, e.g. probe up to 10 paths to each destination
 	prober := NewPathProber(sia, saddr, 10)
@@ -72,6 +71,18 @@ func main() {
 	if err != nil {
 		fmt.Println("Error probing paths:", err)
 	}
+	err = prober.UpdatePathsToPing()
+	if err != nil {
+		fmt.Println("Error updating paths to ping:", err)
+	}
+
+	fmt.Println("Selected paths for destination")
+	for dest, paths := range pingPathSets.Paths {
+		fmt.Println("Destination:", dest)
+		for _, path := range paths {
+			fmt.Println("Path:", path)
+		}
+	}
 
 	// TODO: Write to SQLite here
 	for dest, destResult := range results.Destinations {
@@ -84,7 +95,7 @@ func main() {
 	}
 
 	// Sample usage, might be put into some other function or loop
-	probeTicker := time.NewTicker(5 * time.Second)
+	probeTicker := time.NewTicker(60 * time.Second)
 	go func() {
 		for range probeTicker.C {
 			results, err := prober.ProbeAll()
@@ -123,6 +134,13 @@ func runPing(sia addr.IA, saddr net.UDPAddr, r snet.UDPAddr, interval time.Durat
 		},
 	}
 
+	paths, err := host().queryPaths(ctx, r.IA)
+	r.Path = paths[0].Dataplane()
+
+	if r.NextHop == nil {
+		r.NextHop = paths[0].UnderlayNextHop()
+	}
+
 	conn, port, err := svc.Register(ctx, sia, &saddr, addr.SvcNone)
 	if err != nil {
 		return
@@ -157,7 +175,7 @@ func getDispatcherPath() string {
 }
 
 func getSaddr() net.IP {
-	ip := net.ParseIP("129.132.19.216")
+	ip := net.ParseIP("10.44.25.2")
 	udpAddr := net.UDPAddr{IP: ip, Port: 443}
 	var err error
 	var conn *net.UDPConn
@@ -215,7 +233,7 @@ func (p *pinger) Ping(ctx context.Context, remote *snet.UDPAddr) (Stats, error) 
 	defer cancel()
 
 	errSend := make(chan error, 1)
-
+	fmt.Println("Starting pinger")
 	go func() {
 		defer func() {
 			log.Debug("Draining")
@@ -252,6 +270,7 @@ func (p *pinger) Ping(ctx context.Context, remote *snet.UDPAddr) (Stats, error) 
 			return p.stats, err
 		case reply := <-p.replies:
 			if reply.Error != nil {
+				fmt.Println("Error in reply ", reply.Error)
 				if p.errHandler != nil {
 					p.errHandler(reply.Error)
 				}
@@ -285,7 +304,6 @@ func (p *pinger) SinglePing(ctx context.Context, remote *snet.UDPAddr) (Stats, e
 	}()*/
 
 	go func() {
-		fmt.Println("Sending ping to remote ", remote)
 		if err := p.send(remote); err != nil {
 			errSend <- serrors.WrapStr("sending", err)
 		}
@@ -300,7 +318,6 @@ func (p *pinger) SinglePing(ctx context.Context, remote *snet.UDPAddr) (Stats, e
 				p.errHandler(reply.Error)
 			}
 		}
-		fmt.Println("Received reply ", reply)
 		p.receive(reply)
 		return p.stats, nil
 	}
@@ -327,6 +344,7 @@ func (p *pinger) send(remote *snet.UDPAddr) error {
 			Zone: remote.Host.Zone,
 		}
 	}
+
 	if err := p.conn.WriteTo(pkt, nextHop); err != nil {
 		return err
 	}
@@ -394,6 +412,7 @@ func packSCMPrequest(local, remote *snet.UDPAddr, req snet.SCMPEchoRequest) (*sn
 	if !ok {
 		return nil, serrors.New("invalid local IP", "ip", local.Host.IP)
 	}
+
 	pkt := &snet.Packet{
 		PacketInfo: snet.PacketInfo{
 			Destination: snet.SCIONAddress{
@@ -426,7 +445,9 @@ type scmpHandler struct {
 
 func (h scmpHandler) Handle(pkt *snet.Packet) error {
 	echo, err := h.handle(pkt)
-
+	if err != nil {
+		fmt.Println("Error handling packet ", err)
+	}
 	h.replies <- reply{
 		Received: time.Now(),
 		Source:   pkt.Source,
