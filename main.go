@@ -78,13 +78,11 @@ func main() {
 			fmt.Println("Path:", path)
 		}
 	}
-	fmt.Println("DONE")
-	os.Exit(0)
 
 	// Sample usage, might be put into some other function or loop
-	probeTicker := time.NewTicker(60 * time.Second)
+	fullProbeTicker := time.NewTicker(60 * time.Second)
 	go func() {
-		for range probeTicker.C {
+		for range fullProbeTicker.C {
 			_, err := prober.ProbeAll()
 			// TODO: Error handling?
 			if err != nil {
@@ -103,9 +101,21 @@ func main() {
 			}*/
 		}
 	}()
-	defer probeTicker.Stop()
-	time.Sleep(60 * time.Second)
+	defer fullProbeTicker.Stop()
 
+	bestProbeTicker := time.NewTicker(1 * time.Second)
+	go func() {
+		for range bestProbeTicker.C {
+			fmt.Println("Probing prober.ProbeBest") // XXX: LOG
+			_, err := prober.ProbeBest()
+			if err != nil {
+				fmt.Println("Error probing paths:", err)
+				continue
+			}
+		}
+	}()
+	defer bestProbeTicker.Stop()
+	time.Sleep(10 * time.Second)
 }
 
 func runPing(sia addr.IA, saddr net.UDPAddr, r snet.UDPAddr, interval time.Duration) {

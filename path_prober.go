@@ -236,6 +236,106 @@ func (pb *PathProber) ProbeAll() (*PathProbeResult, error) {
 	return result, err
 }
 
+// Probe the selected paths from pingPathSets to a given destination, returning the results.
+func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, error) {
+
+	dest, ok := pb.destinations[destIsdAS]
+	if !ok {
+		return nil, fmt.Errorf("destination %s not found", destIsdAS)
+	}
+
+	result := &DestinationProbeResult{
+		Paths: make([]PathStatus, min(pb.maxPathsToProbe, len(dest.PathStates))),
+	}
+	var eg errgroup.Group
+	fmt.Println("PathProber iterating pingPathSets.Paths for ", dest.RemoteAddr.String()) // XXX: LOG
+	for _, path := range pingPathSets.Paths[dest.RemoteAddr.String()] {
+		eg.Go(func() error {
+			// TODO: Reuse pingers here
+			ctx := context.TODO()
+			replies := make(chan reply, 50)
+			id := snet.RandomSCMPIdentifer()
+			dispSockerPath := getDispatcherPath()
+			svc := snet.DefaultPacketDispatcherService{
+				Dispatcher: reliable.NewDispatcher(dispSockerPath),
+				SCMPHandler: scmpHandler{
+					id:      id,
+					replies: replies,
+				},
+			}
+			udpAddr := pb.localAddr
+
+			conn, port, err := svc.Register(ctx, pb.localIA, &udpAddr, addr.SvcNone)
+			if err != nil {
+				return err
+			}
+			defer conn.Close()
+			udpAddr.Port = int(port)
+
+			p := pinger{
+				timeout:       time.Second,
+				pld:           make([]byte, 8),
+				id:            id,
+				conn:          conn,
+				local:         &snet.UDPAddr{IA: pb.localIA, Host: &udpAddr},
+				replies:       replies,
+				errHandler:    nil,
+				updateHandler: nil,
+			}
+			rAddr := dest.RemoteAddr.Copy()
+			rAddr.Path = path.Dataplane()
+			rAddr.NextHop = path.UnderlayNextHop()
+
+			var update Update
+			p.updateHandler = func(u Update) {
+				fmt.Println("Got update ", u)
+				update = u
+			}
+			// TODO: Stats here?
+			fmt.Println("PathProber SinglePing to ", rAddr) // XXX: LOG
+			_, err = p.SinglePing(ctx, rAddr)
+			if err != nil {
+				return err
+			}
+			rtt := update.RTT.Microseconds()
+
+			result.Paths = append(result.Paths, PathStatus{
+				State:       PATH_STATE_PROBED,
+				Path:        path,
+				Latency:     rtt,
+				Fingerprint: calculateFingerprint(path),
+			})
+			return nil
+		})
+	}
+
+	err := eg.Wait()
+
+	return result, err
+}
+
+// Iterate over all destinations and only probe the selected best paths from pingPathSets to each destination in parallel.
+func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
+	var eg errgroup.Group
+	result := &PathProbeResult{
+		Destinations: make(map[string]*DestinationProbeResult),
+	}
+	for _, dest := range pb.destinations {
+		eg.Go(func() error {
+			destAddrStr := dest.RemoteAddr.String()
+			fmt.Println("Probing pb.ProbeDestBest") // XXX: LOG
+			probeResult, err := pb.ProbeDestBest(destAddrStr)
+			if err != nil {
+				return err
+			}
+			result.Destinations[destAddrStr] = probeResult
+			return nil
+		})
+	}
+	err := eg.Wait()
+	return result, err
+}
+
 // Return the pathset to a given destination that should be used for pinging,
 // i.e. [lowest latency path, shortest path in number of hops, most disjoint path(s)]
 func (pb *PathProber) GetPathsForPing(destIsdAS string) ([]PathStatus, error) {
