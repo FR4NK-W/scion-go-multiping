@@ -47,20 +47,44 @@ func main() {
 		destIAs = destinationIAs
 	}
 
-	for _, r := range destIAs {
+	/*for _, r := range destIAs {
 		// Short interval
 		go runPing(sia, saddr, r, 10*time.Second)
 	}
 
 	// Long interval
 	runPing(sia, saddr, remote, 60*time.Second)
+	*/
 
 	// Path prober, e.g. probe up to 10 paths to each destination
 	prober := NewPathProber(sia, saddr, 10)
 	prober.SetDestinations(destIAs)
 
+	err := prober.InitAndLookup()
+	if err != nil {
+		fmt.Println("Error initializing and looking up paths:", err)
+		os.Exit(1)
+		return
+	}
+
+	results, err := prober.ProbeAll()
+	// TODO: Error handling?
+	if err != nil {
+		fmt.Println("Error probing paths:", err)
+	}
+
+	// TODO: Write to SQLite here
+	for dest, destResult := range results.Destinations {
+		fmt.Println("Destination:", dest)
+		for _, pathStatus := range destResult.Paths {
+			fmt.Println("Path:", pathStatus.Path)
+			fmt.Println("State:", pathStatus.State)
+			fmt.Println("Latency:", pathStatus.Latency)
+		}
+	}
+
 	// Sample usage, might be put into some other function or loop
-	probeTicker := time.NewTicker(60 * time.Second)
+	probeTicker := time.NewTicker(5 * time.Second)
 	go func() {
 		for range probeTicker.C {
 			results, err := prober.ProbeAll()
@@ -82,6 +106,7 @@ func main() {
 		}
 	}()
 	defer probeTicker.Stop()
+	time.Sleep(60 * time.Second)
 
 }
 
@@ -235,6 +260,51 @@ func (p *pinger) Ping(ctx context.Context, remote *snet.UDPAddr) (Stats, error) 
 			p.receive(reply)
 		}
 	}
+}
+
+func (p *pinger) SinglePing(ctx context.Context, remote *snet.UDPAddr) (Stats, error) {
+	p.sentSequence, p.receivedSequence = -1, -1
+
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	go func() {
+		defer func() {
+			log.Debug("Draining")
+		}()
+		p.drain(ctx)
+	}()
+
+	errSend := make(chan error, 1)
+
+	/*go func() {
+		defer func() {
+			log.Debug("Draining")
+		}()
+		p.drain(ctx)
+	}()*/
+
+	go func() {
+		fmt.Println("Sending ping to remote ", remote)
+		if err := p.send(remote); err != nil {
+			errSend <- serrors.WrapStr("sending", err)
+		}
+	}()
+
+	select {
+	case err := <-errSend:
+		return p.stats, err
+	case reply := <-p.replies:
+		if reply.Error != nil {
+			if p.errHandler != nil {
+				p.errHandler(reply.Error)
+			}
+		}
+		fmt.Println("Received reply ", reply)
+		p.receive(reply)
+		return p.stats, nil
+	}
+
 }
 
 func (p *pinger) send(remote *snet.UDPAddr) error {

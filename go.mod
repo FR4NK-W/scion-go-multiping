@@ -4,6 +4,7 @@ go 1.22.7
 
 require (
 	github.com/scionproto/scion v0.11.0
+	golang.org/x/sync v0.7.0
 	gorm.io/driver/sqlite v1.5.7
 	gorm.io/gorm v1.25.12
 	inet.af/netaddr v0.0.0-20230525184311-b8eac61e914a
