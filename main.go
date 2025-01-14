@@ -55,8 +55,34 @@ func main() {
 	// Long interval
 	runPing(sia, saddr, remote, 60*time.Second)
 
-	// Path prober
-	//
+	// Path prober, e.g. probe up to 10 paths to each destination
+	prober := NewPathProber(sia, saddr, 10)
+	prober.SetDestinations(destIAs)
+
+	// Sample usage, might be put into some other function or loop
+	probeTicker := time.NewTicker(60 * time.Second)
+	go func() {
+		for range probeTicker.C {
+			results, err := prober.ProbeAll()
+			// TODO: Error handling?
+			if err != nil {
+				fmt.Println("Error probing paths:", err)
+				continue
+			}
+
+			// TODO: Write to SQLite here
+			for dest, destResult := range results.Destinations {
+				fmt.Println("Destination:", dest)
+				for _, pathStatus := range destResult.Paths {
+					fmt.Println("Path:", pathStatus.Path)
+					fmt.Println("State:", pathStatus.State)
+					fmt.Println("Latency:", pathStatus.Latency)
+				}
+			}
+		}
+	}()
+	defer probeTicker.Stop()
+
 }
 
 func runPing(sia addr.IA, saddr net.UDPAddr, r snet.UDPAddr, interval time.Duration) {
