@@ -24,39 +24,33 @@ import (
 func main() {
 	fmt.Println("Go multiping")
 
-	saddr := net.UDPAddr{IP: getSaddr(), Port: 0}
-	fmt.Println("saddr", saddr)
-	sia := addr.MustIAFrom(addr.ISD(64), addr.AS(8589934601))
 	dia := addr.MustIAFrom(addr.ISD(71), addr.AS(559))
-	dhost := net.UDPAddr{IP: net.ParseIP("127.0.0.1"), Port: 0}
+	dhost := net.UDPAddr{IP: net.ParseIP("10.10.0.1"), Port: 30041}
 	remote := snet.UDPAddr{IA: dia, Host: &dhost}
 	destIAs := []snet.UDPAddr{remote, snet.UDPAddr{IA: addr.MustIAFrom(addr.ISD(71), addr.AS(8589934666)), Host: &dhost}}
 	args := os.Args
-	if len(args) < 3 {
-		fmt.Println("Run with arguments: ./bin/scion-go-multiping local-ia \"dest-ia-1 dest-ia-2 ... dest-ia-n\"")
+	if len(args) < 2 {
+		fmt.Println("Run with arguments: ./bin/scion-go-multiping \"dest-ia-addr-1 dest-ia-2 ... dest-ia-addr-n\"")
 		fmt.Println("Running with default values.")
 		//os.Exit(0)
 	} else {
-		localIA := args[1]
-		sia, _ = addr.ParseIA(localIA)
 		var destinationIAs []snet.UDPAddr
-		for _, destIA := range strings.Split(args[2], " ") {
-			ia, _ := addr.ParseIA(destIA)
-			destinationIAs = append(destinationIAs, snet.UDPAddr{IA: ia, Host: &dhost})
+		for _, destAddr := range strings.Split(args[1], " ") {
+			dAddr, err := addr.ParseAddr(destAddr)
+			if err != nil {
+				fmt.Println("Invalid destination: ", dAddr)
+				os.Exit(1)
+			}
+			destinationIAs = append(destinationIAs, snet.UDPAddr{IA: dAddr.IA, Host: &net.UDPAddr{
+				IP:   dAddr.Host.IP().AsSlice(),
+				Port: 30041,
+			}})
 		}
 		destIAs = destinationIAs
 	}
 
-	/*for _, r := range destIAs {
-		// Short interval
-		go runPing(sia, saddr, r, 2*time.Second)
-	}*/
-
-	// Long interval
-	// runPing(sia, saddr, remote, 60*time.Second)
-
 	// Path prober, e.g. probe up to 10 paths to each destination
-	prober := NewPathProber(sia, saddr, 10)
+	prober := NewPathProber(10)
 	prober.SetDestinations(destIAs)
 
 	err := prober.InitAndLookup()
@@ -66,6 +60,7 @@ func main() {
 		return
 	}
 
+	// Initial probing
 	_, err = prober.ProbeAll()
 	// TODO: Error handling?
 	if err != nil {
@@ -83,6 +78,8 @@ func main() {
 			fmt.Println("Path:", path)
 		}
 	}
+	fmt.Println("DONE")
+	os.Exit(0)
 
 	// Sample usage, might be put into some other function or loop
 	probeTicker := time.NewTicker(60 * time.Second)
@@ -165,9 +162,8 @@ func getDispatcherPath() string {
 	return ""
 }
 
-func getSaddr() net.IP {
-	ip := net.ParseIP("129.132.19.216")
-	udpAddr := net.UDPAddr{IP: ip, Port: 443}
+func getSaddr(dest net.IP) net.IP {
+	udpAddr := net.UDPAddr{IP: dest, Port: 443}
 	var err error
 	var conn *net.UDPConn
 	if conn, err = net.DialUDP(udpAddr.Network(), nil, &udpAddr); err == nil {

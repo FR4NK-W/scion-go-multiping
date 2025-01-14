@@ -27,7 +27,7 @@ var pingPathSets PingPathSets
 
 // Remember path states for the pinging module to know which paths to ping, i.e. the "PATH_STATE_PING" paths.
 const (
-	PATH_STATE_PING    = iota // Use for the current ping interval
+	PATH_STATE_PING    = iota // Used for the current ping interval
 	PATH_STATE_IDLE           // Not probed at all, we only that it is there
 	PATH_STATE_PROBED         // Probed, but not selected for pinging. We know its latency.
 	PATH_STATE_TIMEOUT        // This one timeouted, don't use it for a while
@@ -71,12 +71,10 @@ type PathProber struct {
 
 // NewPathProber creates a new PathProber.
 // The maxPathsToProbe parameter specifies the maximum number of paths to probe for each destination, to avoid probing dozens of paths.
-func NewPathProber(localIA addr.IA, localAddr net.UDPAddr, maxPathsToProbe int) *PathProber {
+func NewPathProber(maxPathsToProbe int) *PathProber {
 	return &PathProber{
-		destinations:    make(map[string]*PingDestination),
+		destinations:    make(map[string]*PingDestination, maxPathsToProbe),
 		maxPathsToProbe: maxPathsToProbe,
-		localIA:         localIA,
-		localAddr:       localAddr,
 	}
 }
 
@@ -88,6 +86,8 @@ func (pb *PathProber) InitAndLookup() error {
 		return err
 	}
 	pb.hostContext = &hc
+	pb.localAddr = net.UDPAddr{IP: getSaddr(hc.hostInLocalAS), Port: 0}
+	pb.localIA = hc.ia
 
 	var eg errgroup.Group
 	for destStr, dest := range pb.destinations {
@@ -189,7 +189,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 
 			var update Update
 			p.updateHandler = func(u Update) {
-				// fmt.Println("Got update ", u)
+				fmt.Println("Got update ", u)
 				update = u
 			}
 			// TODO: Stats here?
@@ -198,7 +198,6 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 				return err
 			}
 			rtt := update.RTT.Microseconds()
-			fmt.Println("Probed path ", pathStatus.Path, " to destination ", destIsdAS, " with latency ", rtt)
 
 			pathStatus.Latency = rtt
 			result.Paths = append(result.Paths, PathStatus{
