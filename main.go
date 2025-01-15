@@ -88,7 +88,7 @@ func main() {
 				for _, pathStatus := range destResult.Paths {
 					fmt.Println("Path:", pathStatus.Path)
 					fmt.Println("State:", pathStatus.State)
-					fmt.Println("Latency:", pathStatus.Latency)
+					fmt.Println("RTT:", pathStatus.RTT)
 				}
 			}*/
 		}
@@ -151,5 +151,5 @@ const (
 type Stats struct {
 	Sent       int
 	Received   int
-	AvgLatency float64
+	AvgRTT float64
 }

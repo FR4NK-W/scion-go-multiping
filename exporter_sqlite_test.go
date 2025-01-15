@@ -33,7 +33,7 @@ func TestSQLiteExporter_WritePingResult(t *testing.T) {
 		SrcSCIONAddr:    "1-ff00:0:110",
 		DstSCIONAddr:    "1-ff00:0:111",
 		Success:         true,
-		Latency:         20.5,
+		RTT:         20.5,
 		PingTime:        time.Now(),
 		SuccessfulPings: 5,
 		MaxPings:        10,
@@ -48,8 +48,8 @@ func TestSQLiteExporter_WritePingResult(t *testing.T) {
 		t.Errorf("Failed to fetch PingResult from database: %v", err)
 	}
 
-	if fetched.Latency != pingResult.Latency {
-		t.Errorf("Expected latency %v, got %v", pingResult.Latency, fetched.Latency)
+	if fetched.RTT != pingResult.RTT {
+		t.Errorf("Expected RTT %v, got %v", pingResult.RTT, fetched.RTT)
 	}
 }
 
@@ -66,8 +66,8 @@ func TestSQLiteExporter_WritePathStatistic(t *testing.T) {
 		SrcSCIONAddr: "1-ff00:0:110",
 		DstSCIONAddr: "1-ff00:0:111",
 		Success:      true,
-		MinLatency:   10.2,
-		MaxLatency:   50.8,
+		MinRTT:       10.2,
+		MaxRTT:       50.8,
 		LookupTime:   time.Now(),
 		ActivePaths:  3,
 		ProbedPaths:  5,
@@ -82,7 +82,7 @@ func TestSQLiteExporter_WritePathStatistic(t *testing.T) {
 		t.Errorf("Failed to fetch PathStatistics from database: %v", err)
 	}
 
-	if fetched.MinLatency != pathStatistic.MinLatency {
-		t.Errorf("Expected MinLatency %v, got %v", pathStatistic.MinLatency, fetched.MinLatency)
+	if fetched.MinRTT != pathStatistic.MinRTT {
+		t.Errorf("Expected MinRTT %v, got %v", pathStatistic.MinRTT, fetched.MinRTT)
 	}
 }

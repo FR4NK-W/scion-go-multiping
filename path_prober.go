@@ -29,7 +29,7 @@ var pingPathSets PingPathSets
 const (
 	PATH_STATE_PING    = iota // Used for the current ping interval
 	PATH_STATE_IDLE           // Not probed at all, we only that it is there
-	PATH_STATE_PROBED         // Probed, but not selected for pinging. We know its latency.
+	PATH_STATE_PROBED         // Probed, but not selected for pinging. We know its RTT.
 	PATH_STATE_TIMEOUT        // This one timeouted, don't use it for a while
 	PATH_STATE_DOWN           // Got an SCMP error, ignore it for now
 )
@@ -44,13 +44,13 @@ type PathProbeResult struct {
 	Destinations map[string]*DestinationProbeResult
 }
 
-// Used to store the status of a path to a destination, including the latency and the path itself.
+// Used to store the status of a path to a destination, including the rtt and the path itself.
 // Based on this, the prober can select the proper paths for the pinging module
 type PathStatus struct {
 	State       int
 	Path        snet.Path
 	Fingerprint string
-	Latency     int64
+	RTT         int64
 }
 
 // Represents a destination to probe, containing the remote address and the status of all paths to that destination.
@@ -117,7 +117,7 @@ func (pb *PathProber) InitAndLookup() error {
 				dest.PathStates = append(dest.PathStates, PathStatus{
 					State:       PATH_STATE_IDLE,
 					Path:        path,
-					Latency:     0,
+					RTT:         0,
 					Fingerprint: calculateFingerprint(path),
 				})
 			}
@@ -235,11 +235,11 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 			if success {
 				rtt := update.RTT.Milliseconds()
 
-				pathStatus.Latency = rtt / 2
+				pathStatus.RTT = rtt
 				result.Paths = append(result.Paths, PathStatus{
 					State:       PATH_STATE_PROBED,
 					Path:        pathStatus.Path,
-					Latency:     rtt,
+					RTT:         rtt,
 					Fingerprint: pathStatus.Fingerprint,
 				})
 			} else {
@@ -260,26 +260,26 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 	}
 
 	successCount := 0
-	minLatency := int64(10000000000)
-	maxLatency := int64(0)
+	minRTT := int64(10000000000)
+	maxRTT := int64(0)
 
 	minHops := 100000
 	maxHops := 0
 
 	for _, path := range result.Paths {
 
-		if path.Latency > 0 {
+		if path.RTT > 0 {
 			successCount++
 
-			if path.Latency < minLatency {
-				minLatency = path.Latency
+			if path.RTT < minRTT {
+				minRTT = path.RTT
 			}
 
-			if path.Latency > maxLatency {
-				maxLatency = path.Latency
+			if path.RTT > maxRTT {
+				maxRTT = path.RTT
 			}
 
-			pathLen := len(path.Path.Metadata().Interfaces) / 2
+			pathLen := len(path.Path.Metadata().Interfaces)
 
 			if pathLen < minHops {
 				minHops = pathLen
@@ -296,8 +296,8 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 		SrcSCIONAddr:   fmt.Sprintf("%s,%s", pb.localIA.String(), pb.localAddr.String()),
 		DstSCIONAddr:   destIsdAS,
 		Success:        successCount > 0,
-		MinLatency:     float64(minLatency),
-		MaxLatency:     float64(maxLatency),
+		MinRTT:         float64(minRTT),
+		MaxRTT:         float64(maxRTT),
 		MinHops:        minHops,
 		MaxHops:        maxHops,
 		LookupTime:     time.Now(),
@@ -388,7 +388,7 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 				result.Paths = append(result.Paths, PathStatus{
 					State:       PATH_STATE_PROBED,
 					Path:        path,
-					Latency:     rtt / 2,
+					RTT:         rtt / 2,
 					Fingerprint: calculateFingerprint(path),
 				})
 			} else {
@@ -421,16 +421,16 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 			if err != nil {
 				return err
 			}
-			minLatency := int64(1000000)
+			minRTT := int64(1000000)
 			successCount := 0
 
 			fmt.Println("Probed ", destAddrStr, " got entries ", len(probeResult.Paths))
 			for _, path := range probeResult.Paths {
-				fmt.Println("Path1 ", path.Path, " has latency ", path.Latency)
-				if path.Latency > 0 {
+				fmt.Println("Path1 ", path.Path, " has RTT ", path.RTT)
+				if path.RTT > 0 {
 					successCount++
-					if path.Latency < minLatency {
-						minLatency = path.Latency
+					if path.RTT < minRTT {
+						minRTT = path.RTT
 					}
 				}
 			}
@@ -439,7 +439,7 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 				SrcSCIONAddr:    fmt.Sprintf("%s,%s", pb.localIA.String(), pb.localAddr.String()),
 				DstSCIONAddr:    destAddrStr,
 				Success:         successCount > 0,
-				Latency:         float64(minLatency),
+				RTT:             float64(minRTT),
 				PingTime:        time.Now(),
 				SuccessfulPings: successCount,
 				MaxPings:        len(probeResult.Paths),
@@ -458,7 +458,7 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 }
 
 // Return the pathset to a given destination that should be used for pinging,
-// i.e. [lowest latency path, shortest path in number of hops, most disjoint path(s)]
+// i.e. [lowest rtt path, shortest path in number of hops, most disjoint path(s)]
 func (pb *PathProber) GetPathsForPing(destIsdAS string) ([]PathStatus, error) {
 	return nil, nil
 }
@@ -483,11 +483,11 @@ func (pb *PathProber) UpdatePathsToPing() error {
 /*
 *
 Path Selection Algorithm: (every 60 seconds or when at least 2 pings fail to a destination)
-  - Input: NetworkState filled with latency, number of hops, etc, Output: List of up to 3 paths
+  - Input: NetworkState filled with rtt, number of hops, etc, Output: List of up to 3 paths
   - 1. Ignore all paths that have state "down" or "timeout"
   - 2. If number of paths  <3 the choose all paths
   - 3. Select shortest path in number of hops
-  - 4. Select lowest latency path
+  - 4. Select lowest rtt path
   - 5. If those two result in the same path, select one highly disjoint path in addition to it
   - 6. Select the most disjoint / most diverse path with respect to the previously selected paths
 */
@@ -512,8 +512,8 @@ func (pb *PathProber) SelectOptimalPathsToPing(pingDestination *PingDestination)
 	}
 
 	// 3. Select shortest path in number of hops
-	// 4. Select lowest latency path
-	shortPaths := shortestAndLowestLatencyPath(activePaths)
+	// 4. Select lowest rtt path
+	shortPaths := shortestAndLowestRTTPath(activePaths)
 
 	// 5 & 6: Select up to 2 most disjoint paths in addition to this
 	pathSet := addMostDisjointPaths(shortPaths, activePaths)
@@ -591,12 +591,12 @@ func addMostDisjointPaths(shortestPaths []PathStatus, allPaths []PathStatus) []P
 	return shortestPaths
 }
 
-func shortestAndLowestLatencyPath(paths []PathStatus) []PathStatus {
+func shortestAndLowestRTTPath(paths []PathStatus) []PathStatus {
 	minHops := 100000
 	var shortestPath PathStatus
 
-	minLatency := int64(100000)
-	var lowestLatencyPath PathStatus
+	minRTT := int64(100000)
+	var lowestRTTPath PathStatus
 
 	for _, path := range paths {
 		metaData := path.Path.Metadata()
@@ -606,18 +606,18 @@ func shortestAndLowestLatencyPath(paths []PathStatus) []PathStatus {
 			shortestPath = path
 		}
 
-		if path.Latency < minLatency {
-			minLatency = path.Latency
-			lowestLatencyPath = path
+		if path.RTT < minRTT {
+			minRTT = path.RTT
+			lowestRTTPath = path
 		}
 	}
 
 	// TODO: We need fingerprints for this
-	if shortestPath.Fingerprint == lowestLatencyPath.Fingerprint {
+	if shortestPath.Fingerprint == lowestRTTPath.Fingerprint {
 		return []PathStatus{shortestPath}
 	}
 
-	return []PathStatus{shortestPath, lowestLatencyPath}
+	return []PathStatus{shortestPath, lowestRTTPath}
 }
 
 // calculateFingerprint generates a unique fingerprint for a path by hashing its interfaces
