@@ -85,16 +85,12 @@ func NewPathProber(maxPathsToProbe int, maxPathsToPing int) *PathProber {
 
 // Inits the prober and does a path lookup to all destinations.
 // TODO: Parallelize this
-func (pb *PathProber) InitAndLookup() error {
-	hc, err := initHostContext()
-	if err != nil {
-		return err
-	}
+func (pb *PathProber) InitAndLookup(hc hostContext) error {
 	pb.hostContext = &hc
 	pb.localAddr = net.UDPAddr{IP: getSaddr(hc.hostInLocalAS), Port: 0}
 	pb.localIA = hc.ia
 
-	err = pb.exporter.Init()
+	err := pb.exporter.Init()
 	if err != nil {
 		return err
 	}

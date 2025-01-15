@@ -19,6 +19,12 @@ func main() {
 	dhost := net.UDPAddr{IP: net.ParseIP("10.10.0.1"), Port: 30041}
 	remote := snet.UDPAddr{IA: dia, Host: &dhost}
 	destIAs := []snet.UDPAddr{remote, snet.UDPAddr{IA: addr.MustIAFrom(addr.ISD(71), addr.AS(8589934666)), Host: &dhost}}
+
+	hc, err := initHostContext()
+	if err != nil {
+		fmt.Println("Failed init: ", err)
+		os.Exit(1)
+	}
 	args := os.Args
 	if len(args) < 2 {
 		fmt.Println("Run with arguments: ./bin/scion-go-multiping \"dest-ia-addr-1 dest-ia-2 ... dest-ia-addr-n\"")
@@ -33,6 +39,10 @@ func main() {
 				fmt.Println("Invalid destination: ", dAddr, " error: ", err)
 				os.Exit(1)
 			}
+			if dAddr.IA == 	hc.ia {
+				fmt.Println("Not probing local AS: ", dAddr.IA)
+				continue
+			}
 			destinationIAs = append(destinationIAs, snet.UDPAddr{IA: dAddr.IA, Host: &net.UDPAddr{
 				IP:   dAddr.Host.IP().AsSlice(),
 				Port: 30041,
@@ -45,7 +55,7 @@ func main() {
 	prober := NewPathProber(10, 3)
 	prober.SetDestinations(destIAs)
 
-	err := prober.InitAndLookup()
+	err = prober.InitAndLookup(hc)
 	if err != nil {
 		fmt.Println("Error initializing and looking up paths:", err)
 		os.Exit(1)
