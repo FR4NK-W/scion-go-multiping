@@ -106,7 +106,7 @@ func main() {
 		}
 	}()
 	defer bestProbeTicker.Stop()
-	time.Sleep(20 * time.Second)
+	time.Sleep(4 * time.Hour)
 }
 
 func getDispatcherPath() string {
@@ -149,7 +149,7 @@ const (
 )
 
 type Stats struct {
-	Sent       int
-	Received   int
-	AvgRTT float64
+	Sent     int
+	Received int
+	AvgRTT   float64
 }

@@ -309,14 +309,50 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 	return result, err
 }
 
+func (pb *PathProber) UpdatePathList(destStr string, dest *PingDestination) error {
+	fmt.Println("Querying paths to destination ", destStr)
+	hc := host()
+	paths, err := hc.queryPaths(context.Background(), dest.RemoteAddr.IA)
+	// TODO: Error handling
+	if err != nil {
+		fmt.Println("Error querying paths to destination ", destStr, ":", err)
+		return err
+	}
+
+	fmt.Println("Found ", len(paths), " paths to destination ", destStr)
+
+	for _, path := range paths {
+		fp := calculateFingerprint(path)
+		for _, pathStatus := range dest.PathStates {
+			if pathStatus.Fingerprint == fp {
+				// TODO: Update path status here? We already know the path
+			} else {
+				dest.PathStates = append(dest.PathStates, PathStatus{
+					State:       PATH_STATE_IDLE,
+					Path:        path,
+					RTT:         0,
+					Fingerprint: fp,
+				})
+			}
+		}
+	}
+	return nil
+}
+
 // Iterate over all destinations and probe all paths to each destination in parallel.
 func (pb *PathProber) ProbeAll() (*PathProbeResult, error) {
 	var eg errgroup.Group
 	result := &PathProbeResult{
 		Destinations: make(map[string]*DestinationProbeResult),
 	}
-	for _, dest := range pb.destinations {
+	for destStr, dest := range pb.destinations {
 		eg.Go(func() error {
+
+			err := pb.UpdatePathList(destStr, dest)
+			if err != nil {
+				fmt.Println("Error updating path list for ", destStr, ":", err)
+			}
+
 			destAddrStr := dest.RemoteAddr.String()
 			probeResult, err := pb.Probe(destAddrStr)
 			if err != nil {
