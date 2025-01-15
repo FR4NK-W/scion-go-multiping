@@ -34,11 +34,12 @@ func main() {
 		fmt.Println("Running with default values.")
 		//os.Exit(0)
 	} else {
+		fmt.Println(args)
 		var destinationIAs []snet.UDPAddr
 		for _, destAddr := range strings.Split(args[1], " ") {
 			dAddr, err := addr.ParseAddr(destAddr)
 			if err != nil {
-				fmt.Println("Invalid destination: ", dAddr)
+				fmt.Println("Invalid destination: ", dAddr, " error: ", err)
 				os.Exit(1)
 			}
 			destinationIAs = append(destinationIAs, snet.UDPAddr{IA: dAddr.IA, Host: &net.UDPAddr{

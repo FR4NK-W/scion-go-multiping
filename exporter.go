@@ -19,19 +19,21 @@ type PingResult struct {
 
 type PathStatistics struct {
 	gorm.Model
-	SrcSCIONAddr string
-	DstSCIONAddr string
-	Success      bool
-	MinLatency   float64
-	MaxLatency   float64
-	MinHops      float64
-	MaxMaxHops   float64
-	LookupTime   time.Time
-	ActivePaths  int
-	MaxPaths     int
+	SrcSCIONAddr   string
+	DstSCIONAddr   string
+	Success        bool
+	MinLatency     float64
+	MaxLatency     float64
+	MinHops        int
+	MaxHops        int
+	LookupTime     time.Time
+	ActivePaths    int
+	ProbedPaths    int
+	AvailablePaths int
 }
 
 type DataExporter interface {
+	Init() error
 	WritePingResult(PingResult) error
 	WritePathStatistic(PathStatistics) error
 }

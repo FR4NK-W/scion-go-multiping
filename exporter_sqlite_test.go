@@ -70,7 +70,7 @@ func TestSQLiteExporter_WritePathStatistic(t *testing.T) {
 		MaxLatency:   50.8,
 		LookupTime:   time.Now(),
 		ActivePaths:  3,
-		MaxPaths:     5,
+		ProbedPaths:  5,
 	}
 
 	if err := exporter.WritePathStatistic(pathStatistic); err != nil {

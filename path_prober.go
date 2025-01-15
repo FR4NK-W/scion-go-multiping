@@ -67,6 +67,7 @@ type PathProber struct {
 	localIA         addr.IA
 	localAddr       net.UDPAddr
 	destinations    map[string]*PingDestination
+	exporter        DataExporter
 }
 
 // NewPathProber creates a new PathProber.
@@ -75,6 +76,7 @@ func NewPathProber(maxPathsToProbe int) *PathProber {
 	return &PathProber{
 		destinations:    make(map[string]*PingDestination, maxPathsToProbe),
 		maxPathsToProbe: maxPathsToProbe,
+		exporter:        NewSQLiteExporter(),
 	}
 }
 
@@ -88,6 +90,11 @@ func (pb *PathProber) InitAndLookup() error {
 	pb.hostContext = &hc
 	pb.localAddr = net.UDPAddr{IP: getSaddr(hc.hostInLocalAS), Port: 0}
 	pb.localIA = hc.ia
+
+	err = pb.exporter.Init()
+	if err != nil {
+		return err
+	}
 
 	var eg errgroup.Group
 	for destStr, dest := range pb.destinations {
@@ -210,7 +217,61 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 		})
 	}
 
+	successCount := 0
+	minLatency := int64(10000000)
+	maxLatency := int64(0)
+
+	minHops := 100000
+	maxHops := 0
+
+	for _, path := range result.Paths {
+		if path.Latency > 0 {
+			successCount++
+
+			if path.Latency < minLatency {
+				minLatency = path.Latency
+			}
+
+			if path.Latency > maxLatency {
+				maxLatency = path.Latency
+			}
+
+			pathLen := len(path.Path.Metadata().Interfaces) / 2
+
+			if pathLen < minHops {
+				minHops = pathLen
+			}
+
+			if pathLen > maxHops {
+				maxHops = pathLen
+			}
+
+		}
+	}
+
 	err := eg.Wait()
+	if err != nil {
+		fmt.Println("Not all probes to dest ", destIsdAS, " successfull")
+	}
+
+	ps := PathStatistics{
+		SrcSCIONAddr:   fmt.Sprintf("%s,%s", pb.localIA.String(), pb.localAddr.String()),
+		DstSCIONAddr:   destIsdAS,
+		Success:        successCount > 0,
+		MinLatency:     float64(minLatency),
+		MaxLatency:     float64(maxLatency),
+		MinHops:        minHops,
+		MaxHops:        maxHops,
+		LookupTime:     time.Now(),
+		ActivePaths:    successCount,
+		ProbedPaths:    len(result.Paths),
+		AvailablePaths: len(pb.destinations[destIsdAS].PathStates),
+	}
+
+	err = pb.exporter.WritePathStatistic(ps)
+	if err != nil {
+		return nil, err
+	}
 
 	return result, err
 }
@@ -232,6 +293,7 @@ func (pb *PathProber) ProbeAll() (*PathProbeResult, error) {
 			return nil
 		})
 	}
+
 	err := eg.Wait()
 	return result, err
 }
@@ -325,6 +387,34 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 			if err != nil {
 				return err
 			}
+			minLatency := int64(1000000)
+			successCount := 0
+
+			fmt.Println("Probed ", destAddrStr)
+			for _, path := range probeResult.Paths {
+				fmt.Println("Path ", path.Path, " has latency ", path.Latency)
+				if path.Latency > 0 {
+					successCount++
+					if path.Latency < minLatency {
+						minLatency = path.Latency
+					}
+				}
+			}
+
+			pr := PingResult{
+				SrcSCIONAddr:    fmt.Sprintf("%s,%s", pb.localIA.String(), pb.localAddr.String()),
+				DstSCIONAddr:    destAddrStr,
+				Success:         successCount > 0,
+				Latency:         float64(minLatency),
+				PingTime:        time.Now(),
+				SuccessfulPings: successCount,
+				MaxPings:        len(probeResult.Paths),
+			}
+			err = pb.exporter.WritePingResult(pr)
+			if err != nil {
+				return err
+			}
+
 			result.Destinations[destAddrStr] = probeResult
 			return nil
 		})
