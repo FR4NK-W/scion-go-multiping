@@ -3,7 +3,7 @@ module github.com/netsec-ethz/scion-go-multiping
 go 1.22.7
 
 require (
-	github.com/scionproto/scion v0.11.0
+	github.com/scionproto/scion v0.12.0
 	golang.org/x/sync v0.7.0
 	gorm.io/driver/sqlite v1.5.7
 	gorm.io/gorm v1.25.12

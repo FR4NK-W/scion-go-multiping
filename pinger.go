@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/binary"
+	"fmt"
 	"math"
 	"net"
 	"net/netip"
@@ -159,7 +160,8 @@ func (p *pinger) drain(ctx context.Context) {
 			var ov net.UDPAddr
 			if err := p.conn.ReadFrom(&pkt, &ov); err != nil && p.errHandler != nil {
 				if now := time.Now(); now.Sub(last) > time.Second {
-					p.errHandler(serrors.WrapStr("straggler packet", err))
+					fmt.Println("Error reading packet ", err)
+					p.errHandler(serrors.Wrap("straggler packet", err))
 					last = now
 				}
 			}

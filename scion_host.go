@@ -24,8 +24,8 @@ import (
 
 	"github.com/scionproto/scion/pkg/addr"
 	"github.com/scionproto/scion/pkg/daemon"
+	"github.com/scionproto/scion/pkg/private/serrors"
 	"github.com/scionproto/scion/pkg/snet"
-	"github.com/scionproto/scion/pkg/sock/reliable"
 )
 
 // hostContext contains the information needed to connect to the host's local SCION stack,
@@ -33,7 +33,6 @@ import (
 type hostContext struct {
 	ia            addr.IA
 	sciond        daemon.Connector
-	dispatcher    reliable.Dispatcher
 	hostInLocalAS net.IP
 }
 
@@ -62,10 +61,10 @@ func mustInitHostContext() {
 func initHostContext() (hostContext, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), initTimeout)
 	defer cancel()
-	dispatcher, err := findDispatcher()
+	/*dispatcher, err := findDispatcher()
 	if err != nil {
 		return hostContext{}, err
-	}
+	}*/
 	sciondConn, err := findSciond(ctx)
 	if err != nil {
 		return hostContext{}, err
@@ -81,7 +80,6 @@ func initHostContext() (hostContext, error) {
 	return hostContext{
 		ia:            addr.IA(localIA),
 		sciond:        sciondConn,
-		dispatcher:    dispatcher,
 		hostInLocalAS: hostInLocalAS,
 	}, nil
 }
@@ -96,12 +94,6 @@ func findSciond(ctx context.Context) (daemon.Connector, error) {
 		return nil, fmt.Errorf("unable to connect to SCIOND at %s (override with SCION_DAEMON_ADDRESS): %w", address, err)
 	}
 	return sciondConn, nil
-}
-
-func findDispatcher() (reliable.Dispatcher, error) {
-	path := getDispatcherPath()
-	dispatcher := reliable.NewDispatcher(path)
-	return dispatcher, nil
 }
 
 // findAnyHostInLocalAS returns the IP address of some (infrastructure) host in the local AS.
@@ -124,15 +116,30 @@ func (h *hostContext) queryPaths(ctx context.Context, dst addr.IA) ([]snet.Path,
 
 // Put here to be replaced in the scion-v12 branch with the dispatcherless connection
 func newSCIONConn(ctx context.Context, handler scmpHandler, localIA addr.IA, localAddr net.UDPAddr) (snet.PacketConn, uint16, error) {
-	dispSockerPath := getDispatcherPath()
-	svc := snet.DefaultPacketDispatcherService{
-		Dispatcher:  reliable.NewDispatcher(dispSockerPath),
-		SCMPHandler: handler,
+	sd, err := findSciond(context.Background())
+	if err != nil {
+		return nil, 0, serrors.Wrap("connecting to SCION Daemon", err)
 	}
-	conn, port, err := svc.Register(ctx, localIA, &localAddr, addr.SvcNone)
+	defer sd.Close()
+
+	sn := &snet.SCIONNetwork{
+		SCMPHandler: handler,
+		Topology:    sd,
+	}
+	// We need to manufacture a netip.UDPAddr as we're constrained by the sn API.
+	localAddr.Port = 50101
+	conn, err := sn.OpenRaw(ctx, &localAddr)
 	if err != nil {
 		return nil, 0, err
 	}
+
+	// We use the port as identifier on the handler.
+	asNetipAddr, ok := conn.LocalAddr().(*net.UDPAddr)
+	if !ok {
+		panic("Invalid Local IP address")
+	}
+	port := uint16(asNetipAddr.Port)
+	// asNetipAddr.Port = 56021
 
 	return conn, port, nil
 }

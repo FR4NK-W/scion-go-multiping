@@ -90,6 +90,8 @@ func (pb *PathProber) InitAndLookup(hc hostContext) error {
 	pb.hostContext = &hc
 	pb.localAddr = net.UDPAddr{IP: getSaddr(hc.hostInLocalAS), Port: 0}
 	pb.localIA = hc.ia
+	fmt.Println("Local IA: ", pb.localIA)
+	fmt.Println("Local Addr: ", pb.localAddr)
 
 	err := pb.Exporter.InitDaily()
 	if err != nil {
@@ -133,7 +135,6 @@ func (pb *PathProber) InitAndLookup(hc hostContext) error {
 		if err != nil {
 			return err
 		}
-
 		udpAddr.Port = int(port)
 
 		p := pinger{
@@ -214,6 +215,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 
 			// TODO: Error Handling, is this a path timeout or path down?
 			if err != nil {
+				fmt.Println("Error sending ping to ", rAddr, " via ", pathStatus.Fingerprint, "err: ", err)
 				return err
 			}
 
