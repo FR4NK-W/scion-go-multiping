@@ -176,3 +176,18 @@ func (h *hostContext) queryPaths(ctx context.Context, dst addr.IA) ([]snet.Path,
 	}
 	return snetPaths, nil
 }
+
+// Put here to be replaced in the scion-v12 branch with the dispatcherless connection
+func newSCIONConn(ctx context.Context, handler scmpHandler, localIA addr.IA, localAddr net.UDPAddr) (snet.PacketConn, uint16, error) {
+	dispSockerPath := getDispatcherPath()
+	svc := snet.DefaultPacketDispatcherService{
+		Dispatcher:  reliable.NewDispatcher(dispSockerPath),
+		SCMPHandler: handler,
+	}
+	conn, port, err := svc.Register(ctx, localIA, &localAddr, addr.SvcNone)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return conn, port, nil
+}

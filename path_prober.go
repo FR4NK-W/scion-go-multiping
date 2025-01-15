@@ -12,7 +12,6 @@ import (
 
 	"github.com/scionproto/scion/pkg/addr"
 	"github.com/scionproto/scion/pkg/snet"
-	"github.com/scionproto/scion/pkg/sock/reliable"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -127,17 +126,13 @@ func (pb *PathProber) InitAndLookup() error {
 		ctx := context.TODO()
 		replies := make(chan reply, 50)
 		id := snet.RandomSCMPIdentifer()
-		dispSockerPath := getDispatcherPath()
-		svc := snet.DefaultPacketDispatcherService{
-			Dispatcher: reliable.NewDispatcher(dispSockerPath),
-			SCMPHandler: scmpHandler{
-				id:      id,
-				replies: replies,
-			},
+		handler := scmpHandler{
+			id:      id,
+			replies: replies,
 		}
 		udpAddr := pb.localAddr
 
-		conn, port, err := svc.Register(ctx, pb.localIA, &udpAddr, addr.SvcNone)
+		conn, port, err := newSCIONConn(ctx, handler, pb.localIA, udpAddr)
 		if err != nil {
 			return err
 		}
