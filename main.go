@@ -51,8 +51,8 @@ func main() {
 		destIAs = destinationIAs
 	}
 
-	// Path prober, e.g. probe up to 10 paths to each destination and ping up to 3 every second
-	prober := NewPathProber(10, 3)
+	// Path prober, e.g. probe up to 100 paths to each destination and ping up to 3 every second
+	prober := NewPathProber(100, 3)
 	prober.SetDestinations(destIAs)
 
 	err = prober.InitAndLookup(hc)
@@ -82,7 +82,7 @@ func main() {
 	}
 
 	// Sample usage, might be put into some other function or loop
-	fullProbeTicker := time.NewTicker(5 * time.Second)
+	fullProbeTicker := time.NewTicker(10 * time.Second)
 	go func() {
 		for range fullProbeTicker.C {
 			_, err := prober.ProbeAll()
@@ -116,7 +116,7 @@ func main() {
 		}
 	}()
 	defer bestProbeTicker.Stop()
-	time.Sleep(4 * time.Hour)
+	time.Sleep(24 * time.Hour)
 }
 
 func getDispatcherPath() string {
