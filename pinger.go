@@ -57,6 +57,8 @@ func (p *pinger) Send(remote *snet.UDPAddr, updateHandler func(Update)) error {
 	p.Lock()
 	sequence := p.sentSequence + 1
 	p.updateHandlers[sequence] = updateHandler
+	p.sentSequence = sequence
+	p.Unlock()
 
 	binary.BigEndian.PutUint64(p.pld, uint64(time.Now().UnixNano()))
 	pkt, err := packSCMPrequest(p.local, remote, snet.SCMPEchoRequest{
@@ -80,9 +82,8 @@ func (p *pinger) Send(remote *snet.UDPAddr, updateHandler func(Update)) error {
 		return err
 	}
 
-	p.sentSequence = sequence
 	p.stats.Sent++
-	p.Unlock()
+
 	return nil
 }
 
