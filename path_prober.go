@@ -63,7 +63,8 @@ type PingDestination struct {
 
 type PathProber struct {
 	hostContext     *hostContext
-	maxPathsToProbe int
+	maxPathsToProbe int // Max paths to probe every minute, current: 10
+	maxPathsToPing  int // Max paths to ping every second, current: 3
 	localIA         addr.IA
 	localAddr       net.UDPAddr
 	destinations    map[string]*PingDestination
@@ -72,10 +73,11 @@ type PathProber struct {
 
 // NewPathProber creates a new PathProber.
 // The maxPathsToProbe parameter specifies the maximum number of paths to probe for each destination, to avoid probing dozens of paths.
-func NewPathProber(maxPathsToProbe int) *PathProber {
+func NewPathProber(maxPathsToProbe int, maxPathsToPing int) *PathProber {
 	return &PathProber{
 		destinations:    make(map[string]*PingDestination, maxPathsToProbe),
 		maxPathsToProbe: maxPathsToProbe,
+		maxPathsToPing:  maxPathsToPing,
 		exporter:        NewSQLiteExporter(),
 	}
 }
@@ -149,7 +151,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 	}
 
 	result := &DestinationProbeResult{
-		Paths: make([]PathStatus, min(pb.maxPathsToProbe, len(dest.PathStates))),
+		Paths: make([]PathStatus, 0),
 	}
 
 	var eg errgroup.Group
@@ -204,7 +206,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 			if err != nil {
 				return err
 			}
-			rtt := update.RTT.Microseconds()
+			rtt := update.RTT.Milliseconds()
 
 			pathStatus.Latency = rtt
 			result.Paths = append(result.Paths, PathStatus{
@@ -307,7 +309,7 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 	}
 
 	result := &DestinationProbeResult{
-		Paths: make([]PathStatus, min(pb.maxPathsToProbe, len(dest.PathStates))),
+		Paths: make([]PathStatus, 0),
 	}
 	var eg errgroup.Group
 	for _, path := range pingPathSets.Paths[dest.RemoteAddr.String()] {
@@ -357,7 +359,7 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 			if err != nil {
 				return err
 			}
-			rtt := update.RTT.Microseconds()
+			rtt := update.RTT.Milliseconds()
 
 			result.Paths = append(result.Paths, PathStatus{
 				State:       PATH_STATE_PROBED,
@@ -390,9 +392,9 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 			minLatency := int64(1000000)
 			successCount := 0
 
-			fmt.Println("Probed ", destAddrStr)
+			fmt.Println("Probed ", destAddrStr, " got entries ", len(probeResult.Paths))
 			for _, path := range probeResult.Paths {
-				fmt.Println("Path ", path.Path, " has latency ", path.Latency)
+				fmt.Println("Path1 ", path.Path, " has latency ", path.Latency)
 				if path.Latency > 0 {
 					successCount++
 					if path.Latency < minLatency {

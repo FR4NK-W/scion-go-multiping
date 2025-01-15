@@ -50,8 +50,8 @@ func main() {
 		destIAs = destinationIAs
 	}
 
-	// Path prober, e.g. probe up to 10 paths to each destination
-	prober := NewPathProber(10)
+	// Path prober, e.g. probe up to 10 paths to each destination and ping up to 3 every second
+	prober := NewPathProber(10, 3)
 	prober.SetDestinations(destIAs)
 
 	err := prober.InitAndLookup()
