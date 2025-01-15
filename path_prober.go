@@ -69,6 +69,7 @@ type PathProber struct {
 	localAddr       net.UDPAddr
 	destinations    map[string]*PingDestination
 	exporter        DataExporter
+	pingers         map[string]*pinger
 }
 
 // NewPathProber creates a new PathProber.
@@ -79,6 +80,7 @@ func NewPathProber(maxPathsToProbe int, maxPathsToPing int) *PathProber {
 		maxPathsToProbe: maxPathsToProbe,
 		maxPathsToPing:  maxPathsToPing,
 		exporter:        NewSQLiteExporter(),
+		pingers:         make(map[string]*pinger),
 	}
 }
 
@@ -121,6 +123,41 @@ func (pb *PathProber) InitAndLookup() error {
 			}
 			return nil
 		})
+
+		ctx := context.TODO()
+		replies := make(chan reply, 50)
+		id := snet.RandomSCMPIdentifer()
+		dispSockerPath := getDispatcherPath()
+		svc := snet.DefaultPacketDispatcherService{
+			Dispatcher: reliable.NewDispatcher(dispSockerPath),
+			SCMPHandler: scmpHandler{
+				id:      id,
+				replies: replies,
+			},
+		}
+		udpAddr := pb.localAddr
+
+		conn, port, err := svc.Register(ctx, pb.localIA, &udpAddr, addr.SvcNone)
+		if err != nil {
+			return err
+		}
+
+		udpAddr.Port = int(port)
+
+		p := pinger{
+			timeout:        time.Second,
+			pld:            make([]byte, 8),
+			id:             id,
+			conn:           conn,
+			local:          &snet.UDPAddr{IA: pb.localIA, Host: &udpAddr},
+			replies:        replies,
+			errHandler:     nil,
+			updateHandler:  nil,
+			updateHandlers: make(map[int]func(Update)),
+		}
+		p.runReceiveLoop()
+		pb.pingers[destStr] = &p
+
 	}
 
 	err = eg.Wait()
@@ -162,59 +199,57 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 		eg.Go(func() error {
 			// TODO: Reuse pingers here, this is not optimal to create a new pinger for each path
 			// But I haven't found a way to reuse them yet
-			ctx := context.TODO()
-			replies := make(chan reply, 50)
-			id := snet.RandomSCMPIdentifer()
-			dispSockerPath := getDispatcherPath()
-			svc := snet.DefaultPacketDispatcherService{
-				Dispatcher: reliable.NewDispatcher(dispSockerPath),
-				SCMPHandler: scmpHandler{
-					id:      id,
-					replies: replies,
-				},
-			}
-			udpAddr := pb.localAddr
 
-			conn, port, err := svc.Register(ctx, pb.localIA, &udpAddr, addr.SvcNone)
-			if err != nil {
-				return err
-			}
-			defer conn.Close()
-			udpAddr.Port = int(port)
+			pinger := pb.pingers[destIsdAS]
 
-			p := pinger{
-				timeout:       time.Second,
-				pld:           make([]byte, 8),
-				id:            id,
-				conn:          conn,
-				local:         &snet.UDPAddr{IA: pb.localIA, Host: &udpAddr},
-				replies:       replies,
-				errHandler:    nil,
-				updateHandler: nil,
-			}
 			rAddr := dest.RemoteAddr.Copy()
 			rAddr.Path = pathStatus.Path.Dataplane()
 			rAddr.NextHop = pathStatus.Path.UnderlayNextHop()
 
 			var update Update
-			p.updateHandler = func(u Update) {
-				fmt.Println("Got update ", u)
+			successChan := make(chan bool)
+			timeChan := time.After(1 * time.Second)
+			// fmt.Println("Sending ping to ", rAddr, " via ", pathStatus.Fingerprint)
+			err := pinger.Send(rAddr, func(u Update) {
+				// fmt.Println("Got update ", u, " from ", rAddr, " via ", pathStatus.Fingerprint)
 				update = u
-			}
-			// TODO: Stats here?
-			_, err = p.SinglePing(ctx, rAddr)
+				successChan <- true
+			})
+
+			// TODO: Error Handling, is this a path timeout or path down?
 			if err != nil {
 				return err
 			}
-			rtt := update.RTT.Milliseconds()
 
-			pathStatus.Latency = rtt
-			result.Paths = append(result.Paths, PathStatus{
-				State:       PATH_STATE_PROBED,
-				Path:        pathStatus.Path,
-				Latency:     rtt,
-				Fingerprint: pathStatus.Fingerprint,
-			})
+			success := false
+
+			select {
+			case <-timeChan:
+				fmt.Println("Timeout for ", rAddr, " via ", pathStatus.Fingerprint)
+				break
+			case <-successChan:
+				success = true
+				break
+			}
+
+			if success {
+				rtt := update.RTT.Milliseconds()
+
+				pathStatus.Latency = rtt / 2
+				result.Paths = append(result.Paths, PathStatus{
+					State:       PATH_STATE_PROBED,
+					Path:        pathStatus.Path,
+					Latency:     rtt,
+					Fingerprint: pathStatus.Fingerprint,
+				})
+			} else {
+				result.Paths = append(result.Paths, PathStatus{
+					State:       PATH_STATE_TIMEOUT,
+					Path:        pathStatus.Path,
+					Fingerprint: pathStatus.Fingerprint,
+				})
+			}
+
 			return nil
 		})
 	}
@@ -315,59 +350,55 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 	var eg errgroup.Group
 	for _, path := range pingPathSets.Paths[dest.RemoteAddr.String()] {
 		eg.Go(func() error {
-			// TODO: Reuse pingers here
-			ctx := context.TODO()
-			replies := make(chan reply, 50)
-			id := snet.RandomSCMPIdentifer()
-			dispSockerPath := getDispatcherPath()
-			svc := snet.DefaultPacketDispatcherService{
-				Dispatcher: reliable.NewDispatcher(dispSockerPath),
-				SCMPHandler: scmpHandler{
-					id:      id,
-					replies: replies,
-				},
-			}
-			udpAddr := pb.localAddr
 
-			conn, port, err := svc.Register(ctx, pb.localIA, &udpAddr, addr.SvcNone)
-			if err != nil {
-				return err
-			}
-			defer conn.Close()
-			udpAddr.Port = int(port)
+			pinger := pb.pingers[destIsdAS]
 
-			p := pinger{
-				timeout:       time.Second,
-				pld:           make([]byte, 8),
-				id:            id,
-				conn:          conn,
-				local:         &snet.UDPAddr{IA: pb.localIA, Host: &udpAddr},
-				replies:       replies,
-				errHandler:    nil,
-				updateHandler: nil,
-			}
 			rAddr := dest.RemoteAddr.Copy()
 			rAddr.Path = path.Dataplane()
 			rAddr.NextHop = path.UnderlayNextHop()
 
 			var update Update
-			p.updateHandler = func(u Update) {
-				fmt.Println("Got update ", u)
+			successChan := make(chan bool)
+			timeChan := time.After(1 * time.Second)
+			fmt.Println("Sending bestProbe to ", rAddr, " via ", path)
+			err := pinger.Send(rAddr, func(u Update) {
+				fmt.Println("Got update for bestprobe ", u, " from ", rAddr, " via ", path)
 				update = u
+				successChan <- true
+			})
+
+			success := false
+
+			select {
+			case <-timeChan:
+				fmt.Println("Timeout for ", rAddr, " via ", path)
+				break
+			case <-successChan:
+				success = true
+				break
 			}
-			// TODO: Stats here?
-			_, err = p.SinglePing(ctx, rAddr)
+
+			// TODO: Error Handling, is this a path timeout or path down?
 			if err != nil {
 				return err
 			}
-			rtt := update.RTT.Milliseconds()
 
-			result.Paths = append(result.Paths, PathStatus{
-				State:       PATH_STATE_PROBED,
-				Path:        path,
-				Latency:     rtt,
-				Fingerprint: calculateFingerprint(path),
-			})
+			if success {
+				rtt := update.RTT.Milliseconds()
+				result.Paths = append(result.Paths, PathStatus{
+					State:       PATH_STATE_PROBED,
+					Path:        path,
+					Latency:     rtt / 2,
+					Fingerprint: calculateFingerprint(path),
+				})
+			} else {
+				result.Paths = append(result.Paths, PathStatus{
+					State:       PATH_STATE_TIMEOUT,
+					Path:        path,
+					Fingerprint: calculateFingerprint(path),
+				})
+			}
+
 			return nil
 		})
 	}
