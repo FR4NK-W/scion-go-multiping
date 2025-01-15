@@ -81,7 +81,7 @@ func main() {
 	}
 
 	// Sample usage, might be put into some other function or loop
-	fullProbeTicker := time.NewTicker(60 * time.Second)
+	fullProbeTicker := time.NewTicker(5 * time.Second)
 	go func() {
 		for range fullProbeTicker.C {
 			_, err := prober.ProbeAll()
@@ -115,7 +115,7 @@ func main() {
 		}
 	}()
 	defer bestProbeTicker.Stop()
-	time.Sleep(10 * time.Second)
+	time.Sleep(20 * time.Second)
 }
 
 func runPing(sia addr.IA, saddr net.UDPAddr, r snet.UDPAddr, interval time.Duration) {

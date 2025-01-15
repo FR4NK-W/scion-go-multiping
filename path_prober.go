@@ -219,14 +219,20 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 		})
 	}
 
+	err := eg.Wait()
+	if err != nil {
+		fmt.Println("Not all probes to dest ", destIsdAS, " successfull")
+	}
+
 	successCount := 0
-	minLatency := int64(10000000)
+	minLatency := int64(10000000000)
 	maxLatency := int64(0)
 
 	minHops := 100000
 	maxHops := 0
 
 	for _, path := range result.Paths {
+
 		if path.Latency > 0 {
 			successCount++
 
@@ -249,11 +255,6 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 			}
 
 		}
-	}
-
-	err := eg.Wait()
-	if err != nil {
-		fmt.Println("Not all probes to dest ", destIsdAS, " successfull")
 	}
 
 	ps := PathStatistics{
