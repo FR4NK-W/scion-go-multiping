@@ -1,0 +1,65 @@
+{
+    "scion_destinations": [
+        {
+            "address": "71-225,127.0.0.1",
+            "name": "UVA",
+            "scion_version": "v0.12.0 / Open Source"
+        },
+        {
+            "address": "71-20965,10.0.1.1",
+            "name": "GEANT Paris 1",
+            "scion_version": "v0.11.0 / Anapaya"
+
+        },
+        {
+            "address": "71-20965,10.0.3.1",
+            "name": "GEANT Geneva 1",
+            "scion_version": "v0.11.0 / Anapaya"
+        },
+        {
+            "address": "71-20965,10.0.2.1",
+            "name": "GEANT Frankfurt 1",
+            "scion_version": "v0.11.0 / Anapaya"
+        },
+        {
+            "address": "71-88,127.0.0.1",
+            "name": "Princeton",
+            "scion_version": "v0.12.0 / Open Source"
+        },
+        {
+            "address": "71-2:0:4a,141.44.25.151",
+            "name": "Ovgu Magdeburg",
+            "scion_version": "v0.12.0 / Open Source"
+        },
+        {
+            "address": "71-2:0:48,127.0.0.1",
+            "name": "Equinix AS",
+            "scion_version": "v0.12.0 / Open Source"
+        },
+        {
+            "address": "71-2:0:3d,10.0.0.1",
+            "name": "KISTI Singapore",
+            "scion_version": "v0.11.0 / Anapaya"
+        },
+        {
+            "address": "71-2:0:3e,10.10.0.1",
+            "name": "KISTI Amsterdam",
+            "scion_version": "v0.11.0 / Anapaya"
+        },
+        {
+            "address": "71-2:0:3f,10.10.0.1",
+            "name": "KISTI Chicago",
+            "scion_version": "v0.11.0 / Anapaya"
+        },
+        {
+            "address": "71-2:0:3b,10.1.0.1",
+            "name": "KISTI Daejon",
+            "scion_version": "v0.11.0 / Anapaya"
+        },
+        {
+            "address": "71-2:0:5c,127.0.0.1",
+            "name": "UFMS",
+            "scion_version": "v0.11.0 / Open Source"
+        }  
+    ]
+}
