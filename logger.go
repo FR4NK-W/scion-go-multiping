@@ -80,7 +80,7 @@ func (l *MultiPingLogger) Info(value string, args ...interface{}) {
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " INFO: " + value)
 	for _, arg := range args {
-		l.out.WriteString(fmt.Sprintf("%v, ", arg))
+		l.out.WriteString(fmt.Sprintf("%v", arg))
 	}
 
 	l.out.WriteString("\n")

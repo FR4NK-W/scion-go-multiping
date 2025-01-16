@@ -25,15 +25,49 @@ func main() {
 		os.Exit(1)
 	}
 	args := os.Args
-	if len(args) < 2 {
-		Log.Warn("Run with arguments: ./bin/scion-go-multiping \"dest-ia-addr-1 dest-ia-2 ... dest-ia-addr-n\"")
-		Log.Warn("Running with default values.")
-		//os.Exit(0)
+
+	remotesFile := "remotes.json"
+	remotesEnv := os.Getenv("REMOTES_FILE")
+	if remotesEnv != "" {
+		remotesFile = remotesEnv
+	}
+
+	// Check if remotesFile exist
+	if _, err := os.Stat(remotesFile); os.IsNotExist(err) {
+		if len(args) < 2 {
+			Log.Warn("Run with arguments: ./bin/scion-go-multiping \"dest-ia-addr-1 dest-ia-2 ... dest-ia-addr-n\"")
+			Log.Warn("Running with default values.")
+			//os.Exit(0)
+		} else {
+			Log.Info("Received args: ", args)
+			var destinationIAs []snet.UDPAddr
+			for _, destAddr := range strings.Split(args[1], " ") {
+				dAddr, err := addr.ParseAddr(destAddr)
+				if err != nil {
+					Log.Info("Invalid destination: ", dAddr, " error: ", err)
+					os.Exit(1)
+				}
+				if dAddr.IA == hc.ia {
+					Log.Debug("Not probing local AS: ", dAddr.IA)
+					continue
+				}
+				destinationIAs = append(destinationIAs, snet.UDPAddr{IA: dAddr.IA, Host: &net.UDPAddr{
+					IP:   dAddr.Host.IP().AsSlice(),
+					Port: 30041,
+				}})
+			}
+			destIAs = destinationIAs
+		}
 	} else {
-		Log.Info("Received args: ", args)
+		remotes, err := parseRemotesJSON(remotesFile)
+		if err != nil {
+			Log.Error("Error parsing remotes file: ", err)
+			os.Exit(1)
+		}
+
 		var destinationIAs []snet.UDPAddr
-		for _, destAddr := range strings.Split(args[1], " ") {
-			dAddr, err := addr.ParseAddr(destAddr)
+		for _, dest := range remotes.SCIONDestinations {
+			dAddr, err := addr.ParseAddr(dest.Address)
 			if err != nil {
 				Log.Info("Invalid destination: ", dAddr, " error: ", err)
 				os.Exit(1)
@@ -46,8 +80,10 @@ func main() {
 				IP:   dAddr.Host.IP().AsSlice(),
 				Port: 30041,
 			}})
+			Log.Info("Added destination: ", dest.Address, " for ", dest.Name)
 		}
 		destIAs = destinationIAs
+
 	}
 
 	// Path prober, e.g. probe up to 100 paths to each destination and ping up to 3 every second

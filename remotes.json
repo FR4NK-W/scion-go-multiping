@@ -61,5 +61,11 @@
             "name": "UFMS",
             "scion_version": "v0.11.0 / Open Source"
         }  
+    ],
+    "ip_destinations": [
+        {
+            "address": "141.44.25.151",
+            "name": "Ovgu Magdeburg"
+        }
     ]
 }
