@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"net"
 	"net/netip"
+	"strings"
 	"sync"
 	"time"
 
@@ -87,17 +88,32 @@ func (p *pinger) Send(remote *snet.UDPAddr, updateHandler func(Update)) error {
 }
 
 func (p *pinger) receive(reply reply) {
-	rtt := reply.Received.Sub(time.Unix(0, int64(binary.BigEndian.Uint64(reply.Reply.Payload))))
+
+	var rtt time.Duration
 	var state State
-	switch {
-	case rtt > p.timeout:
-		state = AfterTimeout
-	case int(reply.Reply.SeqNumber) == p.receivedSequence:
-		state = Duplicate
-	case int(reply.Reply.SeqNumber) == p.receivedSequence+1:
-		state = Success
-		p.receivedSequence = int(reply.Reply.SeqNumber)
-	default:
+
+	// If there are any SCMP errors, we still land here but without the payload, so just parse it if there is enough space
+	if len(reply.Reply.Payload) == 8 && reply.Error == nil {
+		rtt = reply.Received.Sub(time.Unix(0, int64(binary.BigEndian.Uint64(reply.Reply.Payload))))
+		switch {
+		case rtt > p.timeout:
+			state = AfterTimeout
+		case int(reply.Reply.SeqNumber) == p.receivedSequence:
+			state = Duplicate
+		case int(reply.Reply.SeqNumber) == p.receivedSequence+1:
+			state = Success
+			p.receivedSequence = int(reply.Reply.SeqNumber)
+		default:
+		}
+	}
+
+	// TODO: Handle other cases here?
+	if reply.Error != nil {
+		if strings.Contains(reply.Error.Error(), "external interface down") {
+			state = PathDown
+		} else {
+			state = SCMPUnknown
+		}
 	}
 
 	p.stats.Received++

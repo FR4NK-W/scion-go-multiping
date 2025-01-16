@@ -162,6 +162,8 @@ const (
 	Success State = iota
 	AfterTimeout
 	Duplicate
+	PathDown
+	SCMPUnknown
 )
 
 type Stats struct {

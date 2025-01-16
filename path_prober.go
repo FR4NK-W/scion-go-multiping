@@ -31,6 +31,7 @@ const (
 	PATH_STATE_PROBED         // Probed, but not selected for pinging. We know its RTT.
 	PATH_STATE_TIMEOUT        // This one timeouted, don't use it for a while
 	PATH_STATE_DOWN           // Got an SCMP error, ignore it for now
+	PATH_STATE_UNKNOWN        // Something went wrong here, maybe not use the path
 )
 
 // The result of probing a destination, containing the status of all paths to that destination.
@@ -225,9 +226,17 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 			if success {
 				rtt := update.RTT.Milliseconds()
 
+				state := PATH_STATE_PROBED
+				switch update.State {
+				case PathDown:
+					state = PATH_STATE_DOWN
+				case SCMPUnknown:
+					state = PATH_STATE_UNKNOWN
+				}
+
 				pathStatus.RTT = rtt
 				result.Paths = append(result.Paths, PathStatus{
-					State:       PATH_STATE_PROBED,
+					State:       state,
 					Path:        pathStatus.Path,
 					RTT:         rtt,
 					Fingerprint: pathStatus.Fingerprint,
@@ -411,8 +420,16 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 
 			if success {
 				rtt := update.RTT.Milliseconds()
+				state := PATH_STATE_PROBED
+				switch update.State {
+				case PathDown:
+					state = PATH_STATE_DOWN
+				case SCMPUnknown:
+					state = PATH_STATE_UNKNOWN
+				}
+
 				result.Paths = append(result.Paths, PathStatus{
-					State:       PATH_STATE_PROBED,
+					State:       state,
 					Path:        path,
 					RTT:         rtt,
 					Fingerprint: calculateFingerprint(path),
