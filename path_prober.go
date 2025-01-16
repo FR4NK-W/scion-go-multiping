@@ -124,23 +124,21 @@ func (pb *PathProber) InitAndLookup(hc hostContext) error {
 
 		ctx := context.TODO()
 		replies := make(chan reply, 50)
-		id := snet.RandomSCMPIdentifer()
 		handler := scmpHandler{
-			id:      id,
 			replies: replies,
 		}
 		udpAddr := pb.localAddr
 
-		conn, port, err := newSCIONConn(ctx, handler, pb.localIA, udpAddr)
+		conn, port, err := newSCIONConn(ctx, &handler, pb.localIA, udpAddr)
 		if err != nil {
 			return err
 		}
 		udpAddr.Port = int(port)
-
+		handler.id = port
 		p := pinger{
-			timeout:        time.Second,
+			// timeout:        time.Second,
 			pld:            make([]byte, 8),
-			id:             id,
+			id:             port,
 			conn:           conn,
 			local:          &snet.UDPAddr{IA: pb.localIA, Host: &udpAddr},
 			replies:        replies,
@@ -150,7 +148,7 @@ func (pb *PathProber) InitAndLookup(hc hostContext) error {
 		}
 		p.runReceiveLoop()
 		pb.pingers[destStr] = &p
-
+		Log.Debug("Started Receive Loop")
 	}
 
 	err = eg.Wait()
@@ -388,6 +386,7 @@ func (pb *PathProber) ProbeAll() (*PathProbeResult, error) {
 			}
 
 			destAddrStr := dest.RemoteAddr.String()
+			Log.Debug("Probing ", destAddrStr)
 			probeResult, err := pb.Probe(destAddrStr)
 			if err != nil {
 				return err

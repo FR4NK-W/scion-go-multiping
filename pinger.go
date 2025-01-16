@@ -69,6 +69,7 @@ func (p *pinger) Send(remote *snet.UDPAddr, updateHandler func(Update)) error {
 	p.Unlock()
 
 	binary.BigEndian.PutUint64(p.pld, uint64(time.Now().UnixNano()))
+	Log.Debug("SCMP ID ", p.id, " sequence ", sequence)
 	pkt, err := packSCMPrequest(p.local, remote, snet.SCMPEchoRequest{
 		Identifier: p.id,
 		SeqNumber:  uint16(sequence),

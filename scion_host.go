@@ -115,7 +115,7 @@ func (h *hostContext) queryPaths(ctx context.Context, dst addr.IA) ([]snet.Path,
 }
 
 // Put here to be replaced in the scion-v12 branch with the dispatcherless connection
-func newSCIONConn(ctx context.Context, handler scmpHandler, localIA addr.IA, localAddr net.UDPAddr) (snet.PacketConn, uint16, error) {
+func newSCIONConn(ctx context.Context, handler *scmpHandler, localIA addr.IA, localAddr net.UDPAddr) (snet.PacketConn, uint16, error) {
 	sd, err := findSciond(context.Background())
 	if err != nil {
 		return nil, 0, serrors.Wrap("connecting to SCION Daemon", err)
