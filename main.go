@@ -83,7 +83,7 @@ func main() {
 	}
 
 	// Sample usage, might be put into some other function or loop
-	fullProbeTicker := time.NewTicker(10 * time.Second)
+	fullProbeTicker := time.NewTicker(60 * time.Second)
 	go func() {
 		for range fullProbeTicker.C {
 			_, err := prober.ProbeAll()
@@ -93,6 +93,7 @@ func main() {
 				continue
 			}
 
+			Log.Info("Done probing all paths")
 			// TODO: Write to SQLite here
 			/*for dest, destResult := range results.Destinations {
 				Log.Debug("Destination:", dest)
