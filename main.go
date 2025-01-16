@@ -65,11 +65,11 @@ func main() {
 	_, err = prober.ProbeAll()
 	// TODO: Error handling?
 	if err != nil {
-		Log.Debug("Error probing paths:", err)
+		Log.Error("Error probing paths:", err)
 	}
 	err = prober.UpdatePathsToPing()
 	if err != nil {
-		Log.Debug("Error updating paths to ping:", err)
+		Log.Error("Error updating paths to ping:", err)
 	}
 
 	Log.Info("Finished updating paths")
@@ -89,7 +89,7 @@ func main() {
 			_, err := prober.ProbeAll()
 			// TODO: Error handling?
 			if err != nil {
-				Log.Debug("Error probing paths:", err)
+				Log.Error("Error probing paths:", err)
 				continue
 			}
 
@@ -112,7 +112,7 @@ func main() {
 		for range bestProbeTicker.C {
 			_, err := prober.ProbeBest()
 			if err != nil {
-				Log.Debug("Error probing paths:", err)
+				Log.Error("Error probing paths:", err)
 				continue
 			}
 		}

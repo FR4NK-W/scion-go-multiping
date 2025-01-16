@@ -102,7 +102,7 @@ func (pb *PathProber) InitAndLookup(hc hostContext) error {
 			paths, err := hc.queryPaths(context.Background(), dest.RemoteAddr.IA)
 			// TODO: Error handling
 			if err != nil {
-				Log.Debug("Error querying paths to destination ", destStr, ":", err)
+				Log.Error("Error querying paths to destination ", destStr, ":", err)
 				return err
 			}
 
@@ -310,7 +310,7 @@ func (pb *PathProber) UpdatePathList(destStr string, dest *PingDestination) erro
 	paths, err := hc.queryPaths(context.Background(), dest.RemoteAddr.IA)
 	// TODO: Error handling
 	if err != nil {
-		Log.Debug("Error querying paths to destination ", destStr, ":", err)
+		Log.Error("Error querying paths to destination ", destStr, ":", err)
 		return err
 	}
 
@@ -345,7 +345,7 @@ func (pb *PathProber) ProbeAll() (*PathProbeResult, error) {
 
 			err := pb.UpdatePathList(destStr, dest)
 			if err != nil {
-				Log.Debug("Error updating path list for ", destStr, ":", err)
+				Log.Error("Error updating path list for ", destStr, ":", err)
 			}
 
 			destAddrStr := dest.RemoteAddr.String()

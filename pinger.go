@@ -191,7 +191,7 @@ type scmpHandler struct {
 func (h scmpHandler) Handle(pkt *snet.Packet) error {
 	echo, err := h.handle(pkt)
 	if err != nil {
-		Log.Debug("Error handling packet ", err)
+		Log.Error("Error handling packet ", err)
 	}
 	h.replies <- reply{
 		Received: time.Now(),
