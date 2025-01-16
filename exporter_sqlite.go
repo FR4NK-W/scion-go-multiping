@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"sync"
 
 	"gorm.io/driver/sqlite" // Sqlite driver based on CGO
 	// "github.com/glebarez/sqlite" // Pure go SQLite driver, checkout https://github.com/glebarez/sqlite for details
@@ -11,6 +12,7 @@ import (
 type SQLiteExporter struct {
 	DbPath string
 	db     *gorm.DB
+	mu     sync.Mutex
 }
 
 func NewSQLiteExporter() *SQLiteExporter {
@@ -56,6 +58,8 @@ func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) err
 }
 
 func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
+	exporter.mu.Lock()
+	defer exporter.mu.Unlock()
 	dbResult := exporter.db.Create(&result)
 	if dbResult.Error != nil {
 		return dbResult.Error
