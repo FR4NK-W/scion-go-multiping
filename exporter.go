@@ -43,6 +43,7 @@ type PathStatistics struct {
 
 type DataExporter interface {
 	Init() error
+	Close() error
 	WritePingResult(PingResult) error
 	WriteIPPingResult(IPPingResult) error
 	WritePathStatistic(PathStatistics) error

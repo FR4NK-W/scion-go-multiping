@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"sync"
 
 	"gorm.io/driver/sqlite" // Sqlite driver based on CGO
 	// "github.com/glebarez/sqlite" // Pure go SQLite driver, checkout https://github.com/glebarez/sqlite for details
@@ -9,8 +10,12 @@ import (
 )
 
 type SQLiteExporter struct {
-	DbPath string
-	db     *gorm.DB
+	DbPath     string
+	db         *gorm.DB
+	scionPings []PingResult
+	ipPings    []IPPingResult
+	scionMutex sync.Mutex
+	ipMutex    sync.Mutex
 }
 
 func NewSQLiteExporter() *SQLiteExporter {
@@ -46,6 +51,12 @@ func (exporter *SQLiteExporter) Init() error {
 	return nil
 }
 
+func (exporter *SQLiteExporter) Close() error {
+	sqlDB, _ := exporter.db.DB()
+	// Close
+	return sqlDB.Close()
+}
+
 func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) error {
 	dbResult := exporter.db.Create(&statistic)
 	if dbResult.Error != nil {
@@ -56,17 +67,34 @@ func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) err
 }
 
 func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
-	dbResult := exporter.db.Create(&result)
-	if dbResult.Error != nil {
-		return dbResult.Error
+
+	exporter.scionMutex.Lock()
+	defer exporter.scionMutex.Unlock()
+
+	exporter.scionPings = append(exporter.scionPings, result)
+	if len(exporter.scionPings) >= 10 {
+		dbResult := exporter.db.Create(&exporter.scionPings)
+		exporter.scionPings = nil // Clear the slice after flushing
+		if dbResult.Error != nil {
+			return dbResult.Error
+		}
 	}
+
 	return nil
 }
 
 func (exporter *SQLiteExporter) WriteIPPingResult(result IPPingResult) error {
-	dbResult := exporter.db.Create(&result)
-	if dbResult.Error != nil {
-		return dbResult.Error
+	exporter.ipMutex.Lock()
+	defer exporter.ipMutex.Unlock()
+
+	exporter.ipPings = append(exporter.ipPings, result)
+	if len(exporter.ipPings) >= 10 {
+		dbResult := exporter.db.Create(&exporter.ipPings)
+		if dbResult.Error != nil {
+			return dbResult.Error
+		}
+		exporter.ipPings = nil
 	}
+
 	return nil
 }

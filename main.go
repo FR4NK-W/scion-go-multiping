@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net"
 	"net/netip"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/scionproto/scion/pkg/addr"
@@ -171,7 +174,27 @@ func main() {
 	Log.Info("Gathering results...")
 	// TODO: wait for ctrl +c or service interrupt
 
-	time.Sleep(24 * time.Hour)
+	// Create a channel to receive OS signals
+	signalChannel := make(chan os.Signal, 1)
+
+	// Notify the channel for specific signals
+	signal.Notify(signalChannel, os.Interrupt, syscall.SIGTERM)
+
+	// Create a channel to signal the program exit
+	done := make(chan bool)
+
+	// Goroutine to handle signals
+	go func() {
+		sig := <-signalChannel
+		fmt.Printf("Received signal: %s\n", sig)
+		prober.Exporter.Close()
+		done <- true
+	}()
+
+	fmt.Println("Press Ctrl+C to exit...")
+
+	// Wait for a signal to be received
+	<-done
 }
 
 func getDispatcherPath() string {
