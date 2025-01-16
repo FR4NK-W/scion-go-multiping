@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -28,6 +29,7 @@ type Logger interface {
 }
 
 type MultiPingLogger struct {
+	sync.Mutex
 	out   *os.File
 	Level int
 }
@@ -72,6 +74,8 @@ func (l *MultiPingLogger) Info(value string, args ...interface{}) {
 	if l.Level > LOG_LEVEL_INFO {
 		return
 	}
+	l.Lock()
+	defer l.Unlock()
 
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " INFO: " + value)
@@ -88,6 +92,8 @@ func (l *MultiPingLogger) Debug(value string, args ...interface{}) {
 		return
 	}
 
+	l.Lock()
+	defer l.Unlock()
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " DEBUG: " + value)
 	for _, arg := range args {
@@ -102,6 +108,8 @@ func (l *MultiPingLogger) Error(value string, args ...interface{}) {
 	if l.Level > LOG_LEVEL_ERROR {
 		return
 	}
+	l.Lock()
+	defer l.Unlock()
 
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " ERROR: " + value)
@@ -117,7 +125,8 @@ func (l *MultiPingLogger) Warn(value string, args ...interface{}) {
 	if l.Level > LOG_LEVEL_WARN {
 		return
 	}
-
+	l.Lock()
+	defer l.Unlock()
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " WARN: " + value)
 	for _, arg := range args {
@@ -132,6 +141,8 @@ func (l *MultiPingLogger) Fatal(value string, args ...interface{}) {
 	if l.Level > LOG_LEVEL_FATAL {
 		return
 	}
+	l.Lock()
+	defer l.Unlock()
 
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " FATAL: " + value)
@@ -151,6 +162,8 @@ func (l *MultiPingLogger) Infof(value string, args ...interface{}) {
 	if l.Level > LOG_LEVEL_INFO {
 		return
 	}
+	l.Lock()
+	defer l.Unlock()
 
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " INFO: " + fmt.Sprintf(value, args...))
@@ -162,6 +175,8 @@ func (l *MultiPingLogger) Debugf(value string, args ...interface{}) {
 	if l.Level > LOG_LEVEL_DEBUG {
 		return
 	}
+	l.Lock()
+	defer l.Unlock()
 
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " DEBUG: " + fmt.Sprintf(value, args...))
@@ -174,6 +189,8 @@ func (l *MultiPingLogger) Errorf(value string, args ...interface{}) {
 		return
 	}
 
+	l.Lock()
+	defer l.Unlock()
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " ERROR: " + fmt.Sprintf(value, args...))
 
@@ -186,6 +203,8 @@ func (l *MultiPingLogger) Warnf(value string, args ...interface{}) {
 		return
 	}
 
+	l.Lock()
+	defer l.Unlock()
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " WARN: " + fmt.Sprintf(value, args...))
 
@@ -197,7 +216,8 @@ func (l *MultiPingLogger) Fatalf(value string, args ...interface{}) {
 	if l.Level > LOG_LEVEL_FATAL {
 		return
 	}
-
+	l.Lock()
+	defer l.Unlock()
 	t := time.Now().Format("2006-01-02 15:04:05")
 	l.out.WriteString(t + " FATAL: " + fmt.Sprintf(value, args...))
 
