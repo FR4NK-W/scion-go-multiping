@@ -127,7 +127,6 @@ func newSCIONConn(ctx context.Context, handler *scmpHandler, localIA addr.IA, lo
 		Topology:    sd,
 	}
 	// We need to manufacture a netip.UDPAddr as we're constrained by the sn API.
-	localAddr.Port = 50101
 	conn, err := sn.OpenRaw(ctx, &localAddr)
 	if err != nil {
 		return nil, 0, err
