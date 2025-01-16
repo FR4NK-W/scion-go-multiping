@@ -98,15 +98,15 @@ func (pb *PathProber) InitAndLookup(hc hostContext) error {
 	var eg errgroup.Group
 	for destStr, dest := range pb.destinations {
 		eg.Go(func() error {
-			fmt.Println("Querying paths to destination ", destStr)
+			Log.Debug("Querying paths to destination ", destStr)
 			paths, err := hc.queryPaths(context.Background(), dest.RemoteAddr.IA)
 			// TODO: Error handling
 			if err != nil {
-				fmt.Println("Error querying paths to destination ", destStr, ":", err)
+				Log.Debug("Error querying paths to destination ", destStr, ":", err)
 				return err
 			}
 
-			fmt.Println("Found ", len(paths), " paths to destination ", destStr)
+			Log.Debug("Found ", len(paths), " paths to destination ", destStr)
 
 			for _, path := range paths {
 				dest.PathStates = append(dest.PathStates, PathStatus{
@@ -153,8 +153,7 @@ func (pb *PathProber) InitAndLookup(hc hostContext) error {
 
 	err = eg.Wait()
 	if err != nil {
-		fmt.Println("Warning: Not all destinations were probed successfully")
-		fmt.Println(err)
+		Log.Debug("Warning: Not all destinations were probed successfully: ", err)
 	}
 
 	return nil
@@ -200,9 +199,9 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 			var update Update
 			successChan := make(chan bool)
 			timeChan := time.After(1 * time.Second)
-			// fmt.Println("Sending ping to ", rAddr, " via ", pathStatus.Fingerprint)
+			// Log.Debug("Sending ping to ", rAddr, " via ", pathStatus.Fingerprint)
 			err := pinger.Send(rAddr, func(u Update) {
-				// fmt.Println("Got update ", u, " from ", rAddr, " via ", pathStatus.Fingerprint)
+				// Log.Debug("Got update ", u, " from ", rAddr, " via ", pathStatus.Fingerprint)
 				update = u
 				successChan <- true
 			})
@@ -216,7 +215,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 
 			select {
 			case <-timeChan:
-				fmt.Println("Timeout for ", rAddr, " via ", pathStatus.Fingerprint)
+				Log.Debug("Timeout for ", rAddr, " via ", pathStatus.Fingerprint)
 				break
 			case <-successChan:
 				success = true
@@ -247,7 +246,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 
 	err := eg.Wait()
 	if err != nil {
-		fmt.Println("Not all probes to dest ", destIsdAS, " successfull")
+		Log.Debug("Not all probes to dest ", destIsdAS, " successfull")
 	}
 
 	successCount := 0
@@ -306,16 +305,16 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 }
 
 func (pb *PathProber) UpdatePathList(destStr string, dest *PingDestination) error {
-	fmt.Println("Querying paths to destination ", destStr)
+	Log.Debug("Querying paths to destination ", destStr)
 	hc := host()
 	paths, err := hc.queryPaths(context.Background(), dest.RemoteAddr.IA)
 	// TODO: Error handling
 	if err != nil {
-		fmt.Println("Error querying paths to destination ", destStr, ":", err)
+		Log.Debug("Error querying paths to destination ", destStr, ":", err)
 		return err
 	}
 
-	fmt.Println("Found ", len(paths), " paths to destination ", destStr)
+	Log.Debug("Found ", len(paths), " paths to destination ", destStr)
 
 	for _, path := range paths {
 		fp := calculateFingerprint(path)
@@ -346,7 +345,7 @@ func (pb *PathProber) ProbeAll() (*PathProbeResult, error) {
 
 			err := pb.UpdatePathList(destStr, dest)
 			if err != nil {
-				fmt.Println("Error updating path list for ", destStr, ":", err)
+				Log.Debug("Error updating path list for ", destStr, ":", err)
 			}
 
 			destAddrStr := dest.RemoteAddr.String()
@@ -387,9 +386,9 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 			var update Update
 			successChan := make(chan bool)
 			timeChan := time.After(1 * time.Second)
-			fmt.Println("Sending bestProbe to ", rAddr, " via ", path)
+			Log.Debug("Sending bestProbe to ", rAddr, " via ", path)
 			err := pinger.Send(rAddr, func(u Update) {
-				fmt.Println("Got update for bestprobe ", u, " from ", rAddr, " via ", path)
+				Log.Debug("Got update for bestprobe ", u, " from ", rAddr, " via ", path)
 				update = u
 				successChan <- true
 			})
@@ -398,7 +397,7 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 
 			select {
 			case <-timeChan:
-				fmt.Println("Timeout for ", rAddr, " via ", path)
+				Log.Debug("Timeout for ", rAddr, " via ", path)
 				break
 			case <-successChan:
 				success = true
@@ -451,9 +450,9 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 			minRTT := int64(1000000)
 			successCount := 0
 
-			fmt.Println("Probed ", destAddrStr, " got entries ", len(probeResult.Paths))
+			Log.Debug("Probed ", destAddrStr, " got entries ", len(probeResult.Paths))
 			for _, path := range probeResult.Paths {
-				fmt.Println("Path1 ", path.Path, " has RTT ", path.RTT)
+				Log.Debug("Path1 ", path.Path, " has RTT ", path.RTT)
 				if path.RTT > 0 {
 					successCount++
 					if path.RTT < minRTT {

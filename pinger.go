@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/binary"
-	"fmt"
 	"net"
 	"net/netip"
 	"sync"
@@ -192,7 +191,7 @@ type scmpHandler struct {
 func (h scmpHandler) Handle(pkt *snet.Packet) error {
 	echo, err := h.handle(pkt)
 	if err != nil {
-		fmt.Println("Error handling packet ", err)
+		Log.Debug("Error handling packet ", err)
 	}
 	h.replies <- reply{
 		Received: time.Now(),
