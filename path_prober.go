@@ -327,17 +327,21 @@ func (pb *PathProber) UpdatePathList(destStr string, dest *PingDestination) erro
 
 	for _, path := range paths {
 		fp := calculateFingerprint(path)
+		found := false
 		for _, pathStatus := range dest.PathStates {
 			if pathStatus.Fingerprint == fp {
+				found = true
 				// TODO: Update path status here? We already know the path
-			} else {
-				dest.PathStates = append(dest.PathStates, PathStatus{
-					State:       PATH_STATE_IDLE,
-					Path:        path,
-					RTT:         0,
-					Fingerprint: fp,
-				})
 			}
+		}
+
+		if !found {
+			dest.PathStates = append(dest.PathStates, PathStatus{
+				State:       PATH_STATE_IDLE,
+				Path:        path,
+				RTT:         0,
+				Fingerprint: fp,
+			})
 		}
 	}
 	return nil
