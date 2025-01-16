@@ -8,13 +8,22 @@ import (
 
 type PingResult struct {
 	gorm.Model
-	SrcSCIONAddr    string // SCION src
-	DstSCIONAddr    string // SCION dst
-	Success         bool // SuccessfulPings > 0
-	RTT             float64 // min rtt across path probed
+	SrcSCIONAddr    string    // SCION src
+	DstSCIONAddr    string    // SCION dst
+	Success         bool      // SuccessfulPings > 0
+	RTT             float64   // min rtt across path probed
 	PingTime        time.Time // time ping result was stored
-	SuccessfulPings int // Ping replies count
-	MaxPings        int // Sent ping count
+	SuccessfulPings int       // Ping replies count
+	MaxPings        int       // Sent ping count
+}
+
+type IPPingResult struct {
+	gorm.Model
+	SrcAddr  string
+	DstAddr  string
+	Success  bool      // SuccessfulPings > 0
+	RTT      float64   // min rtt across path probed
+	PingTime time.Time // time ping result was stored
 }
 
 type PathStatistics struct {
@@ -35,5 +44,6 @@ type PathStatistics struct {
 type DataExporter interface {
 	Init() error
 	WritePingResult(PingResult) error
+	WriteIPPingResult(IPPingResult) error
 	WritePathStatistic(PathStatistics) error
 }

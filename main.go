@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"net"
 	"net/netip"
 	"os"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/scionproto/scion/pkg/addr"
 	"github.com/scionproto/scion/pkg/snet"
+	"golang.org/x/sync/errgroup"
 )
 
 func main() {
@@ -25,6 +27,7 @@ func main() {
 		os.Exit(1)
 	}
 	args := os.Args
+	ipDestinations := []string{}
 
 	remotesFile := "remotes.json"
 	remotesEnv := os.Getenv("REMOTES_FILE")
@@ -80,7 +83,12 @@ func main() {
 				IP:   dAddr.Host.IP().AsSlice(),
 				Port: 30041,
 			}})
-			Log.Info("Added destination: ", dest.Address, " for ", dest.Name)
+			Log.Info("Added SCION destination: ", dest.Address, " for ", dest.Name)
+		}
+
+		for _, dest := range remotes.IPDestinations {
+			ipDestinations = append(ipDestinations, dest.Address)
+			Log.Info("Added IP destination: ", dest.Address, " for ", dest.Name)
 		}
 		destIAs = destinationIAs
 
@@ -156,6 +164,10 @@ func main() {
 	}()
 	defer bestProbeTicker.Stop()
 	Log.Info("Started best probe ticker")
+
+	// Ping IP destinations
+	go pingIPDestinations(prober, ipDestinations)
+
 	Log.Info("Gathering results...")
 	// TODO: wait for ctrl +c or service interrupt
 
@@ -173,6 +185,52 @@ func getDispatcherPath() string {
 		}
 	}
 	return ""
+}
+
+func pingIPDestinations(prober *PathProber, destinations []string) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	var g errgroup.Group
+
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
+
+	for range ticker.C {
+		for _, dest := range destinations {
+			dest := dest // Capture range variable
+			g.Go(func() error {
+				for {
+					select {
+					case <-ctx.Done():
+						return nil
+					default:
+						t := time.Now()
+						_, err := net.DialTimeout("ip4:icmp", dest, time.Second)
+						diff := time.Since(t)
+						if err != nil {
+							Log.Debugf("Ping to %s failed: %v", dest, err)
+						}
+
+						result := IPPingResult{
+							DstAddr:  dest,
+							SrcAddr:  "", // TODO:
+							Success:  err == nil,
+							RTT:      float64(diff.Milliseconds()),
+							PingTime: time.Now(),
+						}
+
+						err = prober.Exporter.WriteIPPingResult(result)
+						if err != nil {
+							Log.Debugf("Failed to write ping result: %v", err)
+						}
+
+					}
+				}
+			})
+		}
+		g.Wait()
+	}
 }
 
 func getSaddr(dest net.IP) net.IP {

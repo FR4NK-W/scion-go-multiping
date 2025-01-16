@@ -68,7 +68,7 @@ type PathProber struct {
 	localIA         addr.IA
 	localAddr       net.UDPAddr
 	destinations    map[string]*PingDestination
-	exporter        DataExporter
+	Exporter        DataExporter
 	pingers         map[string]*pinger
 }
 
@@ -79,7 +79,7 @@ func NewPathProber(maxPathsToProbe int, maxPathsToPing int) *PathProber {
 		destinations:    make(map[string]*PingDestination, maxPathsToProbe),
 		maxPathsToProbe: maxPathsToProbe,
 		maxPathsToPing:  maxPathsToPing,
-		exporter:        NewSQLiteExporter(),
+		Exporter:        NewSQLiteExporter(),
 		pingers:         make(map[string]*pinger),
 	}
 }
@@ -91,7 +91,7 @@ func (pb *PathProber) InitAndLookup(hc hostContext) error {
 	pb.localAddr = net.UDPAddr{IP: getSaddr(hc.hostInLocalAS), Port: 0}
 	pb.localIA = hc.ia
 
-	err := pb.exporter.Init()
+	err := pb.Exporter.Init()
 	if err != nil {
 		return err
 	}
@@ -305,7 +305,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 		AvailablePaths: len(pb.destinations[destIsdAS].PathStates),
 	}
 
-	err = pb.exporter.WritePathStatistic(ps)
+	err = pb.Exporter.WritePathStatistic(ps)
 	if err != nil {
 		return nil, err
 	}
@@ -491,7 +491,7 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 				SuccessfulPings: successCount,
 				MaxPings:        len(probeResult.Paths),
 			}
-			err = pb.exporter.WritePingResult(pr)
+			err = pb.Exporter.WritePingResult(pr)
 			if err != nil {
 				return err
 			}

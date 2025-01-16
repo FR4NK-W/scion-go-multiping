@@ -37,7 +37,7 @@ func (exporter *SQLiteExporter) Init() error {
 		return err
 	}
 
-	err = db.AutoMigrate(&PingResult{}, &PathStatistics{})
+	err = db.AutoMigrate(&PingResult{}, &PathStatistics{}, &IPPingResult{})
 	if err != nil {
 		return err
 	}
@@ -56,6 +56,14 @@ func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) err
 }
 
 func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
+	dbResult := exporter.db.Create(&result)
+	if dbResult.Error != nil {
+		return dbResult.Error
+	}
+	return nil
+}
+
+func (exporter *SQLiteExporter) WriteIPPingResult(result IPPingResult) error {
 	dbResult := exporter.db.Create(&result)
 	if dbResult.Error != nil {
 		return dbResult.Error
