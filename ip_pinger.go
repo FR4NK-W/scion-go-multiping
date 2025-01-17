@@ -11,13 +11,11 @@ import (
 
 type IpPinger struct {
 	sync.Mutex
-	id               uint16
-	conn             *net.IPConn
-	pld              []byte
-	sentSequence     int
-	receivedSequence int
-	replies          <-chan IpPingReply
-	updateHandlers   map[int]func(IpUpdate)
+	id             uint16
+	conn           *net.IPConn
+	pld            []byte
+	sentSequence   int
+	updateHandlers map[int]func(IpUpdate)
 }
 
 type IpPingReply struct {

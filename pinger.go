@@ -19,8 +19,7 @@ import (
 
 type pinger struct {
 	sync.Mutex
-	interval time.Duration
-	timeout  time.Duration
+	timeout time.Duration
 
 	id            uint16
 	conn          snet.PacketConn

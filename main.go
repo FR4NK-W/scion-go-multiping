@@ -22,7 +22,7 @@ func main() {
 	dia := addr.MustIAFrom(addr.ISD(71), addr.AS(559))
 	dhost := net.UDPAddr{IP: net.ParseIP("10.10.0.1"), Port: 30041}
 	remote := snet.UDPAddr{IA: dia, Host: &dhost}
-	destIAs := []snet.UDPAddr{remote, snet.UDPAddr{IA: addr.MustIAFrom(addr.ISD(71), addr.AS(8589934666)), Host: &dhost}}
+	destIAs := []snet.UDPAddr{remote, {IA: addr.MustIAFrom(addr.ISD(71), addr.AS(8589934666)), Host: &dhost}}
 
 	hc, err := initHostContext()
 	if err != nil {
