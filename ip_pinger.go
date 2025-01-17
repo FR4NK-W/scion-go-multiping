@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"math"
 	"net"
 	"sync"
 	"time"
@@ -52,6 +53,11 @@ func NewPinger(id uint16) (*IpPinger, error) {
 
 func (p *IpPinger) Send(dest string, updateHandler func(IpUpdate)) error {
 	p.Lock()
+
+	if p.sentSequence == math.MaxUint16 {
+		p.sentSequence = 0
+	}
+
 	sequence := p.sentSequence + 1
 	p.updateHandlers[sequence] = updateHandler
 	p.sentSequence = sequence

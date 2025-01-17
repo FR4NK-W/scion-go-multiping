@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/binary"
+	"math"
 	"net"
 	"net/netip"
 	"strings"
@@ -54,6 +55,11 @@ func (p *pinger) runReceiveLoop() {
 
 func (p *pinger) Send(remote *snet.UDPAddr, updateHandler func(Update)) error {
 	p.Lock()
+
+	if p.sentSequence == math.MaxUint16 {
+		p.sentSequence = 0
+	}
+
 	sequence := p.sentSequence + 1
 	p.updateHandlers[sequence] = updateHandler
 	p.sentSequence = sequence
