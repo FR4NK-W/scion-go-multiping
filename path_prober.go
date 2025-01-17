@@ -182,6 +182,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 	}
 
 	var eg errgroup.Group
+	lookuptime := time.Now().UTC()
 	for i, pathStatus := range dest.PathStates {
 		if i >= pb.maxPathsToProbe {
 			break
@@ -312,7 +313,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 		MaxRTT:         float64(maxRTT),
 		MinHops:        minHops,
 		MaxHops:        maxHops,
-		LookupTime:     time.Now(),
+		LookupTime:     lookuptime,
 		ActivePaths:    successCount,
 		ProbedPaths:    len(result.Paths),
 		AvailablePaths: len(pb.destinations[destIsdAS].PathStates),
@@ -477,6 +478,7 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 	for _, dest := range pb.destinations {
 		eg.Go(func() error {
 			destAddrStr := dest.RemoteAddr.String()
+			pingtime := time.Now().UTC()
 			probeResult, err := pb.ProbeDestBest(destAddrStr)
 			if err != nil {
 				return err
@@ -503,7 +505,7 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 				Success:         successCount > 0,
 				RTT:             float64(minRTT),
 				Fingerprint:     minRTTPathFingerPrint,
-				PingTime:        time.Now(),
+				PingTime:        pingtime,
 				SuccessfulPings: successCount,
 				MaxPings:        len(probeResult.Paths),
 			}

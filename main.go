@@ -205,7 +205,7 @@ func main() {
 func dailyDatabaseUpdate(prober *PathProber) {
 	// Calculate the time until 12 AM
 	now := time.Now()
-	nextRun := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location()).Add(24 * time.Hour)
+	nextRun := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.FixedZone("UTC", 0)).Add(24 * time.Hour)
 	durationUntilNextRun := time.Until(nextRun)
 
 	// Wait until 12 AM
@@ -309,7 +309,7 @@ func pingIPDestinations(prober *PathProber, destinations []string) error {
 							SrcAddr:  localIp,
 							Success:  err == nil && success,
 							RTT:      float64(diff.Milliseconds()),
-							PingTime: time.Now(),
+							PingTime: time.Now().UTC(),
 						}
 
 						err = prober.Exporter.WriteIPPingResult(result)

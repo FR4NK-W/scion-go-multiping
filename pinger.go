@@ -215,7 +215,7 @@ func (h scmpHandler) Handle(pkt *snet.Packet) error {
 		Log.Error("Error handling packet ", err)
 	}
 	h.replies <- reply{
-		Received: time.Now(),
+		Received: time.Now().UTC(),
 		Source:   pkt.Source,
 		Size:     len(pkt.Bytes),
 		Reply:    echo,

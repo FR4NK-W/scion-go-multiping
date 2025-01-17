@@ -61,7 +61,7 @@ func (exporter *SQLiteExporter) InitDaily() error {
 		}
 	}
 
-	exporter.DbPath = strings.ReplaceAll(exporter.DbPath, ".db", "_"+time.Now().Format("2006-01-02")+".db")
+	exporter.DbPath = strings.ReplaceAll(exporter.DbPath, ".db", "_"+time.Now().UTC().Format("2006-01-02")+".db")
 	Log.Info("Connecting to database ", exporter.DbPath)
 	// Create the sqlite file if it's not available
 	if _, err := os.Stat(exporter.DbPath); err != nil {
