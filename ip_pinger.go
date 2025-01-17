@@ -98,8 +98,8 @@ func (p *IpPinger) receiveLoop(ctx context.Context) {
 				// rtt = time.Since(time.Unix(0, sentTime))
 			}
 
+			p.Lock()
 			if handler, ok := p.updateHandlers[seqNum]; ok {
-				p.Lock()
 				handler(IpUpdate{
 					Source:   addr,
 					Size:     n,
@@ -107,8 +107,8 @@ func (p *IpPinger) receiveLoop(ctx context.Context) {
 					Sequence: seqNum,
 				})
 				delete(p.updateHandlers, seqNum)
-				p.Unlock()
 			}
+			p.Unlock()
 		}
 	}
 }

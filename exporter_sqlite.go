@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -110,7 +109,7 @@ func (exporter *SQLiteExporter) Close() error {
 func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) error {
 	exporter.pathStatisticsMutex.Lock()
 	defer exporter.pathStatisticsMutex.Unlock()
-	fmt.Printf("fingerprints: %s, paths: %s\n", statistic.Fingerprints, statistic.Paths)
+	Log.Debugf("fingerprints: %s, paths: %s\n", statistic.Fingerprints, statistic.Paths)
 
 	if exporter.batchSize == 1 {
 		dbResult := exporter.db.Create(&statistic)
@@ -134,7 +133,7 @@ func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) err
 
 func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
 
-	fmt.Printf("fingerprints: %s\n", result.Fingerprint)
+	Log.Debugf("fingerprints: %s\n", result.Fingerprint)
 	exporter.scionMutex.Lock()
 	defer exporter.scionMutex.Unlock()
 
