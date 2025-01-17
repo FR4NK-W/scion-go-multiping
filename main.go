@@ -175,7 +175,6 @@ func main() {
 	go dailyDatabaseUpdate(prober)
 
 	Log.Info("Gathering results...")
-	// TODO: wait for ctrl +c or service interrupt
 
 	// Create a channel to receive OS signals
 	signalChannel := make(chan os.Signal, 1)
