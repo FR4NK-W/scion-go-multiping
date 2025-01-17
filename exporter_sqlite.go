@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strconv"
 	"sync"
 
 	"gorm.io/driver/sqlite" // Sqlite driver based on CGO
@@ -21,12 +22,21 @@ type SQLiteExporter struct {
 
 func NewSQLiteExporter() *SQLiteExporter {
 	exporter := &SQLiteExporter{
-		batchSize: 5,
+		batchSize: 1,
 	}
 	sqlitePath := os.Getenv("EXPORTER_SQLITE_DB_PATH")
 	if sqlitePath == "" {
 		sqlitePath = "pingmetrics.db"
 	}
+
+	sqliteBatchSize := os.Getenv("EXPORTER_SQLITE_DB_BATCH_SIZE")
+	if sqliteBatchSize != "" {
+		str, err := strconv.Atoi(sqliteBatchSize)
+		if err == nil {
+			exporter.batchSize = str
+		}
+	}
+
 	exporter.DbPath = sqlitePath
 	return exporter
 }
@@ -74,6 +84,14 @@ func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
 	exporter.scionMutex.Lock()
 	defer exporter.scionMutex.Unlock()
 
+	if exporter.batchSize == 1 {
+		dbResult := exporter.db.Create(&result)
+		if dbResult.Error != nil {
+			return dbResult.Error
+		}
+		return nil
+	}
+
 	exporter.scionPings = append(exporter.scionPings, result)
 	if len(exporter.scionPings) >= exporter.batchSize {
 		dbResult := exporter.db.Create(&exporter.scionPings)
@@ -89,6 +107,14 @@ func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
 func (exporter *SQLiteExporter) WriteIPPingResult(result IPPingResult) error {
 	exporter.ipMutex.Lock()
 	defer exporter.ipMutex.Unlock()
+
+	if exporter.batchSize == 1 {
+		dbResult := exporter.db.Create(&result)
+		if dbResult.Error != nil {
+			return dbResult.Error
+		}
+		return nil
+	}
 
 	exporter.ipPings = append(exporter.ipPings, result)
 	if len(exporter.ipPings) >= exporter.batchSize {
