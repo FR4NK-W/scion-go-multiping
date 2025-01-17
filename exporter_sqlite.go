@@ -10,13 +10,19 @@ import (
 )
 
 type SQLiteExporter struct {
-	DbPath string
-	db     *gorm.DB
-	mu     sync.Mutex
+	DbPath     string
+	db         *gorm.DB
+	scionPings []PingResult
+	ipPings    []IPPingResult
+	scionMutex sync.Mutex
+	ipMutex    sync.Mutex
+	batchSize  int
 }
 
 func NewSQLiteExporter() *SQLiteExporter {
-	exporter := &SQLiteExporter{}
+	exporter := &SQLiteExporter{
+		batchSize: 5,
+	}
 	sqlitePath := os.Getenv("EXPORTER_SQLITE_DB_PATH")
 	if sqlitePath == "" {
 		sqlitePath = "pingmetrics.db"
@@ -48,6 +54,12 @@ func (exporter *SQLiteExporter) Init() error {
 	return nil
 }
 
+func (exporter *SQLiteExporter) Close() error {
+	sqlDB, _ := exporter.db.DB()
+	// Close
+	return sqlDB.Close()
+}
+
 func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) error {
 	dbResult := exporter.db.Create(&statistic)
 	if dbResult.Error != nil {
@@ -58,19 +70,34 @@ func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) err
 }
 
 func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
-	exporter.mu.Lock()
-	defer exporter.mu.Unlock()
-	dbResult := exporter.db.Create(&result)
-	if dbResult.Error != nil {
-		return dbResult.Error
+
+	exporter.scionMutex.Lock()
+	defer exporter.scionMutex.Unlock()
+
+	exporter.scionPings = append(exporter.scionPings, result)
+	if len(exporter.scionPings) >= exporter.batchSize {
+		dbResult := exporter.db.Create(&exporter.scionPings)
+		exporter.scionPings = nil // Clear the slice after flushing
+		if dbResult.Error != nil {
+			return dbResult.Error
+		}
 	}
+
 	return nil
 }
 
 func (exporter *SQLiteExporter) WriteIPPingResult(result IPPingResult) error {
-	dbResult := exporter.db.Create(&result)
-	if dbResult.Error != nil {
-		return dbResult.Error
+	exporter.ipMutex.Lock()
+	defer exporter.ipMutex.Unlock()
+
+	exporter.ipPings = append(exporter.ipPings, result)
+	if len(exporter.ipPings) >= exporter.batchSize {
+		dbResult := exporter.db.Create(&exporter.ipPings)
+		if dbResult.Error != nil {
+			return dbResult.Error
+		}
+		exporter.ipPings = nil
 	}
+
 	return nil
 }

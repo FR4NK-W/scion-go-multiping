@@ -2,12 +2,9 @@ package main
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type PingResult struct {
-	gorm.Model
 	SrcSCIONAddr    string    // SCION src
 	DstSCIONAddr    string    // SCION dst
 	Success         bool      // SuccessfulPings > 0
@@ -18,7 +15,6 @@ type PingResult struct {
 }
 
 type IPPingResult struct {
-	gorm.Model
 	SrcAddr  string
 	DstAddr  string
 	Success  bool      // SuccessfulPings > 0
@@ -27,7 +23,6 @@ type IPPingResult struct {
 }
 
 type PathStatistics struct {
-	gorm.Model
 	SrcSCIONAddr   string    // SCION src
 	DstSCIONAddr   string    // SCION dst
 	Success        bool      // successCount > 0
