@@ -50,7 +50,9 @@ func (exporter *SQLiteExporter) Init() error {
 		}
 	}
 
-	db, err := gorm.Open(sqlite.Open(exporter.DbPath), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(exporter.DbPath), &gorm.Config{
+		SkipDefaultTransaction: true,
+	})
 	if err != nil {
 		return err
 	}
@@ -59,6 +61,21 @@ func (exporter *SQLiteExporter) Init() error {
 	if err != nil {
 		return err
 	}
+
+	sqlDb, err := db.DB()
+	if err != nil {
+		return err
+	}
+
+	// We mutex our selves, this ensures no locking in the driver level
+	sqlDb.SetMaxOpenConns(1)
+
+	res, err := sqlDb.Exec("PRAGMA synchronous=OFF")
+	if err != nil {
+		return err
+	}
+
+	Log.Info("Setting SQLite synchronous off results in ", res.RowsAffected)
 
 	exporter.db = db
 	return nil
