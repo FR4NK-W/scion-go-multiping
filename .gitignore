@@ -31,3 +31,5 @@ scion-go-multiping
 pingmetrics.db
 pingmetrics.db-journal
 pingmetrics.*
+
+*.db

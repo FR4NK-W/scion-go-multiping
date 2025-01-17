@@ -11,7 +11,7 @@ func TestSQLiteExporter_Init(t *testing.T) {
 	exporter.DbPath = "test_pingmetrics.db"
 	defer os.Remove(exporter.DbPath) // Clean up test database after the test
 
-	if err := exporter.Init(); err != nil {
+	if err := exporter.InitDaily(); err != nil {
 		t.Fatalf("Failed to initialize SQLiteExporter: %v", err)
 	}
 
@@ -25,7 +25,7 @@ func TestSQLiteExporter_WritePingResult(t *testing.T) {
 	exporter.DbPath = "test_pingmetrics.db"
 	defer os.Remove(exporter.DbPath) // Clean up test database after the test
 
-	if err := exporter.Init(); err != nil {
+	if err := exporter.InitDaily(); err != nil {
 		t.Fatalf("Failed to initialize SQLiteExporter: %v", err)
 	}
 
@@ -33,7 +33,7 @@ func TestSQLiteExporter_WritePingResult(t *testing.T) {
 		SrcSCIONAddr:    "1-ff00:0:110",
 		DstSCIONAddr:    "1-ff00:0:111",
 		Success:         true,
-		RTT:         20.5,
+		RTT:             20.5,
 		PingTime:        time.Now(),
 		SuccessfulPings: 5,
 		MaxPings:        10,
@@ -58,7 +58,7 @@ func TestSQLiteExporter_WritePathStatistic(t *testing.T) {
 	exporter.DbPath = "test_pingmetrics.db"
 	defer os.Remove(exporter.DbPath) // Clean up test database after the test
 
-	if err := exporter.Init(); err != nil {
+	if err := exporter.InitDaily(); err != nil {
 		t.Fatalf("Failed to initialize SQLiteExporter: %v", err)
 	}
 

@@ -171,6 +171,9 @@ func main() {
 	// Ping IP destinations
 	go pingIPDestinations(prober, ipDestinations)
 
+	Log.Info("Starting cron to write daily databases...")
+	go dailyDatabaseUpdate(prober)
+
 	Log.Info("Gathering results...")
 	// TODO: wait for ctrl +c or service interrupt
 
@@ -198,6 +201,40 @@ func main() {
 
 	// Wait for a signal to be received
 	<-done
+}
+
+func dailyDatabaseUpdate(prober *PathProber) {
+	// Calculate the time until 12 AM
+	now := time.Now()
+	nextRun := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location()).Add(24 * time.Hour)
+	durationUntilNextRun := time.Until(nextRun)
+
+	// Wait until 12 AM
+	Log.Infof("Waiting %s until the first run at 12 AM...\n", durationUntilNextRun)
+	time.Sleep(durationUntilNextRun)
+
+	// Start ticker to run the job every 24 hours
+	ticker := time.NewTicker(24 * time.Hour)
+	defer ticker.Stop()
+
+	for {
+		// Perform the task at 12 AM
+		changeDailyDatabase(prober)
+
+		// Wait for the next tick
+		<-ticker.C
+	}
+}
+
+func changeDailyDatabase(prober *PathProber) {
+	err := prober.Exporter.InitDaily()
+	if err != nil {
+		Log.Error("Failed to change database connection to new file ", err)
+		os.Exit(1)
+	}
+
+	Log.Info("Changed database connection to new file")
+
 }
 
 func getDispatcherPath() string {
@@ -246,7 +283,7 @@ func pingIPDestinations(prober *PathProber, destinations []string) error {
 					successChan := make(chan bool)
 					timeChan := time.After(1 * time.Second)
 					err := pinger.Send(dest, func(ipUpdate IpUpdate) {
-						Log.Info("Received IP Update ", u)
+						Log.Debug("Received IP Update ", u)
 						u = ipUpdate
 						successChan <- true
 					})

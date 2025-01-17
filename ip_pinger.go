@@ -64,7 +64,6 @@ func (p *IpPinger) Send(dest string, updateHandler func(IpUpdate)) error {
 		return fmt.Errorf("failed to resolve destination address: %w", err)
 	}
 
-	fmt.Println("Sending sequence ", sequence)
 	if _, err := p.conn.WriteTo(icmpMessage, dstAddr); err != nil {
 		return fmt.Errorf("failed to send ICMP packet: %w", err)
 	}
@@ -102,7 +101,6 @@ func (p *IpPinger) receiveLoop(ctx context.Context) {
 					Sequence: seqNum,
 				})
 				delete(p.updateHandlers, seqNum)
-				fmt.Println(len(p.updateHandlers))
 				p.Unlock()
 			}
 		}

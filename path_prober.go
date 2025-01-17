@@ -91,7 +91,7 @@ func (pb *PathProber) InitAndLookup(hc hostContext) error {
 	pb.localAddr = net.UDPAddr{IP: getSaddr(hc.hostInLocalAS), Port: 0}
 	pb.localIA = hc.ia
 
-	err := pb.Exporter.Init()
+	err := pb.Exporter.InitDaily()
 	if err != nil {
 		return err
 	}
