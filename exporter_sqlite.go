@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -60,7 +61,7 @@ func (exporter *SQLiteExporter) InitDaily() error {
 		}
 	}
 
-	exporter.DbPath = strings.ReplaceAll(exporter.DbPath, ".db", "_"+time.Now().Format("2006-01-02")+".db")
+	exporter.DbPath = strings.ReplaceAll(exporter.DbPath, ".db", "_"+time.Now().UTC().Format("2006-01-02")+".db")
 	Log.Info("Connecting to database ", exporter.DbPath)
 	// Create the sqlite file if it's not available
 	if _, err := os.Stat(exporter.DbPath); err != nil {
@@ -109,6 +110,7 @@ func (exporter *SQLiteExporter) Close() error {
 func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) error {
 	exporter.pathStatisticsMutex.Lock()
 	defer exporter.pathStatisticsMutex.Unlock()
+	fmt.Printf("fingerprints: %s, paths: %s\n", statistic.Fingerprints, statistic.Paths)
 
 	if exporter.batchSize == 1 {
 		dbResult := exporter.db.Create(&statistic)
@@ -132,6 +134,7 @@ func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) err
 
 func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
 
+	fmt.Printf("fingerprints: %s\n", result.Fingerprint)
 	exporter.scionMutex.Lock()
 	defer exporter.scionMutex.Unlock()
 

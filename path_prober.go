@@ -2,11 +2,10 @@ package main
 
 import (
 	"context"
-	"crypto/sha256"
-	"encoding/hex"
 	"fmt"
 	"net"
 	"sort"
+	"strings"
 	"sync"
 	"time"
 
@@ -183,6 +182,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 	}
 
 	var eg errgroup.Group
+	lookuptime := time.Now().UTC()
 	for i, pathStatus := range dest.PathStates {
 		if i >= pb.maxPathsToProbe {
 			break
@@ -265,6 +265,8 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 	minHops := 100000
 	maxHops := 0
 
+	var pathStrings []string
+	var pathFingerprints []string
 	for _, path := range result.Paths {
 
 		if path.RTT > 0 {
@@ -289,17 +291,29 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 			}
 
 		}
+		interfacesString := ""
+		for i, iface := range path.Path.Metadata().Interfaces {
+			if i == 0 {
+				interfacesString = iface.String()
+				continue
+			}
+			interfacesString += "->" + iface.String()
+		}
+		pathStrings = append(pathStrings, interfacesString)
+		pathFingerprints = append(pathFingerprints, path.Fingerprint)
 	}
 
 	ps := PathStatistics{
 		SrcSCIONAddr:   fmt.Sprintf("%s,%s", pb.localIA.String(), pb.localAddr.String()),
 		DstSCIONAddr:   destIsdAS,
+		Paths:          strings.Join(pathStrings, ","),
+		Fingerprints:   strings.Join(pathFingerprints, ","),
 		Success:        successCount > 0,
 		MinRTT:         float64(minRTT),
 		MaxRTT:         float64(maxRTT),
 		MinHops:        minHops,
 		MaxHops:        maxHops,
-		LookupTime:     time.Now(),
+		LookupTime:     lookuptime,
 		ActivePaths:    successCount,
 		ProbedPaths:    len(result.Paths),
 		AvailablePaths: len(pb.destinations[destIsdAS].PathStates),
@@ -464,6 +478,7 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 	for _, dest := range pb.destinations {
 		eg.Go(func() error {
 			destAddrStr := dest.RemoteAddr.String()
+			pingtime := time.Now().UTC()
 			probeResult, err := pb.ProbeDestBest(destAddrStr)
 			if err != nil {
 				return err
@@ -472,12 +487,14 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 			successCount := 0
 
 			Log.Debug("Probed ", destAddrStr, " got entries ", len(probeResult.Paths))
+			var minRTTPathFingerPrint string
 			for _, path := range probeResult.Paths {
 				Log.Debug("Path1 ", path.Path, " has RTT ", path.RTT)
 				if path.RTT > 0 {
 					successCount++
 					if path.RTT < minRTT {
 						minRTT = path.RTT
+						minRTTPathFingerPrint = path.Fingerprint
 					}
 				}
 			}
@@ -487,7 +504,8 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 				DstSCIONAddr:    destAddrStr,
 				Success:         successCount > 0,
 				RTT:             float64(minRTT),
-				PingTime:        time.Now(),
+				Fingerprint:     minRTTPathFingerPrint,
+				PingTime:        pingtime,
 				SuccessfulPings: successCount,
 				MaxPings:        len(probeResult.Paths),
 			}
@@ -659,7 +677,7 @@ func shortestAndLowestRTTPath(paths []PathStatus) []PathStatus {
 		}
 	}
 
-	// TODO: We need fingerprints for this
+
 	if shortestPath.Fingerprint == lowestRTTPath.Fingerprint {
 		return []PathStatus{shortestPath}
 	}
@@ -669,26 +687,5 @@ func shortestAndLowestRTTPath(paths []PathStatus) []PathStatus {
 
 // calculateFingerprint generates a unique fingerprint for a path by hashing its interfaces
 func calculateFingerprint(path snet.Path) string {
-	meta := path.Metadata()
-	var interfaces []string
-
-	// Collect interface identifiers
-	for _, iface := range meta.Interfaces {
-		interfaces = append(interfaces, iface.String())
-	}
-
-	// Sort interfaces to ensure consistent order for the fingerprint
-	sort.Strings(interfaces)
-
-	// Concatenate all interfaces into a single string
-	concatenated := ""
-	for _, iface := range interfaces {
-		concatenated += iface
-	}
-
-	// Hash the concatenated string using SHA-256
-	hash := sha256.Sum256([]byte(concatenated))
-
-	// Convert the hash to a hexadecimal string and return as the fingerprint
-	return hex.EncodeToString(hash[:])
+	return snet.Fingerprint(path).String()
 }

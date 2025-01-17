@@ -9,6 +9,7 @@ type PingResult struct {
 	DstSCIONAddr    string    // SCION dst
 	Success         bool      // SuccessfulPings > 0
 	RTT             float64   // min rtt across path probed
+	Fingerprint     string    // Fingerprint of the path with the min rtt
 	PingTime        time.Time // time ping result was stored
 	SuccessfulPings int       // Ping replies count
 	MaxPings        int       // Sent ping count
@@ -25,9 +26,11 @@ type IPPingResult struct {
 type PathStatistics struct {
 	SrcSCIONAddr   string    // SCION src
 	DstSCIONAddr   string    // SCION dst
+	Paths          string    // interface description of the AvailablePaths, comma separated
+	Fingerprints   string    // path fingerprints, comma separated
 	Success        bool      // successCount > 0
 	MinRTT         float64   // min rtt across all paths
-	MaxRTT         float64   // min rtt across all paths
+	MaxRTT         float64   // max rtt across all paths
 	MinHops        int       // min # of hops across all paths
 	MaxHops        int       // max # of hops across all paths
 	LookupTime     time.Time // time ping results were stored
