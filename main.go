@@ -213,7 +213,7 @@ func getDispatcherPath() string {
 	return ""
 }
 
-func pingIPDestinations(prober *PathProber, destinations []string) {
+func pingIPDestinations(prober *PathProber, destinations []string) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -222,32 +222,64 @@ func pingIPDestinations(prober *PathProber, destinations []string) {
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 
+	hc := host()
+	localIp := net.UDPAddr{IP: getSaddr(hc.hostInLocalAS), Port: 0}.IP.String()
+
+	// We can only use one pinger here otherwise the raw sockets confuse their packets somehow?
+	p, err := NewPinger(1)
+	if err != nil {
+		return err
+	}
+
 	for range ticker.C {
 		for _, dest := range destinations {
 			dest := dest // Capture range variable
+
 			g.Go(func() error {
 				select {
 				case <-ctx.Done():
 					return nil
 				default:
 					t := time.Now()
-					_, err := net.DialTimeout("ip4:icmp", dest, time.Second)
+					var u IpUpdate
+					pinger := p // pingers[dest]
+					successChan := make(chan bool)
+					timeChan := time.After(1 * time.Second)
+					err := pinger.Send(dest, func(ipUpdate IpUpdate) {
+						Log.Info("Received IP Update ", u)
+						u = ipUpdate
+						successChan <- true
+					})
+					success := false
+					if err != nil {
+						Log.Error("Failed to send ping to remote ", dest)
+					} else {
+						select {
+						case <-successChan:
+							success = true
+							break
+						case <-timeChan:
+							success = false
+						}
+					}
+
 					diff := time.Since(t)
-					if err != nil {
-						Log.Debugf("Ping to %s failed: %v", dest, err)
-					}
+					// This is probably
+					if err == nil && diff < 1 {
+						Log.Debug("Skipping local ping result, probably the same host")
+					} else {
+						result := IPPingResult{
+							DstAddr:  dest,
+							SrcAddr:  localIp,
+							Success:  err == nil && success,
+							RTT:      float64(diff.Milliseconds()),
+							PingTime: time.Now(),
+						}
 
-					result := IPPingResult{
-						DstAddr:  dest,
-						SrcAddr:  "", // TODO:
-						Success:  err == nil,
-						RTT:      float64(diff.Milliseconds()),
-						PingTime: time.Now(),
-					}
-
-					err = prober.Exporter.WriteIPPingResult(result)
-					if err != nil {
-						Log.Debugf("Failed to write ping result: %v", err)
+						err = prober.Exporter.WriteIPPingResult(result)
+						if err != nil {
+							Log.Debugf("Failed to write ping result: %v", err)
+						}
 					}
 
 					return nil
@@ -257,6 +289,7 @@ func pingIPDestinations(prober *PathProber, destinations []string) {
 		}
 		g.Wait()
 	}
+	return nil
 }
 
 func getSaddr(dest net.IP) net.IP {
