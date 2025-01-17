@@ -226,32 +226,32 @@ func pingIPDestinations(prober *PathProber, destinations []string) {
 		for _, dest := range destinations {
 			dest := dest // Capture range variable
 			g.Go(func() error {
-				for {
-					select {
-					case <-ctx.Done():
-						return nil
-					default:
-						t := time.Now()
-						_, err := net.DialTimeout("ip4:icmp", dest, time.Second)
-						diff := time.Since(t)
-						if err != nil {
-							Log.Debugf("Ping to %s failed: %v", dest, err)
-						}
-
-						result := IPPingResult{
-							DstAddr:  dest,
-							SrcAddr:  "", // TODO:
-							Success:  err == nil,
-							RTT:      float64(diff.Milliseconds()),
-							PingTime: time.Now(),
-						}
-
-						err = prober.Exporter.WriteIPPingResult(result)
-						if err != nil {
-							Log.Debugf("Failed to write ping result: %v", err)
-						}
-
+				select {
+				case <-ctx.Done():
+					return nil
+				default:
+					t := time.Now()
+					_, err := net.DialTimeout("ip4:icmp", dest, time.Second)
+					diff := time.Since(t)
+					if err != nil {
+						Log.Debugf("Ping to %s failed: %v", dest, err)
 					}
+
+					result := IPPingResult{
+						DstAddr:  dest,
+						SrcAddr:  "", // TODO:
+						Success:  err == nil,
+						RTT:      float64(diff.Milliseconds()),
+						PingTime: time.Now(),
+					}
+
+					err = prober.Exporter.WriteIPPingResult(result)
+					if err != nil {
+						Log.Debugf("Failed to write ping result: %v", err)
+					}
+
+					return nil
+
 				}
 			})
 		}
