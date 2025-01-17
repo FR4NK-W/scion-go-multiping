@@ -24,6 +24,10 @@ go.work.sum
 # env file
 .env
 
+# IDE
+.idea/
 
 scion-go-multiping
 pingmetrics.db
+pingmetrics.db-journal
+pingmetrics.*
