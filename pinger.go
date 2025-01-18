@@ -239,6 +239,10 @@ func (h scmpHandler) handle(pkt *snet.Packet) (snet.SCMPEchoReply, error) {
 	case snet.SCMPExternalInterfaceDown:
 		return snet.SCMPEchoReply{}, serrors.New("external interface down",
 			"isd_as", s.IA, "interface", s.Interface)
+
+	case snet.SCMPParameterProblem:
+		return snet.SCMPEchoReply{}, serrors.New("parameter problem",
+			"SCMP Parameter Code", s.Code(), "for handler", h.id)
 	default:
 	}
 	return snet.SCMPEchoReply{}, serrors.New("not an SCMPEchoReply",

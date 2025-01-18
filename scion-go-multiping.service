@@ -1,0 +1,16 @@
+[Unit]
+Description=SCION GO Multiping Service
+
+[Service]
+Type=simple
+ExecStart=/root/scion-go-multiping 
+WorkingDirectory=/root/
+Restart=on-failure
+Environment="EXPORTER_SQLITE_DB_PATH=/root/multipingresults.db"
+Environment="LOG_LEVEL=INFO"
+#Environment="SCION_DAEMON_ADDRESS=127.0.0.1:41302"
+Environment="REMOTES_FILE=/root/remotes.json"
+
+[Install]
+WantedBy=multi-user.target
+
