@@ -14,6 +14,7 @@ import (
 
 type SQLiteExporter struct {
 	DbPath              string
+	originalDbPath      string
 	db                  *gorm.DB
 	scionPings          []PingResult
 	pathStatistics      []PathStatistics
@@ -32,6 +33,7 @@ func NewSQLiteExporter() *SQLiteExporter {
 	if sqlitePath == "" {
 		sqlitePath = "pingmetrics.db"
 	}
+	exporter.originalDbPath = sqlitePath
 
 	sqliteBatchSize := os.Getenv("EXPORTER_SQLITE_DB_BATCH_SIZE")
 	if sqliteBatchSize != "" {
@@ -60,7 +62,7 @@ func (exporter *SQLiteExporter) InitDaily() error {
 		}
 	}
 
-	exporter.DbPath = strings.ReplaceAll(exporter.DbPath, ".db", "_"+time.Now().UTC().Format("2006-01-02")+".db")
+	exporter.DbPath = strings.ReplaceAll(exporter.originalDbPath, ".db", "_"+time.Now().UTC().Format("2006-01-02")+".db")
 	Log.Info("Connecting to database ", exporter.DbPath)
 	// Create the sqlite file if it's not available
 	if _, err := os.Stat(exporter.DbPath); err != nil {
