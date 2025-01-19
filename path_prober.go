@@ -341,15 +341,19 @@ func (pb *PathProber) UpdatePathList(destStr string, dest *PingDestination) erro
 
 	for _, path := range paths {
 		fp := calculateFingerprint(path)
-		found := false
-		for _, pathStatus := range dest.PathStates {
+		foundIndex := -1
+		for i, pathStatus := range dest.PathStates {
 			if pathStatus.Fingerprint == fp {
-				found = true
+				foundIndex = i
 				// TODO: Update path status here? We already know the path
 			}
 		}
 
-		if !found {
+		// We need to update the path with a new entry
+		if foundIndex > 0 {
+			Log.Info("Updating path ", path, " for ", destStr)
+			dest.PathStates[foundIndex].Path = path
+		} else {
 			dest.PathStates = append(dest.PathStates, PathStatus{
 				State:       PATH_STATE_IDLE,
 				Path:        path,
@@ -676,7 +680,6 @@ func shortestAndLowestRTTPath(paths []PathStatus) []PathStatus {
 			lowestRTTPath = path
 		}
 	}
-
 
 	if shortestPath.Fingerprint == lowestRTTPath.Fingerprint {
 		return []PathStatus{shortestPath}

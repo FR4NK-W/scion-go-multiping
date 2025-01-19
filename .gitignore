@@ -33,3 +33,4 @@ pingmetrics.db-journal
 pingmetrics.*
 
 *.db
+deploy/
