@@ -463,7 +463,7 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 				})
 			} else {
 				result.Paths = append(result.Paths, PathStatus{
-					State:       PATH_STATE_PROBED,
+					State:       PATH_STATE_TIMEOUT,
 					Path:        path,
 					Fingerprint: calculateFingerprint(path),
 				})
