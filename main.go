@@ -16,8 +16,15 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
+var versionString string
+
 func main() {
-	Log.Debug("Go multiping")
+	if versionString == "" {
+		Log.Error("Missing version string.\n", "Build with version string:\n" +
+			"`go build -o ./bin/ -ldflags \"-X main.versionString=$(git describe --tags --dirty --always)\" ./...`")
+		os.Exit(1)
+	}
+	Log.Info("Go multiping version: ", versionString)
 
 	dia := addr.MustIAFrom(addr.ISD(71), addr.AS(559))
 	dhost := net.UDPAddr{IP: net.ParseIP("10.10.0.1"), Port: 30041}
