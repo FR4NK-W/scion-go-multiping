@@ -181,6 +181,10 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 		Paths: make([]PathStatus, 0),
 	}
 
+	if len(dest.PathStates) == 0 {
+		Log.Error("No paths to probe for ", destIsdAS)
+	}
+
 	var eg errgroup.Group
 	lookuptime := time.Now().UTC()
 	for i, pathStatus := range dest.PathStates {
