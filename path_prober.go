@@ -199,7 +199,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 
 			var update Update
 			successChan := make(chan bool)
-			timeChan := time.After(1 * time.Second)
+			timeChan := time.After(700 * time.Millisecond)
 			// Log.Debug("Sending ping to ", rAddr, " via ", pathStatus.Fingerprint)
 			err := pinger.Send(rAddr, func(u Update) {
 				// Log.Debug("Got update ", u, " from ", rAddr, " via ", pathStatus.Fingerprint)
@@ -418,7 +418,7 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 
 			var update Update
 			successChan := make(chan bool)
-			timeChan := time.After(1 * time.Second)
+			timeChan := time.After(7 * time.Millisecond)
 			Log.Debug("Sending bestProbe to ", rAddr, " via ", path)
 			err := pinger.Send(rAddr, func(u Update) {
 				Log.Debug("Got update for bestprobe ", u, " from ", rAddr, " via ", path)

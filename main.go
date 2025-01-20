@@ -283,7 +283,7 @@ func pingIPDestinations(prober *PathProber, destinations []string) error {
 					var u IpUpdate
 					pinger := p // pingers[dest]
 					successChan := make(chan bool)
-					timeChan := time.After(1 * time.Second)
+					timeChan := time.After(700 * time.Millisecond)
 					err := pinger.Send(dest, func(ipUpdate IpUpdate) {
 						Log.Debug("Received IP Update ", u)
 						u = ipUpdate
