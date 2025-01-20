@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/scionproto/scion/pkg/addr"
+	"github.com/scionproto/scion/pkg/log"
 	"github.com/scionproto/scion/pkg/private/common"
 	"github.com/scionproto/scion/pkg/private/serrors"
 	"github.com/scionproto/scion/pkg/snet"
@@ -57,6 +58,7 @@ func (p *pinger) Send(remote *snet.UDPAddr, updateHandler func(Update)) error {
 	p.Lock()
 
 	if p.sentSequence == math.MaxUint16 {
+		log.Info("Resetting sequence number for scion_pinger ", p.id)
 		p.sentSequence = 0
 	}
 

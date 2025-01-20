@@ -200,6 +200,8 @@ func main() {
 
 	// Wait for a signal to be received
 	<-done
+
+	fmt.Println("Exiting...")
 }
 
 func dailyDatabaseUpdate(prober *PathProber) {
@@ -209,8 +211,9 @@ func dailyDatabaseUpdate(prober *PathProber) {
 	durationUntilNextRun := time.Until(nextRun)
 
 	// Wait until 12 AM
-	Log.Infof("Waiting %s until the first run at 12 AM...\n", durationUntilNextRun)
-	time.Sleep(durationUntilNextRun)
+	ms := durationUntilNextRun.Milliseconds()
+	Log.Infof("Waiting %s until the first run at 12 AM, this is %dms...\n", durationUntilNextRun, ms)
+	time.Sleep(time.Duration(ms * int64(time.Millisecond)))
 
 	// Start ticker to run the job every 24 hours
 	ticker := time.NewTicker(24 * time.Hour)

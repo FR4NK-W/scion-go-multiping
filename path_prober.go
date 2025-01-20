@@ -321,6 +321,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 
 	err = pb.Exporter.WritePathStatistic(ps)
 	if err != nil {
+		Log.Error("Error writing path statistic for ", destIsdAS, ":", err)
 		return nil, err
 	}
 
@@ -351,7 +352,7 @@ func (pb *PathProber) UpdatePathList(destStr string, dest *PingDestination) erro
 
 		// We need to update the path with a new entry
 		if foundIndex > 0 {
-			Log.Info("Updating path ", path, " for ", destStr)
+			Log.Debug("Updating path ", path, " for ", destStr)
 			dest.PathStates[foundIndex].Path = path
 		} else {
 			dest.PathStates = append(dest.PathStates, PathStatus{
@@ -404,6 +405,7 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 	result := &DestinationProbeResult{
 		Paths: make([]PathStatus, 0),
 	}
+
 	var eg errgroup.Group
 	for _, path := range pingPathSets.Paths[dest.RemoteAddr.String()] {
 		eg.Go(func() error {
@@ -479,6 +481,8 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 	result := &PathProbeResult{
 		Destinations: make(map[string]*DestinationProbeResult),
 	}
+	t := time.Now()
+	Log.Info("Probing best run... ")
 	for _, dest := range pb.destinations {
 		eg.Go(func() error {
 			destAddrStr := dest.RemoteAddr.String()
@@ -515,6 +519,7 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 			}
 			err = pb.Exporter.WritePingResult(pr)
 			if err != nil {
+				Log.Error("Error writing ping result for ", destAddrStr, ":", err)
 				return err
 			}
 
@@ -523,6 +528,8 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 		})
 	}
 	err := eg.Wait()
+	diff := time.Since(t)
+	Log.Info("Probing best run took ", diff)
 	return result, err
 }
 

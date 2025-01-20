@@ -34,3 +34,4 @@ pingmetrics.*
 
 *.db
 deploy/
+update.sh
