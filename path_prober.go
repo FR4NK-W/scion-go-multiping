@@ -406,8 +406,11 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 		Paths: make([]PathStatus, 0),
 	}
 
+	pingPathSets.Lock()
+	pingPathSetsPaths := pingPathSets.Paths[dest.RemoteAddr.String()]
+	pingPathSets.Unlock()
 	var eg errgroup.Group
-	for _, path := range pingPathSets.Paths[dest.RemoteAddr.String()] {
+	for _, path := range pingPathSetsPaths {
 		eg.Go(func() error {
 
 			pinger := pb.pingers[destIsdAS]
