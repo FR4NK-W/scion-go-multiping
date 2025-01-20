@@ -553,6 +553,10 @@ func (pb *PathProber) UpdatePathsToPing() error {
 
 	for destStr, dest := range pb.destinations {
 		paths := pb.SelectOptimalPathsToPing(dest)
+		if len(paths) == 0 {
+			Log.Error("No paths to ping selected for ", destStr)
+			continue
+		}
 		pingPathSets.Paths[destStr] = paths
 	}
 
