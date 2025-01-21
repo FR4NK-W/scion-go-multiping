@@ -537,6 +537,11 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 			return nil
 		})
 	}
+
+	// We seem to have some weird behaviour here, where the errgroup doesn't return the error
+	// the tool stucks after a few hours, the last thing logged is Log.Info("Probing best run... ")
+	// and then everything stops
+	// So maybe in the send itself something blocks, so hopefully this resolves it
 	var err error
 	doneChan := make(chan bool)
 	go func() {
