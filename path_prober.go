@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net"
 	"sort"
@@ -414,6 +415,7 @@ func (pb *PathProber) ProbeDestBest(destIsdAS string) (*DestinationProbeResult, 
 	pingPathSetsPaths := pingPathSets.Paths[dest.RemoteAddr.String()]
 	pingPathSets.Unlock()
 	var eg errgroup.Group
+
 	for _, path := range pingPathSetsPaths {
 		eg.Go(func() error {
 
@@ -490,6 +492,7 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 	}
 	t := time.Now()
 	Log.Info("Probing best run... ")
+	timeout := time.After(2 * time.Second)
 	for _, dest := range pb.destinations {
 		eg.Go(func() error {
 			destAddrStr := dest.RemoteAddr.String()
@@ -534,9 +537,23 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 			return nil
 		})
 	}
-	err := eg.Wait()
-	diff := time.Since(t)
-	Log.Info("Probing best run took ", diff)
+	var err error
+	doneChan := make(chan bool)
+	go func() {
+		err = eg.Wait()
+		doneChan <- true
+
+	}()
+	select {
+	case <-timeout:
+		err = errors.New("probing best run timed out in 2s")
+		Log.Error("Probing best run timed out in 2s")
+	case <-doneChan:
+		// err := eg.Wait()
+		diff := time.Since(t)
+		Log.Info("Probing best run took ", diff)
+	}
+
 	return result, err
 }
 

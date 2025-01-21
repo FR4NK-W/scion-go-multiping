@@ -1,0 +1,13 @@
+# !/bin/bash
+ssh martin@141.44.25.151 -p 222 -t "sudo systemctl restart scion-go-multiping.service"
+ssh scionedu-2_0_35-bridges-scionA -t "sudo systemctl restart scion-go-multiping.service"
+ssh scionedu-225-uva -t "sudo systemctl restart scion-go-multiping.service"
+ssh scionedu-2_0_48-equinix -t "sudo systemctl restart scion-go-multiping.service"
+ssh scionedu-20965-paris1 -t "sudo systemctl restart scion-go-multiping.service"
+ssh scionedu-20965-geneva1 -t "sudo systemctl restart scion-go-multiping.service"
+ssh scionedu-20965-frankfurt1 -t "sudo systemctl restart scion-go-multiping.service"
+ssh scionedu-2_0_5c-ufms -t "sudo systemctl restart scion-go-multiping.service"
+ssh scionedu-2_0_3b_kisti_dj -t "sudo systemctl start scion-go-multiping.service"
+ssh scionedu-2_0_3d_kisti_sg -t "sudo systemctl start scion-go-multiping.service"
+ssh scionedu-2_0_3e_kisti_ams -t "sudo systemctl start scion-go-multiping.service"
+ssh scionedu-2_0_3f_kisti_chg -t "sudo systemctl start scion-go-multiping.service"

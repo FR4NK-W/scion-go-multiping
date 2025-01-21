@@ -20,7 +20,7 @@ var versionString string
 
 func main() {
 	if versionString == "" {
-		Log.Error("Missing version string.\n", "Build with version string:\n" +
+		Log.Error("Missing version string.\n", "Build with version string:\n"+
 			"`go build -o ./bin/ -ldflags \"-X main.versionString=$(git describe --tags --dirty --always)\" ./...`")
 		os.Exit(1)
 	}
@@ -159,7 +159,10 @@ func main() {
 			}*/
 		}
 	}()
-	defer fullProbeTicker.Stop()
+	defer func() {
+		fullProbeTicker.Stop()
+		Log.Warn("Stopped full probe ticker")
+	}()
 	Log.Info("Started full probe ticker")
 
 	bestProbeTicker := time.NewTicker(1 * time.Second)
@@ -172,7 +175,10 @@ func main() {
 			}
 		}
 	}()
-	defer bestProbeTicker.Stop()
+	defer func() {
+		bestProbeTicker.Stop()
+		Log.Warn("Stopped best probe ticker")
+	}()
 	Log.Info("Started best probe ticker")
 
 	// Ping IP destinations
