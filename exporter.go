@@ -10,7 +10,7 @@ type PingResult struct {
 	Success         bool      // SuccessfulPings > 0
 	RTT             float64   // min rtt across path probed
 	Fingerprint     string    // Fingerprint of the path with the min rtt
-	PingTime        time.Time // time ping result was stored
+	PingTime        *time.Time // time ping result was stored
 	SuccessfulPings int       // Ping replies count
 	MaxPings        int       // Sent ping count
 }
@@ -20,7 +20,9 @@ type IPPingResult struct {
 	DstAddr  string
 	Success  bool      // SuccessfulPings > 0
 	RTT      float64   // min rtt across path probed
-	PingTime time.Time // time ping result was stored
+	PingTime *time.Time // time ping result was stored
+	SrcSCIONAddr    string    // SCION src for mapping
+	DstSCIONAddr    string    // SCION dst for mapping
 }
 
 type PathStatistics struct {
@@ -33,7 +35,7 @@ type PathStatistics struct {
 	MaxRTT         float64   // max rtt across all paths
 	MinHops        int       // min # of hops across all paths
 	MaxHops        int       // max # of hops across all paths
-	LookupTime     time.Time // time ping results were stored
+	LookupTime     *time.Time // time ping results were stored
 	ActivePaths    int       // # of active paths (got echo reply)
 	ProbedPaths    int       // # of probed paths (sent echo request)
 	AvailablePaths int       // # of known paths

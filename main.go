@@ -7,7 +7,6 @@ import (
 	"net/netip"
 	"os"
 	"os/signal"
-	"strings"
 	"syscall"
 	"time"
 
@@ -26,17 +25,16 @@ func main() {
 	}
 	Log.Info("Go multiping version: ", versionString)
 
-	dia := addr.MustIAFrom(addr.ISD(71), addr.AS(559))
-	dhost := net.UDPAddr{IP: net.ParseIP("10.10.0.1"), Port: 30041}
-	remote := snet.UDPAddr{IA: dia, Host: &dhost}
-	destIAs := []snet.UDPAddr{remote, {IA: addr.MustIAFrom(addr.ISD(71), addr.AS(8589934666)), Host: &dhost}}
+	var localSCIONAddress *snet.UDPAddr
+	var localIPAddress *net.UDPAddr
+	destIAs := []snet.UDPAddr{}
 
 	hc, err := initHostContext()
 	if err != nil {
 		Log.Debug("Failed init: ", err)
 		os.Exit(1)
 	}
-	args := os.Args
+	var remotes *Destinations
 	ipDestinations := []string{}
 
 	remotesFile := "remotes.json"
@@ -47,32 +45,10 @@ func main() {
 
 	// Check if remotesFile exist
 	if _, err := os.Stat(remotesFile); os.IsNotExist(err) {
-		if len(args) < 2 {
-			Log.Warn("Run with arguments: ./bin/scion-go-multiping \"dest-ia-addr-1 dest-ia-2 ... dest-ia-addr-n\"")
-			Log.Warn("Running with default values.")
-			//os.Exit(0)
-		} else {
-			Log.Info("Received args: ", args)
-			var destinationIAs []snet.UDPAddr
-			for _, destAddr := range strings.Split(args[1], " ") {
-				dAddr, err := addr.ParseAddr(destAddr)
-				if err != nil {
-					Log.Info("Invalid destination: ", dAddr, " error: ", err)
-					os.Exit(1)
-				}
-				if dAddr.IA == hc.ia {
-					Log.Debug("Not probing local AS: ", dAddr.IA)
-					continue
-				}
-				destinationIAs = append(destinationIAs, snet.UDPAddr{IA: dAddr.IA, Host: &net.UDPAddr{
-					IP:   dAddr.Host.IP().AsSlice(),
-					Port: 30041,
-				}})
-			}
-			destIAs = destinationIAs
-		}
+		Log.Error("Remotes file does not exist: ", remotesFile)
+		os.Exit(1)
 	} else {
-		remotes, err := parseRemotesJSON(remotesFile)
+		remotes, err = parseRemotesJSON(remotesFile)
 		if err != nil {
 			Log.Error("Error parsing remotes file: ", err)
 			os.Exit(1)
@@ -182,7 +158,7 @@ func main() {
 	Log.Info("Started best probe ticker")
 
 	// Ping IP destinations
-	go pingIPDestinations(prober, ipDestinations)
+	go pingIPDestinations(prober, remotes.SCIONDestinations, localIPAddress, localSCIONAddress)
 
 	Log.Info("Starting cron to write daily databases...")
 	go dailyDatabaseUpdate(prober)
@@ -265,7 +241,7 @@ func getDispatcherPath() string {
 	return ""
 }
 
-func pingIPDestinations(prober *PathProber, destinations []string) error {
+func pingIPDestinations(prober *PathProber, destinations []SCIONDestination, localAddr *net.UDPAddr, localSCIONAddr *snet.UDPAddr) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -274,9 +250,10 @@ func pingIPDestinations(prober *PathProber, destinations []string) error {
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 
-	hc := host()
-	localIp := net.UDPAddr{IP: getSaddr(hc.hostInLocalAS), Port: 0}.IP.String()
-
+	//hc := host()
+	//localIp := net.UDPAddr{IP: getSaddr(hc.hostInLocalAS), Port: 0}.IP.String()
+	localIpStr := localAddr.IP.String()
+	localSCIONAddrStr := localSCIONAddr.String()
 	// We can only use one pinger here otherwise the raw sockets confuse their packets somehow?
 	p, err := NewPinger(1)
 	if err != nil {
@@ -286,6 +263,11 @@ func pingIPDestinations(prober *PathProber, destinations []string) error {
 	for range ticker.C {
 		for _, dest := range destinations {
 			dest := dest // Capture range variable
+
+			if dest.IpAddress == localIpStr {
+				Log.Debug("Skipping local IP ", dest.IpAddress)
+				continue
+			}
 
 			g.Go(func() error {
 				select {
@@ -297,7 +279,7 @@ func pingIPDestinations(prober *PathProber, destinations []string) error {
 					pinger := p // pingers[dest]
 					successChan := make(chan bool)
 					timeChan := time.After(700 * time.Millisecond)
-					err := pinger.Send(dest, func(ipUpdate IpUpdate) {
+					err := pinger.Send(dest.IpAddress, func(ipUpdate IpUpdate) {
 						Log.Debug("Received IP Update ", u)
 						u = ipUpdate
 						successChan <- true
@@ -320,12 +302,15 @@ func pingIPDestinations(prober *PathProber, destinations []string) error {
 					if err == nil && diff < 1 {
 						Log.Debug("Skipping local ping result, probably the same host")
 					} else {
+						t := time.Now().UTC()
 						result := IPPingResult{
-							DstAddr:  dest,
-							SrcAddr:  localIp,
-							Success:  err == nil && success,
-							RTT:      float64(diff.Milliseconds()),
-							PingTime: time.Now().UTC(),
+							DstAddr:      dest.IpAddress,
+							SrcAddr:      localIpStr,
+							SrcSCIONAddr: localSCIONAddrStr,
+							DstSCIONAddr: dest.Address,
+							Success:      err == nil && success,
+							RTT:          float64(diff.Milliseconds()),
+							PingTime:     &t,
 						}
 
 						err = prober.Exporter.WriteIPPingResult(result)

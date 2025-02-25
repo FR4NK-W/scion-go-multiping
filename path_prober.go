@@ -318,7 +318,7 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 		MaxRTT:         float64(maxRTT),
 		MinHops:        minHops,
 		MaxHops:        maxHops,
-		LookupTime:     lookuptime,
+		LookupTime:     &lookuptime,
 		ActivePaths:    successCount,
 		ProbedPaths:    len(result.Paths),
 		AvailablePaths: len(pb.destinations[destIsdAS].PathStates),
@@ -523,7 +523,7 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 				Success:         successCount > 0,
 				RTT:             float64(minRTT),
 				Fingerprint:     minRTTPathFingerPrint,
-				PingTime:        pingtime,
+				PingTime:        &pingtime,
 				SuccessfulPings: successCount,
 				MaxPings:        len(probeResult.Paths),
 			}
