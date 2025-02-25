@@ -45,10 +45,22 @@ type PathStatistics struct {
 	AvailablePaths int        // # of known paths
 }
 
+type PathMeasurement struct {
+	SrcSCIONAddr string // SCION src
+	DstSCIONAddr string // SCION dst
+	Path         string // interface description of the path, comma separated
+	Fingerprint  string
+	LookupTime   *time.Time // time ping results were stored
+	Success      bool
+	RTT          float64
+	Hops         int
+}
+
 type DataExporter interface {
 	InitDaily() error
 	Close() error
 	WritePingResult(PingResult) error
 	WriteIPPingResult(IPPingResult) error
 	WritePathStatistic(PathStatistics) error
+	WritePathMeasurement(PathMeasurement) error
 }

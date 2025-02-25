@@ -12,17 +12,22 @@ import (
 	"gorm.io/gorm"
 )
 
+// Check if SQLIteExporter implements Exporter
+var _ DataExporter = (*SQLiteExporter)(nil)
+
 type SQLiteExporter struct {
-	DbPath              string
-	originalDbPath      string
-	db                  *gorm.DB
-	scionPings          []PingResult
-	pathStatistics      []PathStatistics
-	ipPings             []IPPingResult
-	scionMutex          sync.Mutex
-	ipMutex             sync.Mutex
-	pathStatisticsMutex sync.Mutex
-	batchSize           int
+	DbPath               string
+	originalDbPath       string
+	db                   *gorm.DB
+	scionPings           []PingResult
+	pathStatistics       []PathStatistics
+	pathMeasurements     []PathMeasurement
+	ipPings              []IPPingResult
+	scionMutex           sync.Mutex
+	ipMutex              sync.Mutex
+	pathStatisticsMutex  sync.Mutex
+	pathMeasurementMutex sync.Mutex
+	batchSize            int
 }
 
 func NewSQLiteExporter() *SQLiteExporter {
@@ -78,7 +83,7 @@ func (exporter *SQLiteExporter) InitDaily() error {
 		return err
 	}
 
-	err = db.AutoMigrate(&PingResult{}, &PathStatistics{}, &IPPingResult{})
+	err = db.AutoMigrate(&PingResult{}, &PathStatistics{}, &IPPingResult{}, &PathMeasurement{})
 	if err != nil {
 		return err
 	}
@@ -111,7 +116,6 @@ func (exporter *SQLiteExporter) Close() error {
 func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) error {
 	exporter.pathStatisticsMutex.Lock()
 	defer exporter.pathStatisticsMutex.Unlock()
-	Log.Debugf("fingerprints: %s, paths: %s\n", statistic.Fingerprints, statistic.Paths)
 
 	if exporter.batchSize == 1 {
 		dbResult := exporter.db.Create(&statistic)
@@ -135,7 +139,6 @@ func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) err
 
 func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
 
-	Log.Debugf("fingerprints: %s\n", result.Fingerprint)
 	exporter.scionMutex.Lock()
 	defer exporter.scionMutex.Unlock()
 
@@ -178,6 +181,30 @@ func (exporter *SQLiteExporter) WriteIPPingResult(result IPPingResult) error {
 			return dbResult.Error
 		}
 		exporter.ipPings = nil
+	}
+
+	return nil
+}
+
+func (exporter *SQLiteExporter) WritePathMeasurement(measurement PathMeasurement) error {
+	exporter.pathMeasurementMutex.Lock()
+	defer exporter.pathMeasurementMutex.Unlock()
+
+	if exporter.batchSize == 1 {
+		dbResult := exporter.db.Create(&measurement)
+		if dbResult.Error != nil {
+			return dbResult.Error
+		}
+		return nil
+	}
+
+	exporter.pathMeasurements = append(exporter.pathMeasurements, measurement)
+	if len(exporter.pathMeasurements) >= exporter.batchSize {
+		dbResult := exporter.db.Create(&exporter.pathMeasurements)
+		exporter.pathMeasurements = nil // Clear the slice after flushing
+		if dbResult.Error != nil {
+			return dbResult.Error
+		}
 	}
 
 	return nil

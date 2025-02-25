@@ -306,6 +306,24 @@ func (pb *PathProber) Probe(destIsdAS string) (*DestinationProbeResult, error) {
 		}
 		pathStrings = append(pathStrings, interfacesString)
 		pathFingerprints = append(pathFingerprints, path.Fingerprint)
+
+		pm := PathMeasurement{
+			SrcSCIONAddr: fmt.Sprintf("%s,%s", pb.localIA.String(), pb.localAddr.String()),
+			DstSCIONAddr: destIsdAS,
+			Path:         interfacesString,
+			Fingerprint:  path.Fingerprint,
+			LookupTime:   &lookuptime,
+			Success:      path.RTT > 0,
+			RTT:          float64(path.RTT),
+			Hops:         len(path.Path.Metadata().Interfaces),
+		}
+
+		err = pb.Exporter.WritePathMeasurement(pm)
+		if err != nil {
+			Log.Error("Error writing path measurement for ", destIsdAS, ":", err)
+			return nil, err
+		}
+
 	}
 
 	ps := PathStatistics{
