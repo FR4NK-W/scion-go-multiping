@@ -501,30 +501,50 @@ func (pb *PathProber) ProbeBest() (*PathProbeResult, error) {
 			if err != nil {
 				return err
 			}
-			minRTT := int64(1000000)
-			successCount := 0
 
 			Log.Debug("Probed ", destAddrStr, " got entries ", len(probeResult.Paths))
-			var minRTTPathFingerPrint string
+
+			var rtts []int64
+			var fingerprints []string
+
 			for _, path := range probeResult.Paths {
-				Log.Debug("Path1 ", path.Path, " has RTT ", path.RTT)
+				Log.Debug("Path ", path.Path, " has RTT ", path.RTT)
 				if path.RTT > 0 {
-					successCount++
-					if path.RTT < minRTT {
-						minRTT = path.RTT
-						minRTTPathFingerPrint = path.Fingerprint
+					rtts = append(rtts, path.RTT)
+					fingerprints = append(fingerprints, path.Fingerprint)
+				}
+			}
+
+			// Sort RTTs and fingerprints based on RTT values (ascending order)
+			if len(rtts) > 1 {
+				for i := 0; i < len(rtts)-1; i++ {
+					for j := i + 1; j < len(rtts); j++ {
+						if rtts[j] < rtts[i] {
+							rtts[i], rtts[j] = rtts[j], rtts[i]
+							fingerprints[i], fingerprints[j] = fingerprints[j], fingerprints[i]
+						}
 					}
 				}
+			}
+
+			// Ensure there are at least 3 values, filling with 0 or empty string if necessary
+			for len(rtts) < 3 {
+				rtts = append(rtts, 0)
+				fingerprints = append(fingerprints, "")
 			}
 
 			pr := PingResult{
 				SrcSCIONAddr:    fmt.Sprintf("%s,%s", pb.localIA.String(), pb.localAddr.String()),
 				DstSCIONAddr:    destAddrStr,
-				Success:         successCount > 0,
-				RTT:             float64(minRTT),
-				Fingerprint:     minRTTPathFingerPrint,
+				Success:         len(rtts) > 0,
+				RTT:             float64(rtts[0]),
+				RTT2:            float64(rtts[1]),
+				RTT3:            float64(rtts[2]),
+				Fingerprint:     fingerprints[0],
+				Fingerprint2:    fingerprints[1],
+				Fingerprint3:    fingerprints[2],
 				PingTime:        &pingtime,
-				SuccessfulPings: successCount,
+				SuccessfulPings: len(rtts),
 				MaxPings:        len(probeResult.Paths),
 			}
 			err = pb.Exporter.WritePingResult(pr)
