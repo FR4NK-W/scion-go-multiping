@@ -1,0 +1,5 @@
+- [x] Collect RTT, path as string representation and success yes/no of all three paths for each SCION ping, not only for the best
+- [x] Add a path_metrics table that contains: time, src_scion_addr, dst_scion_addr, path_index, path_fingerprint, path_status, rtt, hops. This will be filled from the data collected every 60 seconds and should give us a detailed overview over the networks changes and connectivity.
+    -> This should more focus on e.g. calculating path stretch, disjointness, figuring out development over time etc where the pings are more about reliability, RTT etc
+- [x] Add scion_src and scion_dst addresses to IP pings so that we can easily map this later
+- [x] Change time.Time to *time.Time in gorm so that columns have the right type in Postgres

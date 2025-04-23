@@ -9,6 +9,7 @@ import (
 
 type SCIONDestination struct {
 	Address      string `json:"address"`
+	IpAddress    string `json:"ip_address"`
 	Name         string `json:"name"`
 	ScionVersion string `json:"scion_version"`
 }
