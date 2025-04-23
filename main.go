@@ -25,8 +25,13 @@ func main() {
 	}
 	Log.Info("Go multiping version: ", versionString)
 
+	// Don't use the addresses from the host context because we want to obtain
+	// the local addresses from the "remotes.json" file to have a consistent
+	// mapping of the local addresses. E.g. for UVA, we have a public IP that can be pinged
+	// But the local address obtained from the host context is 127.0.01.
 	var localSCIONAddress *snet.UDPAddr
 	var localIPAddress *net.UDPAddr
+
 	destIAs := []snet.UDPAddr{}
 
 	hc, err := initHostContext()
@@ -63,6 +68,17 @@ func main() {
 			}
 			if dAddr.IA == hc.ia {
 				Log.Debug("Not probing local AS: ", dAddr.IA)
+
+				// Set localSCIONAddress to the SCION destination of this AS
+				// This results in the same src/dst address for the pinger and makes mapping
+				// Of results easier in the end, we don't need to map the local address
+				localSCIONAddress = &snet.UDPAddr{IA: dAddr.IA, Host: &net.UDPAddr{
+					IP:   dAddr.Host.IP().AsSlice(),
+					Port: 30041,
+				}}
+
+				// Same for the local IP address.
+				localIPAddress = &net.UDPAddr{IP: dAddr.Host.IP().AsSlice(), Port: 0}
 				continue
 			}
 			destinationIAs = append(destinationIAs, snet.UDPAddr{IA: dAddr.IA, Host: &net.UDPAddr{
