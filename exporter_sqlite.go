@@ -119,19 +119,14 @@ func (exporter *SQLiteExporter) WritePathStatistic(statistic PathStatistics) err
 
 	if exporter.batchSize == 1 {
 		dbResult := exporter.db.Create(&statistic)
-		if dbResult.Error != nil {
-			return dbResult.Error
-		}
-		return nil
+		return dbResult.Error
 	}
 
 	exporter.pathStatistics = append(exporter.pathStatistics, statistic)
 	if len(exporter.pathStatistics) >= exporter.batchSize {
 		dbResult := exporter.db.Create(&exporter.pathStatistics)
 		exporter.pathStatistics = nil // Clear the slice after flushing
-		if dbResult.Error != nil {
-			return dbResult.Error
-		}
+		return dbResult.Error
 	}
 
 	return nil
@@ -144,10 +139,7 @@ func (exporter *SQLiteExporter) WritePingResult(result PingResult) error {
 
 	if exporter.batchSize == 1 {
 		dbResult := exporter.db.Create(&result)
-		if dbResult.Error != nil {
-			return dbResult.Error
-		}
-		return nil
+		return dbResult.Error
 	}
 
 	exporter.scionPings = append(exporter.scionPings, result)
@@ -168,19 +160,13 @@ func (exporter *SQLiteExporter) WriteIPPingResult(result IPPingResult) error {
 
 	if exporter.batchSize == 1 {
 		dbResult := exporter.db.Create(&result)
-		if dbResult.Error != nil {
-			return dbResult.Error
-		}
-		return nil
+		return dbResult.Error
 	}
 
 	exporter.ipPings = append(exporter.ipPings, result)
 	if len(exporter.ipPings) >= exporter.batchSize {
 		dbResult := exporter.db.Create(&exporter.ipPings)
-		if dbResult.Error != nil {
-			return dbResult.Error
-		}
-		exporter.ipPings = nil
+		return dbResult.Error
 	}
 
 	return nil
@@ -192,19 +178,14 @@ func (exporter *SQLiteExporter) WritePathMeasurement(measurement PathMeasurement
 
 	if exporter.batchSize == 1 {
 		dbResult := exporter.db.Create(&measurement)
-		if dbResult.Error != nil {
-			return dbResult.Error
-		}
-		return nil
+		return dbResult.Error
 	}
 
 	exporter.pathMeasurements = append(exporter.pathMeasurements, measurement)
 	if len(exporter.pathMeasurements) >= exporter.batchSize {
 		dbResult := exporter.db.Create(&exporter.pathMeasurements)
 		exporter.pathMeasurements = nil // Clear the slice after flushing
-		if dbResult.Error != nil {
-			return dbResult.Error
-		}
+		return dbResult.Error
 	}
 
 	return nil
