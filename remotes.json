@@ -1,12 +1,6 @@
 {
     "scion_destinations": [
         {
-            "ip_address": "129.132.230.98",
-            "address": "64-2:0:9,129.132.230.98",
-            "name": "ETHZ",
-            "scion_version": "v0.11.0 / Open Source"
-        },
-        {
             "address": "71-225,127.0.0.1",
             "name": "UVA",
             "scion_version": "v0.12.0 / Open Source"
@@ -28,18 +22,6 @@
             "address": "71-20965,10.0.2.1",
             "name": "GEANT Frankfurt 1",
             "scion_version": "v0.11.0 / Anapaya"
-        },
-        {
-            "ip_address": "128.112.49.68",
-            "address": "71-88,127.0.0.1",
-            "name": "Princeton",
-            "scion_version": "v0.12.0 / Open Source"
-        },
-        {
-            "ip_address": "137.132.22.29",
-            "address": "71-2:0:18,192.168.1.1",
-            "name": "SEC Singapore",
-            "scion_version": "v0.10.0 / Open Source"
         },
         {
             "address": "71-2:0:4a,141.44.25.151",

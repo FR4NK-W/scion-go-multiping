@@ -74,7 +74,7 @@ func main() {
 				// Of results easier in the end, we don't need to map the local address
 				localSCIONAddress = &snet.UDPAddr{IA: dAddr.IA, Host: &net.UDPAddr{
 					IP:   dAddr.Host.IP().AsSlice(),
-					Port: 30041,
+					Port: 0,
 				}}
 
 				// Same for the local IP address.
