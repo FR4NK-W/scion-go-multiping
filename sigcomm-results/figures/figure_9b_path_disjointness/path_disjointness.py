@@ -89,7 +89,7 @@ def compute_path_disjointness(paths):
 def plot_cdf(path_disjointness_list):
     # Sort the disjointness values
     sorted_disjointness = np.sort(path_disjointness_list)
-    print(sorted_disjointness)
+    # print(sorted_disjointness)
     
     # Compute CDF values
     cdf = np.arange(1, len(sorted_disjointness) + 1) / len(sorted_disjointness)
@@ -106,7 +106,7 @@ def plot_cdf(path_disjointness_list):
     # plt.title('CDF of Path Disjointness between Inter-AS Combinations')
     plt.grid(True)
     plt.savefig("path_disjointness.pdf")
-    plt.show()
+    # plt.show()
 
 if __name__ == "__main__":
     # Step 1: Load the JSON file

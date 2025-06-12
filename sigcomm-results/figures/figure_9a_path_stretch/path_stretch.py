@@ -56,7 +56,7 @@ def compute_path_stretch(paths):
         
         if shortest_path_rtt > 0:  # Avoid division by zero
             stretch = second_shortest_path_rtt / shortest_path_rtt
-            print(f"AS Pair: {as_pair}, Stretch: {stretch}, dividing {second_shortest_path_rtt} by {shortest_path_rtt}")
+            # print(f"AS Pair: {as_pair}, Stretch: {stretch}, dividing {second_shortest_path_rtt} by {shortest_path_rtt}")
             path_stretch_list.append(stretch)
     
     return path_stretch_list
@@ -82,7 +82,7 @@ def plot_cdf(path_stretch_list):
     plt.xticks([0.5, 1, 1.5, 2, 2.5, 3])
     plt.grid(True)
     plt.savefig("path_stretch.pdf")
-    plt.show()
+    # plt.show()
 
 if __name__ == "__main__":
     # Step 1: Load the JSON file

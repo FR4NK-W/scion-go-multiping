@@ -1,8 +1,3 @@
-# Figure 5 - Ping Latency
-
-To reconstruct this figure, following query need to be executed against our dataset and the results need to be stored into `scion_ping_histo_binned.csv`.
-
-```sql
 WITH params AS (
     SELECT 0 AS rtt_min, 400 AS rtt_max, 400/10 AS bucket_count
 ),
@@ -19,11 +14,9 @@ WITH params AS (
  FROM bucketed b, params p
  GROUP BY rtt_bucket, lower_bound
  ORDER BY rtt_bucket;
-```
 
-Next, the following query need to be executed against our dataset and the results need to be stored into `ip_ping_histo_binned.csv`.
 
-```sql
+
  WITH params AS (
     SELECT 0 AS rtt_min, 400 AS rtt_max, 400/10 AS bucket_count
 ),
@@ -40,6 +33,3 @@ Next, the following query need to be executed against our dataset and the result
  FROM bucketed b, params p
  GROUP BY rtt_bucket, lower_bound
  ORDER BY rtt_bucket;
-```
-
-Next, the `plot_histogram.py` command needs to be executed to generate the plot under `sciera_hist_norm_cdf.pdf`.

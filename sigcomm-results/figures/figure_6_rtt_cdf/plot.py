@@ -51,7 +51,7 @@ def plot_cdf():
 
     plt.tight_layout(rect=[0, 0, 1, 1])  # Adjust layout to fit title
     plt.savefig("rtt_ratio_cdf.pdf")
-    plt.show()
+    # plt.show()
 
 if __name__ == "__main__":
     plot_cdf()

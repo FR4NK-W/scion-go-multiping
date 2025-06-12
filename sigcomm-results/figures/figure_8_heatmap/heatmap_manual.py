@@ -28,7 +28,7 @@ def plot_heatmap(csv_file, x_order=None, y_order=None):
     plt.yticks(rotation=0, fontsize=12)
     plt.tight_layout()
     plt.savefig("heatmap_manual.pdf")
-    plt.show()
+    # plt.show()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Plot SCION AS heatmap with custom axis order.")

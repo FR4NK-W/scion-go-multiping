@@ -29,7 +29,7 @@ def average_simulation_results(file_paths):
 
     # Average the values
     average_as_with_path = cumulative_as_with_path / len(all_simulations)
-    print(average_as_with_path)
+    # print(average_as_with_path)
     # Return the averaged results
     return percentages_links_removed, average_as_with_path
 
