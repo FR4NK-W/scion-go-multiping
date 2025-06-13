@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-mpl.rcParams['axes.labelsize'] = 16
+mpl.rcParams['axes.labelsize'] = 18
 plt.rcParams['text.usetex'] = True
 
 
@@ -106,11 +106,12 @@ plt.tight_layout()
 
 ax_padding = 5
 fig, ax = get_axis({"xlabel": "RTT (ms)",
-                    "ylabel": "Proportion of Pings (%)",
+                    "ylabel": "Proportion of Pings (\\%)",
                #     "title": "CDF of SCION vs IP Ping Latency",
                     "xlim": [-ax_padding, rtt_cutoff + ax_padding],
                     "ylim": [-ax_padding, 100+ax_padding]}) #, size=(12, 6))
 
+ax.tick_params(axis='both', labelsize=14)
 
 ax.plot(df_scion['rtt'], np.cumsum(df_scion["ping_count_norm"]), label='SCION')
 ax.plot(df_ip['rtt'], np.cumsum(df_ip["ping_count_norm"]), label='IP', linestyle='--')
@@ -128,7 +129,7 @@ ax.vlines(x=158, ymin=-5, ymax=50, color='red', linestyle='dotted')
 
 #ax.plot(df_scion.rtt, np.cumsum(df_scion["ping_count_norm"] - df_ip.ping_count_norm))
 
-ax.legend(fontsize=12)
+ax.legend(fontsize=18)
 plt.tight_layout()
 
 fig.savefig("sciera_hist_norm_cdf.png", dpi=600, bbox_inches="tight", transparent=True)
