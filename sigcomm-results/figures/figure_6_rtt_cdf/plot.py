@@ -22,9 +22,9 @@ def plot_cdf():
     ax = sns.lineplot(x=sorted_ratios, y=cdf, marker="o", linestyle="-", color="blue", ax=ax1)
     ax = sns.lineplot(x=sorted_ratios, y=cdf, marker="o", linestyle="-", color="blue", ax=ax2)
 
-    ax1.set_xlim(0, 2)
-    ax2.set_xlim(3.0, 3.5)
-    ax2.set_xticks([3.0, 3.25,3.5])
+    ax1.set_xlim(0, 2.5)
+    ax2.set_xlim(3, 3.5)
+    ax2.set_xticks([3.0, 3.5])
     d = .5  # proportion of vertical to horizontal extent of the slanted line
     kwargs = dict(marker=[(-d, -1), (d, 1)], markersize=12,
                   linestyle="none", color='k', mec='k', mew=1, clip_on=False)
