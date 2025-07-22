@@ -52,19 +52,7 @@ def compute_path_disjointness(paths):
         if len(path_list) < 2:
             # If there's only one path between the ASes, we cannot calculate disjointness
             continue
-        
-        # Compare each pair of paths for disjointness
-        #for i in range(len(path_list)):
-        #    for j in range(i + 1, len(path_list)):
-        #        interfaces1 = path_list[i]['interfaces']
-        #        interfaces2 = path_list[j]['interfaces']
-                
-                # Calculate disjointness between the two paths
-        #        disjointness = calculate_disjointness(interfaces1, interfaces2)
-        #        if disjointness < 0.5:
-        #            print(f"AS Pair: {as_pair}, Disjointness: {disjointness}")
-        #        path_disjointness_list.append(disjointness)
-        # Calculate disjointness for each AS pair
+    
         
         disjointness_values = []
         
