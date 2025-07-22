@@ -46,8 +46,8 @@ def get_mean(df, bin_width):
 # Define bucket width (in ms)
 bucket_width = 10
 
-df_scion = pd.read_csv("scion_ping_histo_binned.csv").rename(columns={'lower_bound': 'rtt'})
-df_ip = pd.read_csv("ip_ping_histo_binned.csv").rename(columns={'lower_bound': 'rtt'})
+df_scion = pd.read_csv("new_scion_pings_per_hour_final.csv").rename(columns={'lower_bound': 'rtt'})
+df_ip = pd.read_csv("new_ip_pings_per_hour_final.csv").rename(columns={'lower_bound': 'rtt'})
 
 df_scion["ping_count_norm"] = normalize(df_scion, "ping_count")
 df_ip["ping_count_norm"] = normalize(df_ip, "ping_count")
@@ -100,8 +100,8 @@ ax.legend(fontsize=14)
 ax.grid(**grid_props)
 plt.tight_layout()
 
-#fig.savefig("sciera_hist_norm_grouped.png", dpi=600, bbox_inches="tight", transparent=True)
-#fig.savefig("sciera_hist_norm_grouped.pdf", bbox_inches="tight")
+fig.savefig("sciera_hist_norm_grouped.png", dpi=600, bbox_inches="tight", transparent=True)
+fig.savefig("sciera_hist_norm_grouped.pdf", bbox_inches="tight")
 
 
 ax_padding = 5

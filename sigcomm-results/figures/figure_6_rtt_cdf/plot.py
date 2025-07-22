@@ -6,7 +6,7 @@ from brokenaxes import brokenaxes
 
 def plot_cdf():
     # Load merged data
-    df = pd.read_csv("merged_pings.csv")
+    df = pd.read_csv("merged_pings_filtered.csv")
     
     # Drop rows where avg_ip is missing
     df = df.dropna(subset=['avg_ip'])
