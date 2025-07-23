@@ -18,8 +18,19 @@ def plot_heatmap(csv_file, x_order=None, y_order=None):
     
     plt.figure(figsize=(7, 5))
     
-    # Plot heatmap with increased font sizes
-    sns.heatmap(df_pivot, cmap="Oranges", annot=True, fmt=".0f", cbar=False, annot_kws={"size": 12})
+    # Get a copy of the "Oranges" colormap. It's good practice to work on a copy.
+    cmap = plt.get_cmap("Oranges").copy()
+    
+    # Set the color for values that are "under" the minimum range to white.
+    cmap.set_under('white')
+    
+    # Plot the heatmap.
+    # By setting `vmin` to a small positive number, all cells with a value of 0 
+    # will be treated as "under" the range and colored white.
+    # Since your data is rounded to 2 decimal places, the smallest non-zero value is 0.01.
+    # A vmin of 0.001 is a safe choice.
+    sns.heatmap(df_pivot, cmap=cmap, annot=True, fmt=".0f", cbar=False, 
+                annot_kws={"size": 12}, vmin=0.001)
     
     # plt.title("Max. Number of Active Paths", fontsize=16, fontweight='bold')
     plt.xlabel("Destination SCION AS", fontsize=14)

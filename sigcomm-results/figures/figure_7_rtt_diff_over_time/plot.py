@@ -117,7 +117,7 @@ def plot_with_regular_average():
     merged_df_hourly["smoothed_rtt_ratio"] = gaussian_filter1d(merged_df_hourly["rtt_ratio"], sigma=2)
     
     plt.figure(figsize=(6, 4.4))
-    sns.lineplot(data=merged_df_hourly, x="hour", y="smoothed_rtt_ratio", label="SCION/IP RTT Ratio (Regular Avg)", linestyle="-")
+    sns.lineplot(data=merged_df_hourly, x="hour", y="smoothed_rtt_ratio", label="SCION/IP RTT Ratio", linestyle="-")
     
     plt.axhline(y=1, color='red', linestyle='--', label="IP Baseline")
     plt.xlabel("Date", fontsize=14)

@@ -85,7 +85,7 @@ def plot_stretch_cdf(path_stretch_list):
     
     plt.plot(sorted_stretch, cdf, linestyle='-')
     
-    plt.xlabel('Path Stretch', fontsize=14)
+    plt.xlabel('Latency Inflation', fontsize=14)
     plt.ylabel('CDF of Source/Destination Pairs', fontsize=14)
     plt.tick_params(axis='both', which='major', labelsize=12)
     plt.tight_layout()
@@ -96,7 +96,7 @@ def plot_stretch_cdf(path_stretch_list):
     plt.grid(True)
     
     # Save the plot to a file
-    plt.savefig("path_stretch_cdf.pdf")
+    plt.savefig("latency_inflation.pdf")
     # plt.show() # Uncomment to display the plot directly
 
 if __name__ == "__main__":

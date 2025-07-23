@@ -29,7 +29,7 @@ plt.rcParams['text.usetex'] = True
 # GROUP BY rtt_bucket, lower_bound
 # ORDER BY rtt_bucket;
 
-def get_axis(axes_props, size=(12, 6)):
+def get_axis(axes_props, size=(8, 4)):
     fig, ax = plt.subplots(figsize=size)
     ax.set(**axes_props)
     return fig, ax
@@ -118,14 +118,19 @@ ax.plot(df_ip['rtt'], np.cumsum(df_ip["ping_count_norm"]), label='IP', linestyle
 ax.grid(**grid_props)
 
 #ax.annotate(text='SCION', xy=(156, 50), marker='x')
-ax.plot([158], [50], marker='x', color='red')
-ax.plot([128.5], [50], marker='x', color='red')
+ax.plot([167], [60], marker='x', color='red')
+ax.plot([227], [60], marker='x', color='red')
+ax.hlines(y=60, xmin=-5, xmax=227, color='red', linestyle='dotted')
+ax.vlines(x=167, ymin=-5, ymax=60, color='red', linestyle='dotted')
+ax.vlines(x=227, ymin=-5, ymax=60, color='red', linestyle='dotted')
 
 
-ax.hlines(y=50, xmin=-5, xmax=156, color='red', linestyle='dotted')
 
-ax.vlines(x=128, ymin=-5, ymax=50, color='red', linestyle='dotted')
-ax.vlines(x=158, ymin=-5, ymax=50, color='red', linestyle='dotted')
+ax.plot([285], [90], marker='x', color='green')
+ax.plot([375], [90], marker='x', color='green')
+ax.hlines(y=90, xmin=-5, xmax=375, color='green', linestyle='dotted')
+ax.vlines(x=285, ymin=-5, ymax=90, color='green', linestyle='dotted')
+ax.vlines(x=375, ymin=-5, ymax=90, color='green', linestyle='dotted')
 
 #ax.plot(df_scion.rtt, np.cumsum(df_scion["ping_count_norm"] - df_ip.ping_count_norm))
 
