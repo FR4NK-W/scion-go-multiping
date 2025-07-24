@@ -136,11 +136,11 @@ def plot_with_regular_average():
 
 if __name__ == "__main__":
     # Generate the plot using the weighted average method
-    plot_with_weighted_average()
+    # plot_with_weighted_average()
     
     # Generate the plot using the regular average (mean) method
     plot_with_regular_average()
 
-    print("Two plot files have been generated:")
-    print("1. rtt_ratio_time_scaled_weighted_avg.pdf")
+    print("One plot file has been generated:")
+    # print("1. rtt_ratio_time_scaled_weighted_avg.pdf")
     print("2. rtt_ratio_time_scaled_regular_avg.pdf")

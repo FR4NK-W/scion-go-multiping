@@ -1,5 +1,12 @@
-# Figure 9a - Path Stretch
+# Figure 10a - Path Latency Inflation
 
-To generate the path stretch figure, the required data is a result of isolated `showpaths` measurements from different hosts in SCIERA. The JSON output can be enabled via `--json` and the outputs of different hosts were concatenated into `combined_paths_with_rtt.json`.
+At first, store the output of this query into `path_stretch.csv`:
+
+```sql
+SELECT pr.fingerprint, pr.src_scion_addr, pr.dst_scion_addr, avg(pr.rtt) FROM ping_results pr
+
+WHERE pr.src_scion_addr NOT IN  ( '71-2:0:35,192.168.1.1:0') AND pr.success = true and pr.RTT > 0 AND pr.ping_time_new < '2025-02-08'
+GROUP BY pr.fingerprint, pr.src_scion_addr, pr.dst_scion_addr
+```
 
 With this file, the path stretch plot can be generated running `path_stretch.py`.
