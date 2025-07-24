@@ -1,0 +1,326 @@
+[
+    {
+        "percentage_links_removed": 0.0,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 1.9230769230769231,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 3.8461538461538463,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 5.769230769230769,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 7.6923076923076925,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 9.615384615384617,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 11.538461538461538,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 13.461538461538462,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 15.384615384615385,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 17.307692307692307,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 19.230769230769234,
+        "percentage_as_with_path": 100.0
+    },
+    {
+        "percentage_links_removed": 21.153846153846153,
+        "percentage_as_with_path": 93.05555555555556
+    },
+    {
+        "percentage_links_removed": 23.076923076923077,
+        "percentage_as_with_path": 81.94444444444444
+    },
+    {
+        "percentage_links_removed": 25.0,
+        "percentage_as_with_path": 81.94444444444444
+    },
+    {
+        "percentage_links_removed": 26.923076923076923,
+        "percentage_as_with_path": 81.94444444444444
+    },
+    {
+        "percentage_links_removed": 28.846153846153843,
+        "percentage_as_with_path": 81.94444444444444
+    },
+    {
+        "percentage_links_removed": 30.76923076923077,
+        "percentage_as_with_path": 77.77777777777779
+    },
+    {
+        "percentage_links_removed": 32.69230769230769,
+        "percentage_as_with_path": 77.77777777777779
+    },
+    {
+        "percentage_links_removed": 34.61538461538461,
+        "percentage_as_with_path": 77.77777777777779
+    },
+    {
+        "percentage_links_removed": 36.53846153846153,
+        "percentage_as_with_path": 77.77777777777779
+    },
+    {
+        "percentage_links_removed": 38.46153846153847,
+        "percentage_as_with_path": 77.77777777777779
+    },
+    {
+        "percentage_links_removed": 40.38461538461539,
+        "percentage_as_with_path": 77.77777777777779
+    },
+    {
+        "percentage_links_removed": 42.30769230769231,
+        "percentage_as_with_path": 77.77777777777779
+    },
+    {
+        "percentage_links_removed": 44.230769230769226,
+        "percentage_as_with_path": 77.77777777777779
+    },
+    {
+        "percentage_links_removed": 46.15384615384615,
+        "percentage_as_with_path": 73.61111111111111
+    },
+    {
+        "percentage_links_removed": 48.07692307692308,
+        "percentage_as_with_path": 70.83333333333334
+    },
+    {
+        "percentage_links_removed": 50.0,
+        "percentage_as_with_path": 59.72222222222222
+    },
+    {
+        "percentage_links_removed": 51.92307692307693,
+        "percentage_as_with_path": 59.72222222222222
+    },
+    {
+        "percentage_links_removed": 53.84615384615385,
+        "percentage_as_with_path": 59.72222222222222
+    },
+    {
+        "percentage_links_removed": 55.769230769230774,
+        "percentage_as_with_path": 59.72222222222222
+    },
+    {
+        "percentage_links_removed": 57.692307692307686,
+        "percentage_as_with_path": 40.27777777777778
+    },
+    {
+        "percentage_links_removed": 59.61538461538461,
+        "percentage_as_with_path": 40.27777777777778
+    },
+    {
+        "percentage_links_removed": 61.53846153846154,
+        "percentage_as_with_path": 40.27777777777778
+    },
+    {
+        "percentage_links_removed": 63.46153846153846,
+        "percentage_as_with_path": 34.72222222222222
+    },
+    {
+        "percentage_links_removed": 65.38461538461539,
+        "percentage_as_with_path": 30.555555555555557
+    },
+    {
+        "percentage_links_removed": 67.3076923076923,
+        "percentage_as_with_path": 27.77777777777778
+    },
+    {
+        "percentage_links_removed": 69.23076923076923,
+        "percentage_as_with_path": 20.833333333333336
+    },
+    {
+        "percentage_links_removed": 71.15384615384616,
+        "percentage_as_with_path": 16.666666666666664
+    },
+    {
+        "percentage_links_removed": 73.07692307692307,
+        "percentage_as_with_path": 13.88888888888889
+    },
+    {
+        "percentage_links_removed": 75.0,
+        "percentage_as_with_path": 11.11111111111111
+    },
+    {
+        "percentage_links_removed": 76.92307692307693,
+        "percentage_as_with_path": 8.333333333333332
+    },
+    {
+        "percentage_links_removed": 78.84615384615384,
+        "percentage_as_with_path": 8.333333333333332
+    },
+    {
+        "percentage_links_removed": 80.76923076923077,
+        "percentage_as_with_path": 8.333333333333332
+    },
+    {
+        "percentage_links_removed": 82.6923076923077,
+        "percentage_as_with_path": 8.333333333333332
+    },
+    {
+        "percentage_links_removed": 84.61538461538461,
+        "percentage_as_with_path": 6.944444444444445
+    },
+    {
+        "percentage_links_removed": 86.53846153846155,
+        "percentage_as_with_path": 6.944444444444445
+    },
+    {
+        "percentage_links_removed": 88.46153846153845,
+        "percentage_as_with_path": 6.944444444444445
+    },
+    {
+        "percentage_links_removed": 90.38461538461539,
+        "percentage_as_with_path": 6.944444444444445
+    },
+    {
+        "percentage_links_removed": 92.3076923076923,
+        "percentage_as_with_path": 4.166666666666666
+    },
+    {
+        "percentage_links_removed": 94.23076923076923,
+        "percentage_as_with_path": 2.7777777777777777
+    },
+    {
+        "percentage_links_removed": 96.15384615384616,
+        "percentage_as_with_path": 1.3888888888888888
+    },
+    {
+        "percentage_links_removed": 98.07692307692307,
+        "percentage_as_with_path": 1.3888888888888888
+    },
+    {
+        "percentage_links_removed": 100.0,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 101.92307692307692,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 103.84615384615385,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 105.76923076923077,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 107.6923076923077,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 109.61538461538463,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 111.53846153846155,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 113.46153846153845,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 115.38461538461537,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 117.3076923076923,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 119.23076923076923,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 121.15384615384615,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 123.07692307692308,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 125.0,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 126.92307692307692,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 128.84615384615387,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 130.76923076923077,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 132.69230769230768,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 134.6153846153846,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 136.53846153846155,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 138.46153846153845,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 140.3846153846154,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 142.30769230769232,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 144.23076923076923,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 146.15384615384613,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 148.0769230769231,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 150.0,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 151.9230769230769,
+        "percentage_as_with_path": 0.0
+    },
+    {
+        "percentage_links_removed": 153.84615384615387,
+        "percentage_as_with_path": 0.0
+    }
+]

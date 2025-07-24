@@ -6,7 +6,7 @@ from brokenaxes import brokenaxes
 
 def plot_cdf():
     # Load merged data
-    df = pd.read_csv("merged_pings.csv")
+    df = pd.read_csv("merged_pings_filtered.csv")
     
     # Drop rows where avg_ip is missing
     df = df.dropna(subset=['avg_ip'])
@@ -22,10 +22,10 @@ def plot_cdf():
     ax = sns.lineplot(x=sorted_ratios, y=cdf, marker="o", linestyle="-", color="blue", ax=ax1)
     ax = sns.lineplot(x=sorted_ratios, y=cdf, marker="o", linestyle="-", color="blue", ax=ax2)
 
-    ax1.set_xlim(0, 1.75)
-    ax1.set_xticks([0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75])
-    ax2.set_xlim(1.75, 3.25)
-    ax2.set_xticks([2.0, 2.5, 3.0, 3.5])
+    ax1.set_xlim(0, 2)
+    ax1.set_xticks([0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75,])
+    ax2.set_xlim(3, 3.25)
+    ax2.set_xticks([3.0, 3.25, 3.5])
     d = .5  # proportion of vertical to horizontal extent of the slanted line
     kwargs = dict(marker=[(-d, -1), (d, 1)], markersize=12,
                   linestyle="none", color='k', mec='k', mew=1, clip_on=False)

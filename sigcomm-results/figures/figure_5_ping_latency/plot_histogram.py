@@ -9,27 +9,7 @@ mpl.rcParams['axes.labelsize'] = 18
 plt.rcParams['text.usetex'] = True
 
 
-# SQL to generate ping histogram CSVs (substitute table name as needed for IP/SCION measurements):
-# (last timestamp: 2025-01-30 00:15:01.372327524+00:00)
-#
-# WITH params AS (
-#     SELECT 0 AS rtt_min, 400 AS rtt_max, rtt_max/10 AS bucket_count
-# ),
-# bucketed AS (
-#     SELECT
-#         width_bucket(rtt, p.rtt_min, p.rtt_max, p.bucket_count) AS rtt_bucket
-#     FROM ip_ping_results s, params p
-#     where s.success = true and s.rtt > 0
-# )
-# SELECT
-#     rtt_bucket,
-#     p.rtt_min + (rtt_bucket - 1) * ((p.rtt_max - p.rtt_min) * 1.0 / p.bucket_count) AS lower_bound,
-#     COUNT(*) AS ping_count
-# FROM bucketed b, params p
-# GROUP BY rtt_bucket, lower_bound
-# ORDER BY rtt_bucket;
-
-def get_axis(axes_props, size=(12, 6)):
+def get_axis(axes_props, size=(8, 4)):
     fig, ax = plt.subplots(figsize=size)
     ax.set(**axes_props)
     return fig, ax
@@ -46,8 +26,8 @@ def get_mean(df, bin_width):
 # Define bucket width (in ms)
 bucket_width = 10
 
-df_scion = pd.read_csv("scion_ping_histo_binned.csv").rename(columns={'lower_bound': 'rtt'})
-df_ip = pd.read_csv("ip_ping_histo_binned.csv").rename(columns={'lower_bound': 'rtt'})
+df_scion = pd.read_csv("new_scion_pings_per_hour_final.csv").rename(columns={'lower_bound': 'rtt'})
+df_ip = pd.read_csv("new_ip_pings_per_hour_final.csv").rename(columns={'lower_bound': 'rtt'})
 
 df_scion["ping_count_norm"] = normalize(df_scion, "ping_count")
 df_ip["ping_count_norm"] = normalize(df_ip, "ping_count")
@@ -100,8 +80,8 @@ ax.legend(fontsize=14)
 ax.grid(**grid_props)
 plt.tight_layout()
 
-#fig.savefig("sciera_hist_norm_grouped.png", dpi=600, bbox_inches="tight", transparent=True)
-#fig.savefig("sciera_hist_norm_grouped.pdf", bbox_inches="tight")
+fig.savefig("sciera_hist_norm_grouped.png", dpi=600, bbox_inches="tight", transparent=True)
+fig.savefig("sciera_hist_norm_grouped.pdf", bbox_inches="tight")
 
 
 ax_padding = 5
@@ -118,14 +98,19 @@ ax.plot(df_ip['rtt'], np.cumsum(df_ip["ping_count_norm"]), label='IP', linestyle
 ax.grid(**grid_props)
 
 #ax.annotate(text='SCION', xy=(156, 50), marker='x')
-ax.plot([158], [50], marker='x', color='red')
-ax.plot([128.5], [50], marker='x', color='red')
+ax.plot([163], [50], marker='x', color='red')
+ax.plot([143], [50], marker='x', color='red')
+ax.hlines(y=50, xmin=-5, xmax=163, color='red', linestyle='dotted')
+ax.vlines(x=163, ymin=-5, ymax=50, color='red', linestyle='dotted')
+ax.vlines(x=143, ymin=-5, ymax=50, color='red', linestyle='dotted')
 
 
-ax.hlines(y=50, xmin=-5, xmax=156, color='red', linestyle='dotted')
 
-ax.vlines(x=128, ymin=-5, ymax=50, color='red', linestyle='dotted')
-ax.vlines(x=158, ymin=-5, ymax=50, color='red', linestyle='dotted')
+ax.plot([285], [90], marker='x', color='green')
+ax.plot([375], [90], marker='x', color='green')
+ax.hlines(y=90, xmin=-5, xmax=375, color='green', linestyle='dotted')
+ax.vlines(x=285, ymin=-5, ymax=90, color='green', linestyle='dotted')
+ax.vlines(x=375, ymin=-5, ymax=90, color='green', linestyle='dotted')
 
 #ax.plot(df_scion.rtt, np.cumsum(df_scion["ping_count_norm"] - df_ip.ping_count_norm))
 
