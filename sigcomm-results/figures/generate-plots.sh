@@ -26,27 +26,28 @@ echo "Figure 7: RTT CDF Diff over time plot generated to figure_7_rtt_diff_over_
 cd ..
 
 # Generate the plot for Figure 8: Path Statistics Heatmap
-cd figure_8_heatmap
+cd figure_8_9_heatmap
 bash plot.sh
-echo "Figure 8: Path Statistics Heatmap plot generated to figure_8_heatmap/heatmap_manual.pdf."
+echo "Figure 8: Path Statistics Heatmap plot generated to figure_8_9_heatmap/heatmap_manual.pdf."
+echo "Figure 9: Median Diff Heatmap plot generated to figure_8_9_heatmap/heatmap_diff_median.pdf."
 cd ..
 
-# Generate the plot for Figure 9: Path Statistics Heatmap
-cd figure_9a_path_stretch
+# Generate the plot for Figure 10a: Path Stretch
+cd figure_10a_path_stretch
 python3 path_stretch.py
-echo "Figure 9a: Path Stretch plot generated to figure_9a_path_stretch/path_stretch.pdf."
+echo "Figure 10a: Path Stretch plot generated to figure_10a_path_stretch/path_stretch.pdf."
 cd ..
 
-# Generate the plot for Figure 9: Path Statistics Heatmap
-cd figure_9b_path_disjointness
+# Generate the plot for Figure 10b Path Disjointness
+cd figure_10b_path_disjointness
 python3 path_disjointness.py
-echo "Figure 9b: Path Disjointness plot generated to figure_9b_path_disjointness/path_disjointness.pdf."
+echo "Figure 10b: Path Disjointness plot generated to figure_10b_path_disjointness/path_disjointness.pdf."
 cd ..
 
-# Generate the plot for Figure 9: Path Statistics Heatmap
-cd figure_9c_link_failures
+# Generate the plot for Figure 10c: Link Failures
+cd figure_10c_link_failures
 python3 link_failures.py
-echo "Figure 9c: Link Failures plot generated to figure_9c_link_failures/link_failures_as_connectivity.pdf."
+echo "Figure 10c: Link Failures plot generated to figure_10c_link_failures/link_failures_as_connectivity.pdf."
 cd ..
 
 

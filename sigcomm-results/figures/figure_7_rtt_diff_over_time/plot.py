@@ -141,6 +141,6 @@ if __name__ == "__main__":
     # Generate the plot using the regular average (mean) method
     plot_with_regular_average()
 
-    print("One plot file has been generated:")
+    #print("One plot file has been generated:")
     # print("1. rtt_ratio_time_scaled_weighted_avg.pdf")
-    print("2. rtt_ratio_time_scaled_regular_avg.pdf")
+    #print("2. rtt_ratio_time_scaled_regular_avg.pdf")

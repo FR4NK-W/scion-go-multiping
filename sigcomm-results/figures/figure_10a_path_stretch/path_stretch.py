@@ -18,7 +18,7 @@ def analyze_path_data(file_path):
         return
 
     # --- Part 1: Count unique paths for each source/destination combination ---
-    print("--- Unique Path Counts per Source/Destination ---")
+    #print("--- Unique Path Counts per Source/Destination ---")
     
     # Group by source and destination addresses and count unique fingerprints
     path_counts = df.groupby(['src_scion_addr', 'dst_scion_addr'])['fingerprint'].nunique().reset_index()
@@ -26,8 +26,8 @@ def analyze_path_data(file_path):
     # Rename the fingerprint column to reflect the count
     path_counts.rename(columns={'fingerprint': 'unique_path_count'}, inplace=True)
 
-    print(path_counts)
-    print("\n" + "="*50 + "\n")
+    #print(path_counts)
+    #print("\n" + "="*50 + "\n")
 
     # --- Part 2: Compute path stretch for each source/destination combination ---
     path_stretch_list = []
@@ -61,9 +61,9 @@ def analyze_path_data(file_path):
         print("Could not compute any path stretches. Are there any source/destination pairs with at least 2 paths?")
         return
         
-    print(f"--- Plotting CDF for {len(path_stretch_list)} Source/Destination Pairs ---")
+    #print(f"--- Plotting CDF for {len(path_stretch_list)} Source/Destination Pairs ---")
     plot_stretch_cdf(path_stretch_list)
-    print("CDF plot saved to 'path_stretch_cdf.pdf'")
+    #print("CDF plot saved to 'path_stretch_cdf.pdf'")
 
 
 def plot_stretch_cdf(path_stretch_list):
