@@ -35,7 +35,7 @@ cd ..
 # Generate the plot for Figure 10a: Path Stretch
 cd figure_10a_path_stretch
 python3 path_stretch.py
-echo "Figure 10a: Path Stretch plot generated to figure_10a_path_stretch/path_stretch.pdf."
+echo "Figure 10a: Path Stretch plot generated to figure_10a_path_stretch/latency_inflation.pdf."
 cd ..
 
 # Generate the plot for Figure 10b Path Disjointness

@@ -43,7 +43,9 @@ def plot_averaged_simulation_results(percentages_links_removed, average_as_with_
     plt.plot(percentages_links_removed, average_as_with_path_2, linestyle='-', color='red', label='Singlepath')
     
     plt.rcParams.update({'font.size': 16})
-    plt.rcParams["font.family"] = "Times New Roman"
+    # plt.rcParams["font.family"] = "Times New Roman"
+    plt.rcParams['pdf.fonttype'] = 42
+    plt.rcParams['ps.fonttype'] = 42
     plt.xlabel('Fraction of Links Removed (%)',  fontsize=16)
     plt.xlim(0, 100)
     plt.ylabel('AS Pairs with Connectivity (%)',  fontsize=16)

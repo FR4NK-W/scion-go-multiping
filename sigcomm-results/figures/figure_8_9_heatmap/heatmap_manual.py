@@ -16,6 +16,8 @@ def plot_heatmap(csv_file, x_order=None, y_order=None):
         y_order = y_order.split(',')
         df_pivot = df_pivot.reindex(index=y_order)
     
+    plt.rcParams['pdf.fonttype'] = 42
+    plt.rcParams['ps.fonttype'] = 42
     plt.figure(figsize=(7, 5))
     
     # Plot heatmap with increased font sizes

@@ -115,7 +115,8 @@ def plot_with_regular_average():
     merged_df_hourly["rtt_ratio"] = merged_df_hourly["avg_rtt_scion"] / merged_df_hourly["avg_rtt_ip"]
     merged_df_hourly.dropna(subset=['rtt_ratio'], inplace=True)
     merged_df_hourly["smoothed_rtt_ratio"] = gaussian_filter1d(merged_df_hourly["rtt_ratio"], sigma=2)
-    
+    plt.rcParams['pdf.fonttype'] = 42
+    plt.rcParams['ps.fonttype'] = 42
     plt.figure(figsize=(6, 4.4))
     sns.lineplot(data=merged_df_hourly, x="hour", y="smoothed_rtt_ratio", label="SCION/IP RTT Ratio", linestyle="-")
     
@@ -131,7 +132,7 @@ def plot_with_regular_average():
         plt.xticks(ticks=every_second_day, labels=[d.strftime('%Y-%m-%d') for d in every_second_day], rotation=45)
 
     plt.tight_layout()
-    plt.savefig("rtt_ratio_time_scaled_regular_avg.pdf")
+    plt.savefig("rtt_ratio_time_scaled.pdf")
     plt.close() # Close the figure
 
 if __name__ == "__main__":

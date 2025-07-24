@@ -5,9 +5,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+# --- CONFIGURATION SETTINGS ---
+# Move all rcParams modifications to the top to ensure they apply to all plots.
+# This tells matplotlib to use Type 42 (a.k.a. TrueType) fonts for PDF/PS output.
+# This allows the fonts to be embedded, making the PDF self-contained.
+mpl.rcParams['pdf.fonttype'] = 42
+mpl.rcParams['ps.fonttype'] = 42
 mpl.rcParams['axes.labelsize'] = 18
-plt.rcParams['text.usetex'] = True
-
+# Using usetex delegates text rendering to your LaTeX installation.
+# plt.rcParams['text.usetex'] = True
+# Note: font.family is often ignored when usetex=True, as LaTeX handles fonts.
+# To use a specific font, you might need to configure the LaTeX preamble.
+# For example:
+# plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}\usepackage{dejavu}'
+plt.rcParams['font.family'] = 'DejaVu Sans'
 
 def get_axis(axes_props, size=(8, 4)):
     fig, ax = plt.subplots(figsize=size)
@@ -51,6 +62,7 @@ grid_props = {
 
 scale = 0.75
 
+
 hist_scion = (df_scion.groupby(df_scion.index//5)
                        .agg({'ping_count': 'sum',
                              'ping_count_norm': 'sum',
@@ -64,7 +76,7 @@ hist_ip = (df_ip.groupby(df_ip.index//5)
 
 
 fig, ax = get_axis({"xlabel": "RTT (ms)",
-                    "ylabel": "Proportion of Pings (\\%)",
+                    "ylabel": "Proportion of Pings (%)",
                     "xlim": [-0.1, hist_ip["rtt"].index.max()*scale+2*bar_props['width']+ 0.1]})
 
 ax.bar(hist_scion["rtt"].index*scale, hist_scion["ping_count_norm"], label="SCION", **bar_props)
@@ -86,7 +98,7 @@ fig.savefig("sciera_hist_norm_grouped.pdf", bbox_inches="tight")
 
 ax_padding = 5
 fig, ax = get_axis({"xlabel": "RTT (ms)",
-                    "ylabel": "Proportion of Pings (\\%)",
+                    "ylabel": "Proportion of Pings (%)",
                #     "title": "CDF of SCION vs IP Ping Latency",
                     "xlim": [-ax_padding, rtt_cutoff + ax_padding],
                     "ylim": [-ax_padding, 100+ax_padding]}) #, size=(12, 6))
@@ -115,6 +127,9 @@ ax.vlines(x=375, ymin=-5, ymax=90, color='green', linestyle='dotted')
 #ax.plot(df_scion.rtt, np.cumsum(df_scion["ping_count_norm"] - df_ip.ping_count_norm))
 
 ax.legend(fontsize=18)
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
+plt.rcParams['font.family'] = 'DejaVu Sans'
 plt.tight_layout()
 
 fig.savefig("sciera_hist_norm_cdf.png", dpi=600, bbox_inches="tight", transparent=True)

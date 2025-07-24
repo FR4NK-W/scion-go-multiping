@@ -49,6 +49,8 @@ def plot_cdf():
 
     ax1.grid(linestyle="--", alpha=0.6)
     ax2.grid(linestyle="--", alpha=0.6)
+    plt.rcParams['pdf.fonttype'] = 42
+    plt.rcParams['ps.fonttype'] = 42
 
     # plt.tight_layout(rect=[0, 0, 1, 1])  # Adjust layout to fit title
     plt.savefig("rtt_ratio_cdf.pdf")

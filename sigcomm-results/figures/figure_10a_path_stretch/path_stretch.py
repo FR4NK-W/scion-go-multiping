@@ -82,6 +82,8 @@ def plot_stretch_cdf(path_stretch_list):
     # Create the plot
     plt.figure(figsize=(6, 4))
     plt.rcParams.update({'font.size': 14})
+    plt.rcParams['pdf.fonttype'] = 42
+    plt.rcParams['ps.fonttype'] = 42
     
     plt.plot(sorted_stretch, cdf, linestyle='-')
     

@@ -169,6 +169,8 @@ def plot_cdf(path_disjointness_list):
     cdf = 1- np.arange(1, len(sorted_disjointness) + 1) / len(sorted_disjointness)
     
     plt.rcParams.update({'font.size': 14})
+    plt.rcParams['pdf.fonttype'] = 42
+    plt.rcParams['ps.fonttype'] = 42 
     plt.figure(figsize=(6, 4))
     plt.plot(sorted_disjointness, cdf, linestyle='-', color='blue')
     plt.xlabel('Path Disjointness', fontsize=14)
@@ -181,7 +183,7 @@ def plot_cdf(path_disjointness_list):
     # Save the plot to a file
     output_filename = "path_disjointness.pdf"
     plt.savefig(output_filename)
-    print(f"CDF plot has been saved to '{output_filename}'")
+    # print(f"CDF plot has been saved to '{output_filename}'")
     # plt.show()
 
 if __name__ == "__main__":
