@@ -9,26 +9,6 @@ mpl.rcParams['axes.labelsize'] = 18
 plt.rcParams['text.usetex'] = True
 
 
-# SQL to generate ping histogram CSVs (substitute table name as needed for IP/SCION measurements):
-# (last timestamp: 2025-01-30 00:15:01.372327524+00:00)
-#
-# WITH params AS (
-#     SELECT 0 AS rtt_min, 400 AS rtt_max, rtt_max/10 AS bucket_count
-# ),
-# bucketed AS (
-#     SELECT
-#         width_bucket(rtt, p.rtt_min, p.rtt_max, p.bucket_count) AS rtt_bucket
-#     FROM ip_ping_results s, params p
-#     where s.success = true and s.rtt > 0
-# )
-# SELECT
-#     rtt_bucket,
-#     p.rtt_min + (rtt_bucket - 1) * ((p.rtt_max - p.rtt_min) * 1.0 / p.bucket_count) AS lower_bound,
-#     COUNT(*) AS ping_count
-# FROM bucketed b, params p
-# GROUP BY rtt_bucket, lower_bound
-# ORDER BY rtt_bucket;
-
 def get_axis(axes_props, size=(8, 4)):
     fig, ax = plt.subplots(figsize=size)
     ax.set(**axes_props)
@@ -118,11 +98,11 @@ ax.plot(df_ip['rtt'], np.cumsum(df_ip["ping_count_norm"]), label='IP', linestyle
 ax.grid(**grid_props)
 
 #ax.annotate(text='SCION', xy=(156, 50), marker='x')
-ax.plot([167], [60], marker='x', color='red')
-ax.plot([227], [60], marker='x', color='red')
-ax.hlines(y=60, xmin=-5, xmax=227, color='red', linestyle='dotted')
-ax.vlines(x=167, ymin=-5, ymax=60, color='red', linestyle='dotted')
-ax.vlines(x=227, ymin=-5, ymax=60, color='red', linestyle='dotted')
+ax.plot([163], [50], marker='x', color='red')
+ax.plot([143], [50], marker='x', color='red')
+ax.hlines(y=50, xmin=-5, xmax=163, color='red', linestyle='dotted')
+ax.vlines(x=163, ymin=-5, ymax=50, color='red', linestyle='dotted')
+ax.vlines(x=143, ymin=-5, ymax=50, color='red', linestyle='dotted')
 
 
 

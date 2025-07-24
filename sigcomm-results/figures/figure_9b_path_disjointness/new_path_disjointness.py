@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+# TODO: ADapt to go over each path in an AS pair, calculate the disjoiintness to the most disjoint path (maximum of all others)
+# Plot the CDF 1x with average over those maximums, second with putting all disjointness values into one list
+
 # Function to load and parse paths from the specified CSV file
 def load_paths_from_csv(file_path):
     """
@@ -137,11 +140,16 @@ def compute_path_disjointness(paths):
                 interfaces2 = path_list[j]['interfaces']
                 
                 disjointness = calculate_disjointness(interfaces1, interfaces2)
+
+                #if disjointness == 1:  # Ensure disjointness is a valid value
+                #    print(f"Disjoint paths found: {path_list[i]['path']} and {path_list[j]['path']}")
+
                 disjointness_values.append(disjointness)
+                path_disjointness_list.append(disjointness)
         
-        if disjointness_values:
-            avg_disjointness = np.mean(disjointness_values)
-            path_disjointness_list.append(avg_disjointness)
+        #if disjointness_values:
+        #    avg_disjointness = np.mean(disjointness_values)
+        #    path_disjointness_list.append(avg_disjointness)
             
     return path_disjointness_list
 
@@ -178,7 +186,7 @@ def plot_cdf(path_disjointness_list):
 
 if __name__ == "__main__":
     # Step 1: Define the input CSV file and load the paths
-    csv_file = "path_disjointness.csv"
+    csv_file = "disjointness.csv"
     paths = load_paths_from_csv(csv_file)
     
     if paths:

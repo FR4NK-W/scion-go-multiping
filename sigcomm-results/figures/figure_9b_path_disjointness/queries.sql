@@ -23,6 +23,6 @@ SELECT
 FROM
     RankedPaths
 WHERE
-    rn = 1
+    rn < 3
 ORDER BY
     src_scion_addr, dst_scion_addr;

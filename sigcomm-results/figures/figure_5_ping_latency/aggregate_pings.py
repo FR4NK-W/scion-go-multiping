@@ -1,117 +1,98 @@
 import pandas as pd
-import os
 
-def create_aggregated_histograms(file1_path, file2_path, output1_path, output2_path, ping_threshold=1600, ping_threshold2=7500):
+def aggregate_histograms(valid_combinations_file, scion_histogram_file, ip_histogram_file, 
+                         output_scion_file, output_ip_file):
     """
-    Aggregates per-minute ping histograms from two input CSV files into two
-    separate output files.
-
-    The aggregation for each file only includes data from minutes that are
-    present in *both* input files and have a total ping count greater than
-    or equal to the specified threshold in *each* file.
+    Aggregates ping histograms based on a file of valid hour-source combinations.
 
     Args:
-        file1_path (str): The file path for the first input CSV.
-        file2_path (str): The file path for the second input CSV.
-        output1_path (str): The file path for the first aggregated output CSV.
-        output2_path (str): The file path for the second aggregated output CSV.
-        ping_threshold (int, optional): The minimum number of pings required
-                                        per minute in each file. Defaults to 2000.
+        valid_combinations_file (str): Path to the CSV file with valid combinations.
+        scion_histogram_file (str): Path to the SCION histogram CSV file.
+        ip_histogram_file (str): Path to the IP histogram CSV file.
+        output_scion_file (str): Path to save the aggregated SCION histogram.
+        output_ip_file (str): Path to save the aggregated IP histogram.
     """
+
+    # Load the valid combinations file and create a set for quick lookups
     try:
-        # Load the input CSV files into pandas DataFrames
-        df1 = pd.read_csv(file1_path)
-        df2 = pd.read_csv(file2_path)
-    except FileNotFoundError as e:
-        print(f"Error: {e}. Please ensure the input files exist.")
+        valid_combinations = pd.read_csv(valid_combinations_file)
+        valid_set = { (row['hour'], row['src_addr']) for _, row in valid_combinations.iterrows() }
+    except FileNotFoundError:
+        print(f"Error: The file {valid_combinations_file} was not found.")
         return
 
-    # --- Step 1: Find common minutes that meet the ping count criteria ---
-    # Convert the 'minute' column to datetime objects for proper comparison
-    df1['minute'] = pd.to_datetime(df1['minute'])
-    df2['minute'] = pd.to_datetime(df2['minute'])
+    # --- Process the SCION histogram file ---
+    try:
+        scion_histogram = pd.read_csv(scion_histogram_file)
+        aggregated_scion = {}
 
-    # Get the unique minutes from each DataFrame
-    minutes1 = set(df1['minute'].unique())
-    minutes2 = set(df2['minute'].unique())
+        for _, row in scion_histogram.iterrows():
+            hour = row['hour']
+            # Extract the IP address from the src_scion_addr
+            src_ip = row['src_scion_addr'].split(',')[1].split(':')[0]
+            
+            # Check if the combination of hour and source IP is valid
+            if any(src_ip in valid_src_addr for valid_hour, valid_src_addr in valid_set if valid_hour == hour):
+                rtt_bucket = row['rtt_bucket']
+                if rtt_bucket not in aggregated_scion:
+                    aggregated_scion[rtt_bucket] = {'lower_bound': row['lower_bound'], 'ping_count': 0}
+                aggregated_scion[rtt_bucket]['ping_count'] += row['ping_count']
 
-    # Find the initial intersection of minutes (present in both files)
-    initial_common_minutes = minutes1.intersection(minutes2)
+        # Convert the aggregated data to a DataFrame and save to CSV
+        if aggregated_scion:
+            output_scion_df = pd.DataFrame.from_dict(aggregated_scion, orient='index')
+            output_scion_df = output_scion_df.reset_index().rename(columns={'index': 'rtt_bucket'})
+            output_scion_df = output_scion_df.sort_values(by='rtt_bucket').reset_index(drop=True)
+            output_scion_df.to_csv(output_scion_file, index=False)
+            print(f"Successfully created aggregated SCION histogram at: {output_scion_file}")
+        else:
+            print("No valid combinations found for the SCION histogram.")
 
-    if not initial_common_minutes:
-        print("No common minutes found between the two files. No output files will be generated.")
-        return
+    except FileNotFoundError:
+        print(f"Error: The file {scion_histogram_file} was not found.")
+    except Exception as e:
+        print(f"An error occurred while processing {scion_histogram_file}: {e}")
 
-    # --- New Logic: Filter minutes based on ping count ---
-    # Calculate the total ping count for each minute in both files
-    pings_per_minute1 = df1.groupby('minute')['ping_count'].sum()
-    pings_per_minute2 = df2.groupby('minute')['ping_count'].sum()
+    # --- Process the IP histogram file ---
+    try:
+        ip_histogram = pd.read_csv(ip_histogram_file)
+        aggregated_ip = {}
 
-    # Identify minutes that meet the ping threshold in each file
-    valid_minutes1 = {minute for minute, count in pings_per_minute1.items() if count >= ping_threshold }
-    valid_minutes2 = {minute for minute, count in pings_per_minute2.items() if count >= ping_threshold }
+        for _, row in ip_histogram.iterrows():
+            hour = row['hour']
+            src_addr = row['src_addr']
+            
+            # Check if the combination of hour and source address is valid
+            if (hour, src_addr) in valid_set:
+                rtt_bucket = row['rtt_bucket']
+                if rtt_bucket not in aggregated_ip:
+                    aggregated_ip[rtt_bucket] = {'lower_bound': row['lower_bound'], 'ping_count': 0}
+                aggregated_ip[rtt_bucket]['ping_count'] += row['ping_count']
 
-    # Final list of common minutes must exist in both files AND meet the threshold in both
-    common_minutes = list(initial_common_minutes.intersection(valid_minutes1).intersection(valid_minutes2))
+        # Convert the aggregated data to a DataFrame and save to CSV
+        if aggregated_ip:
+            output_ip_df = pd.DataFrame.from_dict(aggregated_ip, orient='index')
+            output_ip_df = output_ip_df.reset_index().rename(columns={'index': 'rtt_bucket'})
+            output_ip_df = output_ip_df.sort_values(by='rtt_bucket').reset_index(drop=True)
+            output_ip_df.to_csv(output_ip_file, index=False)
+            print(f"Successfully created aggregated IP histogram at: {output_ip_file}")
+        else:
+            print("No valid combinations found for the IP histogram.")
 
-    # --- Report on filtered minutes ---
-    minutes_discarded = len(initial_common_minutes) - len(common_minutes)
-    if minutes_discarded > 0:
-        print(f"Discarded {minutes_discarded} minute(s) due to having fewer than {ping_threshold} pings in at least one file.")
-
-    if not common_minutes:
-        print("No common minutes remaining after applying the ping count threshold. No output files will be generated.")
-        return
-
-    # --- Step 2: Process the first file ---
-    # Filter the first DataFrame to only include the final common minutes
-    df1_filtered = df1[df1['minute'].isin(common_minutes)]
-
-    # Group by the RTT bucket and lower bound, and sum the ping counts
-    aggregated_df1 = df1_filtered.groupby(['rtt_bucket', 'lower_bound'])['ping_count'].sum().reset_index()
-
-    # Ensure the columns are in the desired order
-    aggregated_df1 = aggregated_df1[['rtt_bucket', 'lower_bound', 'ping_count']]
-
-    # Save the first aggregated DataFrame to its output CSV file
-    aggregated_df1.to_csv(output1_path, index=False)
-    print(f"Successfully created aggregated file for {os.path.basename(file1_path)} at: {output1_path}")
-
-    # --- Step 3: Process the second file ---
-    # Filter the second DataFrame to only include the final common minutes
-    df2_filtered = df2[df2['minute'].isin(common_minutes)]
-
-    # Group by the RTT bucket and lower bound, and sum the ping counts
-    aggregated_df2 = df2_filtered.groupby(['rtt_bucket', 'lower_bound'])['ping_count'].sum().reset_index()
-
-    # Ensure the columns are in the desired order
-    aggregated_df2 = aggregated_df2[['rtt_bucket', 'lower_bound', 'ping_count']]
-
-    # Save the second aggregated DataFrame to its output CSV file
-    aggregated_df2.to_csv(output2_path, index=False)
-    print(f"Successfully created aggregated file for {os.path.basename(file2_path)} at: {output2_path}")
+    except FileNotFoundError:
+        print(f"Error: The file {ip_histogram_file} was not found.")
+    except Exception as e:
+        print(f"An error occurred while processing {ip_histogram_file}: {e}")
 
 
 if __name__ == '__main__':
+    # Define your input and output file paths here
+    VALID_COMBINATIONS_FILE = 'ip_pings_valid_hours.csv'
+    SCION_HISTOGRAM_FILE = 'new_scion_pings_per_hour.csv'
+    IP_HISTOGRAM_FILE = 'new_ip_pings_per_hour.csv'
+    OUTPUT_SCION_FILE = 'new_scion_pings_per_hour_final.csv'
+    OUTPUT_IP_FILE = 'new_ip_pings_per_hour_final.csv'
 
-    # --- Define the file paths for the input and output files ---
-    input_file1 = 'ip_hist_per_minute.csv'
-    input_file2 = 'scion_hist_per_minute.csv'
-    output_file1 = 'ip_hist_per_minute_out.csv'
-    output_file2 = 'scion_hist_per_minute_out.csv'
-
-    # --- Run the aggregation function ---
-    # The new ping_threshold parameter is used here. You can change 2000 to any other value.
-    create_aggregated_histograms(input_file1, input_file2, output_file1, output_file2, ping_threshold=1600, ping_threshold2=7500)
-
-    # --- Display the content of the generated output files for verification ---
-    print("\n--- Generated Files Content ---")
-    if os.path.exists(output_file1):
-        print(f"\nContent of {output_file1}:")
-        with open(output_file1, 'r') as f:
-            print(f.read())
-
-    if os.path.exists(output_file2):
-        print(f"\nContent of {output_file2}:")
-        with open(output_file2, 'r') as f:
-            print(f.read())
+    # Run the aggregation process
+    aggregate_histograms(VALID_COMBINATIONS_FILE, SCION_HISTOGRAM_FILE, IP_HISTOGRAM_FILE, 
+                         OUTPUT_SCION_FILE, OUTPUT_IP_FILE)

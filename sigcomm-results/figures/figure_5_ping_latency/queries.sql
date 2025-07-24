@@ -1,5 +1,5 @@
 WITH 
--- Step 1: Define the parameters for RTT bucketing.
+-- Step 1: Define the parameters for RTT bucketing. This part remains unchanged.
 params AS (
     SELECT 
         0 AS rtt_min, 
@@ -7,48 +7,54 @@ params AS (
         400/10 AS bucket_count
 ),
 
--- Step 2: For each successful ping, determine its one-minute time slot and its RTT bucket.
-minute_bucketed_pings AS (
+-- Step 2: For each successful ping, determine its one-HOUR time slot, its RTT bucket, and its source address.
+hourly_bucketed_pings AS (
     SELECT
-        time_bucket('1 minute', ping_time_new) AS minute,
+        time_bucket('1 hour', ping_time_new) AS hour, -- CHANGED: from '1 minute' to '1 hour' and renamed to 'hour'
+        s.src_addr,                                   -- ADDED: include the source address
         width_bucket(rtt, p.rtt_min, p.rtt_max, p.bucket_count) AS rtt_bucket
     FROM 
         ip_ping_results s, params p
     WHERE 
-        s.success = true AND s.rtt > 0  and s.src_addr NOT IN   ( '192.168.1.1') AND s.ping_time_new < '2025-02-08'
+        s.success = true 
+        AND s.rtt > 0  
+        AND s.src_addr NOT IN ('192.168.1.1') 
+        AND s.ping_time_new < '2025-02-08'
 ),
 
--- Step 3: Group by minute and RTT bucket to get the count for each bucket.
--- Also, use a window function to calculate the total pings for the entire minute (prcount).
-minute_counts AS (
+-- Step 3: Group by hour, source address, and RTT bucket to get the count for each bucket.
+-- The window function now calculates prcount for each specific hour-address combination.
+hourly_counts AS (
     SELECT
-        minute,
+        hour,
+        src_addr,                                     -- ADDED: include src_addr in selection
         rtt_bucket,
         COUNT(*) as ping_count,
-        SUM(COUNT(*)) OVER (PARTITION BY minute) AS prcount
+        -- CHANGED: The window now partitions by both hour and src_addr
+        SUM(COUNT(*)) OVER (PARTITION BY hour, src_addr) AS prcount 
     FROM 
-        minute_bucketed_pings
+        hourly_bucketed_pings
     GROUP BY 
-        minute, rtt_bucket
+        hour, src_addr, rtt_bucket                    -- ADDED: src_addr to the GROUP BY clause
 )
 
 -- Step 4: Final selection to calculate the lower bound of each RTT bucket and display all the required columns.
 SELECT
-    mc.minute,
-    mc.prcount,
-    mc.rtt_bucket,
-    p.rtt_min + (mc.rtt_bucket - 1) * ((p.rtt_max - p.rtt_min) * 1.0 / p.bucket_count) AS lower_bound,
-    mc.ping_count
+    hc.hour,
+    hc.src_addr,                                      -- ADDED: show src_addr in the final output
+    hc.prcount,
+    hc.rtt_bucket,
+    p.rtt_min + (hc.rtt_bucket - 1) * ((p.rtt_max - p.rtt_min) * 1.0 / p.bucket_count) AS lower_bound,
+    hc.ping_count
 FROM 
-    minute_counts mc, params p
+    hourly_counts hc, params p
 ORDER BY 
-    mc.minute, mc.rtt_bucket;
-
+    hc.hour, hc.src_addr, hc.rtt_bucket;              -- CHANGED: updated the ordering for clarity
 
 -- -----------------------------------------------------------------
 
 WITH 
--- Step 1: Define the parameters for RTT bucketing.
+-- Step 1: Define the parameters for RTT bucketing. This part remains unchanged.
 params AS (
     SELECT 
         0 AS rtt_min, 
@@ -56,73 +62,46 @@ params AS (
         400/10 AS bucket_count
 ),
 
--- Step 2: For each successful ping, determine its one-minute time slot and its RTT bucket.
-minute_bucketed_pings AS (
+-- Step 2: For each successful ping, determine its one-HOUR time slot, its RTT bucket, and its source address.
+hourly_bucketed_pings AS (
     SELECT
-        time_bucket('1 minute', ping_time_new) AS minute,
+        time_bucket('1 hour', ping_time_new) AS hour, -- CHANGED: from '1 minute' to '1 hour' and renamed to 'hour'
+        s.src_scion_addr,                                   -- ADDED: include the source address
         width_bucket(rtt, p.rtt_min, p.rtt_max, p.bucket_count) AS rtt_bucket
     FROM 
         ping_results s, params p
     WHERE 
-        s.success = true AND s.rtt > 0  and s.src_scion_addr NOT IN   ( '71-2:0:35,192.168.1.1:0') AND s.ping_time_new < '2025-02-08'
+        s.success = true 
+        AND s.rtt > 0  
+        AND s.src_scion_addr NOT IN ('71-2:0:35,192.168.1.1:0') 
+        AND s.ping_time_new < '2025-02-08'
 ),
 
--- Step 3: Group by minute and RTT bucket to get the count for each bucket.
--- Also, use a window function to calculate the total pings for the entire minute (prcount).
-minute_counts AS (
+-- Step 3: Group by hour, source address, and RTT bucket to get the count for each bucket.
+-- The window function now calculates prcount for each specific hour-address combination.
+hourly_counts AS (
     SELECT
-        minute,
+        hour,
+        src_scion_addr,                                     -- ADDED: include src_addr in selection
         rtt_bucket,
         COUNT(*) as ping_count,
-        SUM(COUNT(*)) OVER (PARTITION BY minute) AS prcount
+        -- CHANGED: The window now partitions by both hour and src_addr
+        SUM(COUNT(*)) OVER (PARTITION BY hour, src_scion_addr) AS prcount 
     FROM 
-        minute_bucketed_pings
+        hourly_bucketed_pings
     GROUP BY 
-        minute, rtt_bucket
+        hour, src_scion_addr, rtt_bucket                    -- ADDED: src_addr to the GROUP BY clause
 )
 
 -- Step 4: Final selection to calculate the lower bound of each RTT bucket and display all the required columns.
 SELECT
-    mc.minute,
-    mc.prcount,
-    mc.rtt_bucket,
-    p.rtt_min + (mc.rtt_bucket - 1) * ((p.rtt_max - p.rtt_min) * 1.0 / p.bucket_count) AS lower_bound,
-    mc.ping_count
+    hc.hour,
+    hc.src_scion_addr,                                      -- ADDED: show src_addr in the final output
+    hc.prcount,
+    hc.rtt_bucket,
+    p.rtt_min + (hc.rtt_bucket - 1) * ((p.rtt_max - p.rtt_min) * 1.0 / p.bucket_count) AS lower_bound,
+    hc.ping_count
 FROM 
-    minute_counts mc, params p
+    hourly_counts hc, params p
 ORDER BY 
-    mc.minute, mc.rtt_bucket;
-
-
-
--- -----------------------------------------------------------------
--- Test to generate missing slots for IP/SCION
-SELECT 
-    all_minutes.minute,
-    all_addrs.src_addr
-FROM 
-    -- Generate all minutes in the desired range
-    (SELECT generate_series(
-        (SELECT MIN(ping_time_new) FROM ip_ping_results WHERE ping_time_new < '2025-02-08'),
-        (SELECT MAX(ping_time_new) FROM ip_ping_results WHERE ping_time_new < '2025-02-08'),
-        '1 minute'::interval
-     ) AS minute) AS all_minutes
-CROSS JOIN
-    -- Get all distinct source addresses
-    (SELECT DISTINCT src_addr 
-     FROM ip_ping_results 
-     WHERE src_addr NOT IN ('192.168.1.1')) AS all_addrs
-WHERE 
-    -- Now, check for the non-existence of a successful ping for this combination
-    NOT EXISTS (
-        SELECT 1
-        FROM ip_ping_results pr
-        WHERE 
-            pr.success = true 
-            AND pr.rtt > 0
-            -- Correlate the subquery with the outer query's combination
-            AND pr.src_addr = all_addrs.src_addr
-            AND time_bucket('1 minute', pr.ping_time_new) = all_minutes.minute
-    )
-ORDER BY 
-    all_minutes.minute, all_addrs.src_addr;
+    hc.hour, hc.src_scion_addr, hc.rtt_bucket;              -- CHANGED: updated the ordering for clarity
