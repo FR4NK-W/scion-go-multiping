@@ -2,6 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import matplotlib.ticker as mticker
 
 def load_paths_from_csv(file_path):
     """
@@ -159,9 +160,9 @@ def analyze_mutually_disjoint_sets(paths):
         
     return max_set_sizes
 
-def plot_cdf(data, xlabel, ylabel, output_filename):
+def plot_histogram(data, xlabel, ylabel, output_filename):
     """
-    Plots and saves a Cumulative Distribution Function (CDF) of the given data.
+    Plots and saves a histogram of the given data with a percentage y-axis.
 
     Args:
         data (list): A list of numerical data points.
@@ -173,28 +174,34 @@ def plot_cdf(data, xlabel, ylabel, output_filename):
         print(f"No data to plot for '{output_filename}'.")
         return
 
-    sorted_data = np.sort(data)
-    cdf = np.arange(1, len(sorted_data) + 1) / len(sorted_data)
-    
     plt.rcParams.update({'font.size': 14})
     plt.figure(figsize=(8, 5))
-    plt.plot(sorted_data, cdf, linestyle='-', marker='.', color='darkviolet')
+
+    # Determine bins to center bars on integer values
+    max_val = int(np.max(data))
+    bins = np.arange(0, max_val + 2) - 0.5
+
+    # Create weights for the histogram to show percentages
+    weights = np.ones_like(data) / len(data)
+
+    plt.hist(data, bins=bins, weights=weights, color='royalblue', rwidth=0.8, edgecolor='black')
+
+    # Format the y-axis to show percentages
+    plt.gca().yaxis.set_major_formatter(mticker.PercentFormatter(xmax=1.0))
+
     plt.xlabel(xlabel, fontsize=14)
     plt.ylabel(ylabel, fontsize=14)
     plt.tick_params(axis='both', which='major', labelsize=12)
     
-    # Set x-axis ticks to be integers if the range is reasonable
-    max_val = int(np.max(data))
-    if max_val < 20:
-        plt.xticks(np.arange(0, max_val + 2, 1))
+    # Set x-axis ticks to be integers
+    plt.xticks(np.arange(0, max_val + 1, 1))
 
-    plt.ylim(0, 1.01)
-    plt.xlim(left=0)
-    plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+    plt.xlim(left=-0.5)
+    plt.grid(True, which='major', axis='y', linestyle='--', linewidth=0.5)
     plt.tight_layout()
     
     plt.savefig(output_filename)
-    print(f"CDF plot has been saved to '{output_filename}'")
+    print(f"Histogram plot has been saved to '{output_filename}'")
     plt.close()
 
 if __name__ == "__main__":
@@ -204,9 +211,9 @@ if __name__ == "__main__":
     if paths:
         max_disjoint_set_sizes = analyze_mutually_disjoint_sets(paths)
         
-        plot_cdf(
+        plot_histogram(
             data=max_disjoint_set_sizes,
-            xlabel="Size of Largest Mutually Disjoint Path Set",
-            ylabel="CDF of AS Pairs",
-            output_filename="max_mutually_disjoint_paths_cdf.pdf"
+            xlabel="Number of fully disjoint paths",
+            ylabel="Percentage of AS Pairs",
+            output_filename="max_mutually_disjoint_paths_histogram_percent.pdf"
         )

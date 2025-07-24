@@ -166,15 +166,15 @@ def plot_cdf(path_disjointness_list):
         return
 
     sorted_disjointness = np.sort(path_disjointness_list)
-    cdf = np.arange(1, len(sorted_disjointness) + 1) / len(sorted_disjointness)
+    cdf = 1- np.arange(1, len(sorted_disjointness) + 1) / len(sorted_disjointness)
     
     plt.rcParams.update({'font.size': 14})
     plt.figure(figsize=(6, 4))
     plt.plot(sorted_disjointness, cdf, linestyle='-', color='blue')
     plt.xlabel('Path Disjointness', fontsize=14)
-    plt.ylabel('CDF of AS Pairs', fontsize=14)
+    plt.ylabel('CDF of Path Pairs', fontsize=14)
     plt.tick_params(axis='both', which='major', labelsize=12)
-    plt.xlim(0, 1)
+    plt.xlim(1.05, 0)
     plt.grid(True)
     plt.tight_layout()
     

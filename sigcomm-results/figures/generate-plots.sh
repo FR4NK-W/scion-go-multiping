@@ -40,7 +40,7 @@ cd ..
 
 # Generate the plot for Figure 10b Path Disjointness
 cd figure_10b_path_disjointness
-python3 path_disjointness.py
+python3 new_path_disjointness.py
 echo "Figure 10b: Path Disjointness plot generated to figure_10b_path_disjointness/path_disjointness.pdf."
 cd ..
 
