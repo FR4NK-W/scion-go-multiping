@@ -3,6 +3,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.ndimage import gaussian_filter1d
 import numpy as np
+overwrite = {
+    "71-2:0:3e": "134.75.253.186",
+    "71-2:0:3f": "134.75.254.171",
+    "71-2:0:5c": "200.129.206.243",
+    "71-2:0:48": "145.40.89.243",
+}
 
 def plot_with_weighted_average():
     """
@@ -10,9 +16,9 @@ def plot_with_weighted_average():
     weighted average, and plots the RTT ratio.
     """
     # Load the CSV files, parsing the 'hour' column as dates
-    scion_df = pd.read_csv("scion_pings_hour.csv", parse_dates=["hour"])
-    ip_df = pd.read_csv("ip_pings_hour.csv", parse_dates=["hour"])
-    valid_hours_df = pd.read_csv("ip_pings_valid_hours.csv", parse_dates=["hour"])
+    scion_df = pd.read_csv("input/scion_pings_hour.csv", parse_dates=["hour"])
+    ip_df = pd.read_csv("input/ip_pings_hour.csv", parse_dates=["hour"])
+    valid_hours_df = pd.read_csv("input/ip_pings_valid_hours.csv", parse_dates=["hour"])
 
     # --- Filtering based on valid_hours_df ---
     valid_combinations = set(zip(valid_hours_df['hour'], valid_hours_df['src_addr']))
@@ -21,7 +27,19 @@ def plot_with_weighted_average():
     ip_df_filtered = ip_df[ip_df.apply(lambda row: (row['hour'], row['src_addr']) in valid_combinations, axis=1)].copy()
 
     # Filter SCION DataFrame
-    scion_df['src_addr'] = scion_df['src_scion_addr'].str.split(',').str[1].str.split(':').str[0]
+    def extract_and_overwrite(src_scion_addr, overwrite):
+        parts = src_scion_addr.split(',')
+        ip_part = parts[1].split(':')[0]
+        
+        if parts[0] in overwrite:
+            return overwrite[parts[0]]
+        else:
+            return ip_part
+
+    scion_df['src_addr'] = scion_df['src_scion_addr'].apply(lambda x: extract_and_overwrite(x, overwrite))
+    # scion_df['src_addr'] = scion_df[scion_df.apply(lambda row: (row['hour'], row['src_addr']) in valid_combinations, axis=1)]
+    
+    # scion_df['src_addr'] = scion_df['src_scion_addr'].str.split(',').str[1].str.split(':').str[0].map(lambda x: if x in )
     scion_df_filtered = scion_df[scion_df.apply(lambda row: (row['hour'], row['src_addr']) in valid_combinations, axis=1)].copy()
     
     # --- Aggregation Section (Weighted Average) ---
@@ -60,7 +78,7 @@ def plot_with_weighted_average():
     plt.axhline(y=1, color='red', linestyle='--', label="IP Baseline")
     plt.xlabel("Date", fontsize=14)
     plt.ylabel("SCION/IP RTT Ratio", fontsize=14)
-    plt.legend()
+    plt.legend(fontsize=15)
     plt.grid(True, linestyle="--", alpha=0.6)
     
     unique_days = merged_df_hourly["hour"].dt.normalize().unique()
@@ -78,9 +96,9 @@ def plot_with_regular_average():
     regular (mean) average, and plots the RTT ratio.
     """
     # Load the CSV files
-    scion_df = pd.read_csv("scion_pings_hour.csv", parse_dates=["hour"])
-    ip_df = pd.read_csv("ip_pings_hour.csv", parse_dates=["hour"])
-    valid_hours_df = pd.read_csv("ip_pings_valid_hours.csv", parse_dates=["hour"])
+    scion_df = pd.read_csv("input/scion_pings_hour.csv", parse_dates=["hour"])
+    ip_df = pd.read_csv("input/ip_pings_hour.csv", parse_dates=["hour"])
+    valid_hours_df = pd.read_csv("input/ip_pings_valid_hours.csv", parse_dates=["hour"])
 
     # --- Filtering based on valid_hours_df ---
     valid_combinations = set(zip(valid_hours_df['hour'], valid_hours_df['src_addr']))
@@ -89,12 +107,22 @@ def plot_with_regular_average():
     ip_df_filtered = ip_df[ip_df.apply(lambda row: (row['hour'], row['src_addr']) in valid_combinations, axis=1)].copy()
 
     # Filter SCION DataFrame
-    scion_df['src_addr'] = scion_df['src_scion_addr'].str.split(',').str[1].str.split(':').str[0]
+    def extract_and_overwrite(src_scion_addr, overwrite):
+        parts = src_scion_addr.split(',')
+        ip_part = parts[1].split(':')[0]
+        
+        if parts[0] in overwrite:
+            return overwrite[parts[0]]
+        else:
+            return ip_part
+
+    scion_df['src_addr'] = scion_df['src_scion_addr'].apply(lambda x: extract_and_overwrite(x, overwrite))
+
     scion_df_filtered = scion_df[scion_df.apply(lambda row: (row['hour'], row['src_addr']) in valid_combinations, axis=1)].copy()
     
     # Write scion_df_filtered and ip_df_filtered to CSV for debugging
-    scion_df_filtered.to_csv("scion_filtered_debug.csv", index=False)
-    ip_df_filtered.to_csv("ip_filtered_debug.csv", index=False)
+    scion_df_filtered.to_csv("gen/scion_filtered_debug.csv", index=False)
+    ip_df_filtered.to_csv("gen/ip_filtered_debug.csv", index=False)
 
     # --- Aggregation Section (Regular Average) ---
     # Group by hour and aggregate using mean for RTT and sum for prcount
@@ -123,7 +151,7 @@ def plot_with_regular_average():
     plt.axhline(y=1, color='red', linestyle='--', label="IP Baseline")
     plt.xlabel("Date", fontsize=14)
     plt.ylabel("SCION/IP RTT Ratio", fontsize=14)
-    plt.legend()
+    plt.legend(fontsize=13, loc='lower right', bbox_to_anchor=(1, -0.008))
     plt.grid(True, linestyle="--", alpha=0.6)
     
     unique_days = merged_df_hourly["hour"].dt.normalize().unique()

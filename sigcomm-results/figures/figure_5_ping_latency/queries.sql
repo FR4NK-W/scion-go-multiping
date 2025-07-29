@@ -1,3 +1,27 @@
+-- Get the valid hours
+SELECT
+    date_trunc('hour', ping_time_new) AS hour,
+	avg(rtt) as avg_rtt,
+	COUNT(*) FILTER (WHERE success = true AND rtt > 0) * 1.0 / COUNT(*) AS success_ratio,
+	COUNT(*) AS prcount,
+    src_addr
+FROM
+    public.ip_ping_results
+WHERE 
+    rtt > 0
+    AND success = true
+    AND ping_time_new < '2025-02-08'
+GROUP BY
+    hour,
+    src_addr
+HAVING
+    COUNT(*) > 12000
+ORDER BY
+    hour,
+    src_addr;
+
+-- -----------------------------------------------------------------
+
 WITH 
 -- Step 1: Define the parameters for RTT bucketing. This part remains unchanged.
 params AS (
@@ -74,6 +98,7 @@ hourly_bucketed_pings AS (
         s.success = true 
         AND s.rtt > 0  
         AND s.src_scion_addr NOT IN ('71-2:0:35,192.168.1.1:0') 
+		AND s.dst_scion_addr NOT IN ('71-225,127.0.0.1:30041') -- remove pings towards UVa as we do not send IP pings to UVa either.
         AND s.ping_time_new < '2025-02-08'
 ),
 
