@@ -1,5 +1,11 @@
 import pandas as pd
 
+overwrite = {
+    "71-2:0:3e": "134.75.253.186",
+    "71-2:0:3f": "134.75.254.171",
+    "71-2:0:5c": "200.129.206.243",
+    "71-2:0:48": "145.40.89.243",
+}
 def aggregate_histograms(valid_combinations_file, scion_histogram_file, ip_histogram_file, 
                          output_scion_file, output_ip_file):
     """
@@ -30,7 +36,9 @@ def aggregate_histograms(valid_combinations_file, scion_histogram_file, ip_histo
             hour = row['hour']
             # Extract the IP address from the src_scion_addr
             src_ip = row['src_scion_addr'].split(',')[1].split(':')[0]
-            
+            # Overwrite the src address for those ASes that have overlapping source IPs
+            if row['src_scion_addr'].split(',')[0] in overwrite.keys():
+                src_ip = overwrite[row['src_scion_addr'].split(',')[0]]
             # Check if the combination of hour and source IP is valid
             if any(src_ip in valid_src_addr for valid_hour, valid_src_addr in valid_set if valid_hour == hour):
                 rtt_bucket = row['rtt_bucket']
@@ -87,11 +95,11 @@ def aggregate_histograms(valid_combinations_file, scion_histogram_file, ip_histo
 
 if __name__ == '__main__':
     # Define your input and output file paths here
-    VALID_COMBINATIONS_FILE = 'ip_pings_valid_hours.csv'
-    SCION_HISTOGRAM_FILE = 'new_scion_pings_per_hour.csv'
-    IP_HISTOGRAM_FILE = 'new_ip_pings_per_hour.csv'
-    OUTPUT_SCION_FILE = 'new_scion_pings_per_hour_final.csv'
-    OUTPUT_IP_FILE = 'new_ip_pings_per_hour_final.csv'
+    VALID_COMBINATIONS_FILE = 'input/ip_pings_valid_hours.csv'
+    SCION_HISTOGRAM_FILE = 'input/new_scion_pings_per_hour.csv'
+    IP_HISTOGRAM_FILE = 'input/new_ip_pings_per_hour.csv'
+    OUTPUT_SCION_FILE = 'gen/new_scion_pings_per_hour_final.csv'
+    OUTPUT_IP_FILE = 'gen/new_ip_pings_per_hour_final.csv'
 
     # Run the aggregation process
     aggregate_histograms(VALID_COMBINATIONS_FILE, SCION_HISTOGRAM_FILE, IP_HISTOGRAM_FILE, 
