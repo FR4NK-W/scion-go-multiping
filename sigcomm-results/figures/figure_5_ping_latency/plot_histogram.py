@@ -3,7 +3,7 @@ mpl.use('agg')
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-
+from scipy.interpolate import interp1d
 
 # --- CONFIGURATION SETTINGS ---
 # Move all rcParams modifications to the top to ensure they apply to all plots.
@@ -34,11 +34,28 @@ def get_mean(df, bin_width):
     return (df['ping_count'] * (df['rtt'] + bin_width/2)).sum()/(df['ping_count'].sum())
 
 
+def interpolate(target_y, df_scion, df_ip):
+    y_scion = np.cumsum(df_scion["ping_count_norm"])
+    x_scion = df_scion['rtt']
+
+    y_ip = np.cumsum(df_ip["ping_count_norm"])
+    x_ip = df_ip['rtt']
+
+    interp_scion = interp1d(y_scion, x_scion, bounds_error=False, fill_value="extrapolate")
+    interp_ip = interp1d(y_ip, x_ip, bounds_error=False, fill_value="extrapolate")
+
+    x_at_y_scion = interp_scion(target_y)
+    x_at_y_ip = interp_ip(target_y)
+
+    print(f"SCION: x at y={target_y} is {x_at_y_scion}")
+    print(f"IP:    x at y={target_y} is {x_at_y_ip}")
+    return x_at_y_scion, x_at_y_ip
+
 # Define bucket width (in ms)
 bucket_width = 10
 
-df_scion = pd.read_csv("new_scion_pings_per_hour_final.csv").rename(columns={'lower_bound': 'rtt'})
-df_ip = pd.read_csv("new_ip_pings_per_hour_final.csv").rename(columns={'lower_bound': 'rtt'})
+df_scion = pd.read_csv("gen/new_scion_pings_per_hour_final.csv").rename(columns={'lower_bound': 'rtt'})
+df_ip = pd.read_csv("gen/new_ip_pings_per_hour_final.csv").rename(columns={'lower_bound': 'rtt'})
 
 df_scion["ping_count_norm"] = normalize(df_scion, "ping_count")
 df_ip["ping_count_norm"] = normalize(df_ip, "ping_count")
@@ -92,7 +109,7 @@ ax.legend(fontsize=14)
 ax.grid(**grid_props)
 plt.tight_layout()
 
-fig.savefig("sciera_hist_norm_grouped.png", dpi=600, bbox_inches="tight", transparent=True)
+# fig.savefig("sciera_hist_norm_grouped.png", dpi=600, bbox_inches="tight", transparent=True)
 fig.savefig("sciera_hist_norm_grouped.pdf", bbox_inches="tight")
 
 
@@ -105,33 +122,37 @@ fig, ax = get_axis({"xlabel": "RTT (ms)",
 
 ax.tick_params(axis='both', labelsize=14)
 
+x50s, x50i = interpolate(50, df_scion, df_ip)
+x90s, x90i = interpolate(90, df_scion, df_ip)
+
 ax.plot(df_scion['rtt'], np.cumsum(df_scion["ping_count_norm"]), label='SCION')
 ax.plot(df_ip['rtt'], np.cumsum(df_ip["ping_count_norm"]), label='IP', linestyle='--')
 ax.grid(**grid_props)
 
 #ax.annotate(text='SCION', xy=(156, 50), marker='x')
-ax.plot([163], [50], marker='x', color='red')
-ax.plot([143], [50], marker='x', color='red')
-ax.hlines(y=50, xmin=-5, xmax=163, color='red', linestyle='dotted')
-ax.vlines(x=163, ymin=-5, ymax=50, color='red', linestyle='dotted')
-ax.vlines(x=143, ymin=-5, ymax=50, color='red', linestyle='dotted')
+ax.plot([x50s], [50], marker='x', color='red')
+ax.plot([x50i], [50], marker='x', color='red')
+
+ax.hlines(y=50, xmin=-5, xmax=max(x50i,x50s), color='red', linestyle='dotted')
+ax.vlines(x=x50s, ymin=-5, ymax=50, color='red', linestyle='dotted')
+ax.vlines(x=x50i, ymin=-5, ymax=50, color='red', linestyle='dotted')
 
 
 
-ax.plot([285], [90], marker='x', color='green')
-ax.plot([375], [90], marker='x', color='green')
-ax.hlines(y=90, xmin=-5, xmax=375, color='green', linestyle='dotted')
-ax.vlines(x=285, ymin=-5, ymax=90, color='green', linestyle='dotted')
-ax.vlines(x=375, ymin=-5, ymax=90, color='green', linestyle='dotted')
+ax.plot([x90s], [90], marker='x', color='green')
+ax.plot([x90i], [90], marker='x', color='green')
+ax.hlines(y=90, xmin=-5, xmax=max(x90i, x90s), color='green', linestyle='dotted')
+ax.vlines(x=x90s, ymin=-5, ymax=90, color='green', linestyle='dotted')
+ax.vlines(x=x90i, ymin=-5, ymax=90, color='green', linestyle='dotted')
 
 #ax.plot(df_scion.rtt, np.cumsum(df_scion["ping_count_norm"] - df_ip.ping_count_norm))
 
-ax.legend(fontsize=18)
+ax.legend(fontsize=17, loc='upper left', bbox_to_anchor=(0, 0.85))
 plt.rcParams['pdf.fonttype'] = 42
 plt.rcParams['ps.fonttype'] = 42
 plt.rcParams['font.family'] = 'DejaVu Sans'
 plt.tight_layout()
 
-fig.savefig("sciera_hist_norm_cdf.png", dpi=600, bbox_inches="tight", transparent=True)
+# fig.savefig("sciera_hist_norm_cdf.png", dpi=600, bbox_inches="tight", transparent=True)
 fig.savefig("sciera_hist_norm_cdf.pdf", bbox_inches="tight" )#, transparent=True)
 

@@ -25,6 +25,7 @@ hourly_bucketed_pings AS (
         s.success = true 
         AND s.rtt > 0  
         AND s.src_scion_addr NOT IN ('71-2:0:35,192.168.1.1:0') 
+        AND s.dst_scion_addr NOT IN ('71-225,127.0.0.1:30041') 
         AND s.ping_time_new < '2025-02-08'
 ),
 
@@ -114,6 +115,31 @@ FROM
 ORDER BY 
     hc.hour, hc.src_addr, hc.rtt_bucket;              -- CHANGED: updated the ordering for clarity
 
+```
+
+Next, the following query need to be executed against our dataset and the results need to be stored into `ip_pings_valid_hours.csv`.
+
+```sql
+SELECT
+    date_trunc('hour', ping_time_new) AS hour,
+	avg(rtt) as avg_rtt,
+	COUNT(*) FILTER (WHERE success = true AND rtt > 0) * 1.0 / COUNT(*) AS success_ratio,
+	COUNT(*) AS prcount,
+    src_addr
+FROM
+    ip_ping_results
+WHERE 
+    rtt > 0
+    AND success = true
+    AND ping_time_new < '2025-02-08'
+GROUP BY
+    hour,
+    src_addr
+HAVING
+    COUNT(*) > 12000 
+ORDER BY
+    hour,
+    src_addr;
 ```
 
 Next, run `python3 aggregate_pings.py` to filter out time frames where no IP pings were sent.
