@@ -9,12 +9,14 @@ set -e
 # Generate the plot for Figure 5: Ping Latency
 
 cd figure_5_ping_latency
+python3 aggregate_pings.py
 python3 plot_histogram.py
 echo "Figure 5: Ping Latency plot generated to figure_5_ping_latency/sciera_hist_norm_cdf.pdf."
 cd ..
 
 # Generate the plot for Figure 6: RTT CDF
 cd figure_6_rtt_cdf
+python3 merge.py
 python3 plot.py
 echo "Figure 6: RTT CDF plot generated to figure_6_rtt_cdf/rtt_ratio_cdf.pdf."
 cd ..
