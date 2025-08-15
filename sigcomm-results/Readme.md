@@ -47,7 +47,7 @@ type PathStatistics struct {
 Pings over IP are sent over the path obtained by BGP, pings over SCION are sent over three (mostly disjoint) SCION paths. A single SCION ping entry is generated out of the three pings. Pings are generated every second, path statistics every minute.
 
 ## Data Processing and Importing
-We provide a tool called [postgres-importer](./tools/original-measurement-import/posgres-importer/main.go) that we used to process the data and aggreagate the measurement data from multiple measurement points into a single postgres database. As extension for postgres we deployed a `timescaledb` that provides extended functionality to evaluate time series. Our postgres and importer deployment can be found [here](./tools/original-measurement-import/postgres/docker-compose.yaml).
+We provide a tool called [postgres-importer](./tools/original-measurement-import/posgres-importer/main.go) that we used to process the data and aggregate the measurement data from multiple measurement points into a single postgres database. As extension for postgres we deployed a `timescaledb` that provides extended functionality to evaluate time series. Our postgres and importer deployment can be found [here](./tools/original-measurement-import/postgres/docker-compose.yaml).
 
 
 ## Database preparation
