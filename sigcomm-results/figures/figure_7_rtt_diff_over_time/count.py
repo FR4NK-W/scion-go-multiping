@@ -50,7 +50,7 @@ if __name__ == '__main__':
 
     # --- Define the list of files to be counted ---
     # These should be the paths to your output files from the previous step.
-    files_to_count = ['scion_filtered_debug.csv', 'ip_filtered_debug.csv']
+    files_to_count = ['gen/scion_filtered_debug.csv', 'gen/ip_filtered_debug.csv']
 
     # --- Run the counting function ---
     count_total_pings(files_to_count)

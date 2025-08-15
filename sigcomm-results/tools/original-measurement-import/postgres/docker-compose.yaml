@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  timescaledb:
+    image: timescale/timescaledb-ha:pg17
+    container_name: timescaledb
+    restart: always
+    ports:
+      - "5432:5432" # Exposes PostgreSQL on port 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: PASSWORD # Change this to your preferred database password
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/home/postgres/pgdata/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "8081:80" # Exposes pgAdmin on port 8080
+    environment:
+      PGADMIN_DEFAULT_EMAIL: EMAIL # Change this to your preferred admin email
+      PGADMIN_DEFAULT_PASSWORD: PASSWORD # Change this to your preferred admin password
+    depends_on:
+      - timescaledb
+
+  importer:
+    # Replicate this service to increase import speed
+    build: ./importer
+    command: /opt/results 1000
+    restart: always
+    volumes:
+      - "./results:/opt/results/"
+
+volumes:
+  pgdata:
+    driver: local

@@ -6,7 +6,7 @@ from brokenaxes import brokenaxes
 
 def plot_cdf():
     # Load merged data
-    df = pd.read_csv("merged_pings_filtered.csv")
+    df = pd.read_csv("gen/merged_pings_filtered.csv")
     
     # Drop rows where avg_ip is missing
     df = df.dropna(subset=['avg_ip'])
@@ -18,37 +18,100 @@ def plot_cdf():
     sorted_ratios = np.sort(df['rtt_diff_ratio'])
     cdf = np.arange(1, len(sorted_ratios) + 1) / len(sorted_ratios)
 
-    f, (ax1, ax2) = plt.subplots(ncols=2, nrows=1, sharey=True, width_ratios=[4, 1])
-    ax = sns.lineplot(x=sorted_ratios, y=cdf, marker="o", linestyle="-", color="blue", ax=ax1)
-    ax = sns.lineplot(x=sorted_ratios, y=cdf, marker="o", linestyle="-", color="blue", ax=ax2)
+    # Create DataFrame for easier manipulation
+    cdf_df = pd.DataFrame({'rtt_diff_ratio': sorted_ratios, 'cdf': cdf})
 
-    ax1.set_xlim(0, 2)
-    ax1.set_xticks([0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75,])
-    ax2.set_xlim(3, 3.25)
-    ax2.set_xticks([3.0, 3.25, 3.5])
-    d = .5  # proportion of vertical to horizontal extent of the slanted line
-    kwargs = dict(marker=[(-d, -1), (d, 1)], markersize=12,
-                  linestyle="none", color='k', mec='k', mew=1, clip_on=False)
-    ax1.plot([1, 1], [1, 0], transform=ax1.transAxes, **kwargs)
-    ax2.plot([0, 0], [1, 0], transform=ax2.transAxes, **kwargs)
+    f, ax = plt.subplots(figsize=(6, 4.4))
 
-    ax1.spines.right.set_visible(False)
-    ax2.spines.left.set_visible(False)
-    ax2.yaxis.tick_right()
-    plt.subplots_adjust(wspace=0.08, hspace=0,  left=0.1, right=0.95, bottom=0.15, top=0.95)
+    ax.set_xscale("log")
+    ax.set_xlim(0.1, 12)
+    ax.set_ylim(0, 1.01)
 
-    # Centered title for both subplots
-    # f.suptitle("CDF of RTT Ratio Between SCION and IP", fontsize=16, fontweight='bold')
+    # Filter out non-positive RTT ratios
+    df = df[df['rtt_diff_ratio'] > 0]
 
-    # Labels
-    f.supxlabel("RTT Ratio (SCION / IP)", fontsize=14)
-    f.supylabel("CDF", fontsize=14)
+    # Plot the full CDF
+    sns.lineplot(data=cdf_df, x='rtt_diff_ratio', y='cdf', color='royalblue', ax=ax)
+    marker_data = cdf_df.iloc[:-7]  # exclude last 7 rows
 
-    ax1.axvline(x=1, color='red', linestyle='--', label="SCION = IP")
-    ax1.legend()
+    ax.scatter(
+        marker_data['rtt_diff_ratio'],
+        marker_data['cdf'],
+        marker="o",
+        edgecolors='white',   # white outline
+        linewidths=0.8,  
+        color='royalblue',
+        s=30,          # size of the marker
+        zorder=3       # keep it above the line
+    )
+    
+    highlight_xs = [1.829669, 1.837245, 3.320837, 3.830811, 3.863771, 5.283462, 10.330083]
+    highlight_colors = ['red', 'purple', 'forestgreen','red','red','forestgreen','forestgreen'] 
 
-    ax1.grid(linestyle="--", alpha=0.6)
-    ax2.grid(linestyle="--", alpha=0.6)
+    for x_val, color in zip(highlight_xs, highlight_colors):
+        closest_idx = (np.abs(cdf_df['rtt_diff_ratio'] - x_val)).idxmin()
+        x_point = cdf_df.loc[closest_idx, 'rtt_diff_ratio']
+        y_point = cdf_df.loc[closest_idx, 'cdf']
+        ax.scatter(x_point, y_point, color=color, s=30, zorder=5, marker="v",
+        edgecolors='white',   # white outline
+        linewidths=0.8,  )
+
+    ax.annotate(
+        '', xy=(cdf_df.iloc[-4]['rtt_diff_ratio'], cdf_df.iloc[-4]['cdf'] -0.01),
+        xytext=(3, 0.74), arrowprops=dict(arrowstyle='-', linestyle=":",color='red')
+    )
+
+    ax.annotate(
+        '', xy=(cdf_df.iloc[-7]['rtt_diff_ratio'], cdf_df.iloc[-7]['cdf'] -0.01),
+        xytext=(2.7, 0.74), arrowprops=dict(arrowstyle='-',linestyle=":", color='red')
+    )
+
+    ax.annotate(
+        '', xy=(cdf_df.iloc[-1]['rtt_diff_ratio'], cdf_df.iloc[-1]['cdf'] -0.01),
+        xytext=(7, 0.91), arrowprops=dict(arrowstyle='-', linestyle=":",color='forestgreen')
+    )
+    ax.annotate(
+        '', xy=(cdf_df.iloc[-5]['rtt_diff_ratio'], cdf_df.iloc[-5]['cdf']),
+        xytext=(5.5, 0.91), arrowprops=dict(arrowstyle='-', linestyle=":",color='forestgreen')
+    )
+
+
+    ax.annotate(
+    'Cut of direct\nlink between\nSingapore and\nDaejon',
+    xy=(3.863771, 0.98), xycoords='data', fontsize=9,
+    xytext=(-45, -100), textcoords='offset points', color='red',
+    arrowprops=dict(arrowstyle="-",linestyle=":",color="red" )
+    )
+    
+
+    ax.annotate(
+        'UFMS to Equinix\nrouted through\nGÉANT',
+        xy=(1.837245, 0.97), xycoords='data', fontsize=9,
+        xytext=(-35, -150), textcoords='offset points', color='purple',
+        arrowprops=dict(arrowstyle="-",linestyle=":",color="purple" )
+        )
+    
+    ax.annotate(
+        'Routing\ninstabilities\nover BRIDGES',
+        xy=(5.283462, 0.99), xycoords='data', fontsize=9,
+        xytext=(-13, -51), textcoords='offset points', color='forestgreen',
+        arrowprops=dict(arrowstyle="-",linestyle=":",color="forestgreen" )
+        )
+    
+    
+
+    # Annotations
+    ax.axvline(x=1, color='red', linestyle='--', label="SCION = IP",zorder=10)
+    ax.legend(fontsize=13)
+
+    ax.set_xlabel("RTT Ratio (SCION / IP)", fontsize=14)
+    ax.set_ylabel("CDF", fontsize=14)
+
+    ax.tick_params(axis='both', which='major', labelsize=11)
+    ax.grid(True, which='both', linestyle='--', alpha=0.6)
+
+    plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
+
     plt.rcParams['pdf.fonttype'] = 42
     plt.rcParams['ps.fonttype'] = 42
 

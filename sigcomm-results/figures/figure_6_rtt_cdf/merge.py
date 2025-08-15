@@ -1,5 +1,10 @@
 import pandas as pd
-
+overwrite = {
+    "71-2:0:3e": "134.75.253.186",
+    "71-2:0:3f": "134.75.254.171",
+    "71-2:0:5c": "200.129.206.243",
+    "71-2:0:48": "145.40.89.243",
+}
 def merge_and_aggregate_pings():
     """
     Loads and filters SCION and IP ping data by valid hours, merges them,
@@ -9,10 +14,10 @@ def merge_and_aggregate_pings():
     try:
         # --- 1. Load all necessary CSV files ---
         # The 'hour' columns are parsed as datetime objects for accurate matching.
-        scion_pings = pd.read_csv("scion_pings_cdf_hour.csv", parse_dates=["hour"])
-        ip_pings = pd.read_csv("ip_pings_hour_cdf.csv", parse_dates=["hour"])
-        address_mapping = pd.read_csv("addressmapping.csv")
-        valid_hours = pd.read_csv("ip_pings_valid_hours.csv", parse_dates=["hour"])
+        scion_pings = pd.read_csv("input/scion_pings_cdf_hour.csv", parse_dates=["hour"])
+        ip_pings = pd.read_csv("input/ip_pings_hour_cdf.csv", parse_dates=["hour"])
+        address_mapping = pd.read_csv("input/addressmapping.csv")
+        valid_hours = pd.read_csv("input/ip_pings_valid_hours.csv", parse_dates=["hour"])
         
     except FileNotFoundError as e:
         print(f"Error: Could not find a required input file. {e}")
@@ -29,9 +34,9 @@ def merge_and_aggregate_pings():
     ip_pings_filtered = ip_pings[ip_pings.apply(lambda row: (row['hour'], row['src_addr']) in valid_combinations, axis=1)].copy()
     
     # Save the intermediate filtered IP pings DataFrame for debugging.
-    ip_pings_filtered.to_csv("ip_pings_filtered_debug.csv", index=False)
+    ip_pings_filtered.to_csv("gen/ip_pings_filtered_debug.csv", index=False)
     print(f"Filtered IP pings. Kept {len(ip_pings_filtered)} of {len(ip_pings)} rows.")
-    print("Saved intermediate data to ip_pings_filtered_debug.csv")
+    print("Saved intermediate data to gen/ip_pings_filtered_debug.csv")
 
     # --- 4. Filter SCION pings DataFrame ---
     # First, map each 'src_scion_addr' to its corresponding 'src_ip_addr'.
@@ -40,28 +45,25 @@ def merge_and_aggregate_pings():
         on='src_scion_addr',
         how='left'
     )
-    
     # Save this initial merge for debugging.
-    scion_pings_with_src_ip.to_csv("scion_pings_with_src_ip_debug.csv", index=False)
-    print("Saved intermediate SCION pings with mapped source IP to scion_pings_with_src_ip_debug.csv")
+    scion_pings_with_src_ip.to_csv("gen/scion_pings_with_src_ip_debug.csv", index=False)
+    print("Saved intermediate SCION pings with mapped source IP to gen/scion_pings_with_src_ip_debug.csv")
 
     # Now, filter this newly created DataFrame using the valid combinations.
     scion_pings_filtered = scion_pings_with_src_ip[scion_pings_with_src_ip.apply(lambda row: (row['hour'], row['src_ip_addr']) in valid_combinations, axis=1)].copy()
 
-    # Save the filtered SCION pings DataFrame for debugging.
-    scion_pings_filtered.to_csv("scion_pings_filtered_debug.csv", index=False)
-    print(f"Filtered SCION pings. Kept {len(scion_pings_filtered)} of {len(scion_pings)} rows.")
-    print("Saved intermediate data to scion_pings_filtered_debug.csv")
 
     # --- 5. Perform the hourly merge using the filtered data ---
-    
-    # Add destination IP to the filtered SCION data.
     merged_scion_filtered = scion_pings_filtered.merge(
         address_mapping[['dst_scion_addr', 'dst_ip_addr']],
         on='dst_scion_addr',
         how='left'
     )
-    
+        # Save the filtered SCION pings DataFrame for debugging.
+    merged_scion_filtered.to_csv("gen/scion_pings_filtered_debug.csv", index=False)
+    print(f"Filtered SCION pings. Kept {len(merged_scion_filtered)} of {len(scion_pings)} rows.")
+    print("Saved intermediate data to gen/scion_pings_filtered_debug.csv")
+
     # Rename columns for clarity before the final merge.
     merged_scion_filtered.rename(columns={'src_ip_addr': 'mapped_src_ip', 'dst_ip_addr': 'mapped_dst_ip', 'avg': 'avg_scion'}, inplace=True)
     ip_pings_filtered.rename(columns={'avg': 'avg_ip'}, inplace=True)
@@ -87,9 +89,9 @@ def merge_and_aggregate_pings():
     )
 
     # Save the final aggregated data to the output CSV file.
-    aggregated_data.to_csv("merged_pings_filtered.csv", index=False)
+    aggregated_data.to_csv("gen/merged_pings_filtered.csv", index=False)
     print("\nAggregation and merge complete.")
-    print(f"Final aggregated data with {len(aggregated_data)} rows saved to merged_pings_filtered.csv")
+    print(f"Final aggregated data with {len(aggregated_data)} rows saved to gen/merged_pings_filtered.csv")
 
 if __name__ == "__main__":
     merge_and_aggregate_pings()
