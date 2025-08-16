@@ -1,4 +1,6 @@
-# Setup instructions to recreate plots
+# \#908 - SIGCOMM '25: Scaling SCIERA: A Journey Through the Deployment of a Next-Generation Network
+
+## Setup instructions to recreate plots
 
 In this folder we provide all the required information to recreate our plots contained in the submission. We explain how we collected the data, which transformation steps changed the data and how we aggregated the data.
 
@@ -66,6 +68,7 @@ SET lookup_time_new = lookup_time::TIMESTAMPTZ WHERE lookup_time_new IS NULL;
 
 ## Current Dataset
 We provide a compressed dump of the aggregated postgres database that can be directly imported. It can be downloaded from [here](https://polybox.ethz.ch/index.php/s/9DMrYiXBwCT4KBH).
+For a permanent reference of the dataset, refer to [doi.org/10.5281/zenodo.15672256](https://doi.org/10.5281/zenodo.15672256).
 
 ## Processing the Dataset
 A mostly automated ready-to-use analysis environment is provided via Docker Compose.
