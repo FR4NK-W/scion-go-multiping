@@ -1,5 +1,7 @@
 import os
 import re
+import shutil
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -67,6 +69,10 @@ all_configs_latencies = []
 all_dns_latencies = []
 all_total_latencies = []
 
+# Print to file, redirect stdout
+stdout = sys.stdout
+f = open('performance.tex', 'w')
+sys.stdout = f
 
 for file_name in files:
     with open(file_name, 'r') as file:
@@ -178,3 +184,39 @@ print(r"""
 \end{axis}
 """)
 f.close()
+sys.stdout = stdout
+
+# Render TikZ to pdf
+# Create basic template
+with open('render.tex', 'w') as f:
+    preamble = r"""
+%\documentclass[tikz, border=1mm]{standalone}
+\documentclass{minimal}
+\usepackage{tikz}
+\usepackage{pgfplots}\pgfplotsset{compat=1.18}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{groupplots,statistics}
+
+\begin{document}
+\begin{tikzpicture}
+\definecolor{linecolor_before}{RGB}{00, 00, 50}
+\definecolor{linecolor_after}{RGB}{80, 20, 80} 
+\definecolor{linecolor_linux}{RGB}{00, 00, 200}
+\definecolor{linecolor_windows}{RGB}{75, 146, 195}
+\definecolor{linecolor_mac}{RGB}{255,152,62} 
+"""
+    f.write(preamble)
+    with open("performance.tex") as tikz_figure:
+        f.write(tikz_figure.read())
+    epilogue = r"""
+\end{tikzpicture}
+\end{document}
+"""
+    f.write(epilogue)
+
+pdflatex = shutil.which("pdflatex")
+if pdflatex:
+    os.system("pdflatex -jobname bootstrap_latency render.tex")
+else:
+    print("WARNING: A working pdflatex installation including texlive-pictures for pgf is required for rendering this figure. (Figure4)")
+    print("WARNING: Make sure pdflatex is on your path and the texlive-pictures package providing Tikz is installed.") 
