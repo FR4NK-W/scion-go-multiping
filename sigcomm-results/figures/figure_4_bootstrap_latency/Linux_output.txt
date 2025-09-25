@@ -1,0 +1,720 @@
+Startup:  2025-01-30 15:40:07.874027447 +0100 CET m=+0.000579958
+Starting hinters for  DNS-SDHinter :  303
+Starting hinters for  DNS-SDHinter  NAPTR:  425
+Completed hinter  DNS-SDHinter NAPTR hint:  4324
+Starting hinters for  DNS-SDHinter  NAPTR:  4334
+Starting fetch config:  4355
+Start fetching TRCs: 4396
+Completed fetching TRCs: 15649
+Start fetching topo: 15653
+Completed fetching topo: 16207
+Completed fetch config:  16210
+Completed bootstrapping:  16212
+Startup:  2025-01-30 15:40:08.895702425 +0100 CET m=+0.000573836
+Starting hinters for  DNS-SDHinter :  18264
+Starting hinters for  DNS-SDHinter  NAPTR:  18358
+Completed hinter  DNS-SDHinter NAPTR hint:  21178
+Starting hinters for  DNS-SDHinter  NAPTR:  21187
+Starting fetch config:  21210
+Start fetching TRCs: 21236
+Completed fetching TRCs: 34519
+Start fetching topo: 34523
+Completed fetching topo: 35094
+Completed fetch config:  35098
+Completed bootstrapping:  35100
+Startup:  2025-01-30 15:40:09.936334452 +0100 CET m=+0.000579085
+Starting hinters for  DNS-SDHinter :  301
+Starting hinters for  DNS-SDHinter  NAPTR:  412
+Completed hinter  DNS-SDHinter NAPTR hint:  3618
+Starting hinters for  DNS-SDHinter  NAPTR:  3626
+Starting fetch config:  3719
+Start fetching TRCs: 3734
+Completed fetching TRCs: 15991
+Start fetching topo: 15996
+Completed fetching topo: 16593
+Completed fetch config:  16597
+Completed bootstrapping:  16599
+Startup:  2025-01-30 15:40:10.958299853 +0100 CET m=+0.000589331
+Starting hinters for  DNS-SDHinter :  298
+Starting hinters for  DNS-SDHinter  NAPTR:  407
+Completed hinter  DNS-SDHinter NAPTR hint:  3294
+Starting hinters for  DNS-SDHinter  NAPTR:  3303
+Starting fetch config:  3347
+Start fetching TRCs: 3360
+Completed fetching TRCs: 16283
+Start fetching topo: 16287
+Completed fetching topo: 17119
+Completed fetch config:  17123
+Completed bootstrapping:  17125
+Startup:  2025-01-30 15:40:11.981025175 +0100 CET m=+0.000555202
+Starting hinters for  DNS-SDHinter :  290
+Starting hinters for  DNS-SDHinter  NAPTR:  406
+Completed hinter  DNS-SDHinter NAPTR hint:  3025
+Starting hinters for  DNS-SDHinter  NAPTR:  3034
+Starting fetch config:  3081
+Start fetching TRCs: 3093
+Completed fetching TRCs: 13776
+Start fetching topo: 13780
+Completed fetching topo: 14429
+Completed fetch config:  14433
+Completed bootstrapping:  14435
+Startup:  2025-01-30 15:40:13.001111326 +0100 CET m=+0.000582645
+Starting hinters for  DNS-SDHinter :  303
+Starting hinters for  DNS-SDHinter  NAPTR:  415
+Completed hinter  DNS-SDHinter NAPTR hint:  3401
+Starting hinters for  DNS-SDHinter  NAPTR:  3409
+Starting fetch config:  3438
+Start fetching TRCs: 3449
+Completed fetching TRCs: 15278
+Start fetching topo: 15282
+Completed fetching topo: 16235
+Completed fetch config:  16239
+Completed bootstrapping:  16241
+Startup:  2025-01-30 15:40:14.023138561 +0100 CET m=+0.000571097
+Starting hinters for  DNS-SDHinter :  350
+Starting hinters for  DNS-SDHinter  NAPTR:  457
+Completed hinter  DNS-SDHinter NAPTR hint:  2947
+Starting hinters for  DNS-SDHinter  NAPTR:  2955
+Starting fetch config:  3021
+Start fetching TRCs: 3028
+Completed fetching TRCs: 13965
+Start fetching topo: 13970
+Completed fetching topo: 14637
+Completed fetch config:  14641
+Completed bootstrapping:  14643
+Startup:  2025-01-30 15:40:15.043313961 +0100 CET m=+0.000559797
+Starting hinters for  DNS-SDHinter :  297
+Starting hinters for  DNS-SDHinter  NAPTR:  360
+Completed hinter  DNS-SDHinter NAPTR hint:  3599
+Starting hinters for  DNS-SDHinter  NAPTR:  3608
+Starting fetch config:  3660
+Start fetching TRCs: 3673
+Completed fetching TRCs: 13688
+Start fetching topo: 13692
+Completed fetching topo: 14220
+Completed fetch config:  14224
+Completed bootstrapping:  14225
+Startup:  2025-01-30 15:40:16.063209713 +0100 CET m=+0.000506302
+Starting hinters for  DNS-SDHinter :  291
+Starting hinters for  DNS-SDHinter  NAPTR:  369
+Completed hinter  DNS-SDHinter NAPTR hint:  3466
+Starting hinters for  DNS-SDHinter  NAPTR:  3480
+Starting fetch config:  3500
+Start fetching TRCs: 3520
+Completed fetching TRCs: 13901
+Start fetching topo: 13906
+Completed fetching topo: 14586
+Completed fetch config:  14589
+Completed bootstrapping:  14591
+Startup:  2025-01-30 15:40:17.083115258 +0100 CET m=+0.000551418
+Starting hinters for  DNS-SDHinter :  292
+Starting hinters for  DNS-SDHinter  NAPTR:  365
+Completed hinter  DNS-SDHinter NAPTR hint:  3046
+Starting hinters for  DNS-SDHinter  NAPTR:  3053
+Starting fetch config:  3122
+Start fetching TRCs: 3130
+Completed fetching TRCs: 13908
+Start fetching topo: 13912
+Completed fetching topo: 14532
+Completed fetch config:  14536
+Completed bootstrapping:  14538
+Startup:  2025-01-30 15:39:58.685321559 +0100 CET m=+0.000560264
+Starting hinters for  DNS-SDHinter :  308
+Starting hinters for  DNS-SDHinter  NAPTR:  418
+Completed hinter  DNS-SDHinter NAPTR hint:  3948
+Starting hinters for  DNS-SDHinter  NAPTR:  3956
+Starting fetch config:  4027
+Start fetching TRCs: 4035
+Completed fetching TRCs: 16119
+Start fetching topo: 16124
+Completed fetching topo: 16753
+Completed fetch config:  16757
+Completed bootstrapping:  16759
+Startup:  2025-01-30 15:40:18.103144541 +0100 CET m=+0.000546851
+Starting hinters for  DNS-SDHinter :  298
+Starting hinters for  DNS-SDHinter  NAPTR:  362
+Completed hinter  DNS-SDHinter NAPTR hint:  2884
+Starting hinters for  DNS-SDHinter  NAPTR:  2891
+Starting fetch config:  2958
+Start fetching TRCs: 2965
+Completed fetching TRCs: 14384
+Start fetching topo: 14388
+Completed fetching topo: 15148
+Completed fetch config:  15152
+Completed bootstrapping:  15154
+Startup:  2025-01-30 15:40:19.124044692 +0100 CET m=+0.000576021
+Starting hinters for  DNS-SDHinter :  676
+Starting hinters for  DNS-SDHinter  NAPTR:  804
+Completed hinter  DNS-SDHinter NAPTR hint:  4091
+Starting hinters for  DNS-SDHinter  NAPTR:  4101
+Starting fetch config:  4124
+Start fetching TRCs: 4150
+Completed fetching TRCs: 15594
+Start fetching topo: 15599
+Completed fetching topo: 16188
+Completed fetch config:  16193
+Completed bootstrapping:  16195
+Startup:  2025-01-30 15:40:20.145710745 +0100 CET m=+0.000549457
+Starting hinters for  DNS-SDHinter :  300
+Starting hinters for  DNS-SDHinter  NAPTR:  386
+Completed hinter  DNS-SDHinter NAPTR hint:  3237
+Starting hinters for  DNS-SDHinter  NAPTR:  3248
+Starting fetch config:  3276
+Start fetching TRCs: 3299
+Completed fetching TRCs: 14254
+Start fetching topo: 14260
+Completed fetching topo: 14885
+Completed fetch config:  14889
+Completed bootstrapping:  14890
+Startup:  2025-01-30 15:40:21.16607071 +0100 CET m=+0.000568884
+Starting hinters for  DNS-SDHinter :  289
+Starting hinters for  DNS-SDHinter  NAPTR:  409
+Completed hinter  DNS-SDHinter NAPTR hint:  3372
+Starting hinters for  DNS-SDHinter  NAPTR:  3380
+Starting fetch config:  3451
+Start fetching TRCs: 3459
+Completed fetching TRCs: 15152
+Start fetching topo: 15157
+Completed fetching topo: 15847
+Completed fetch config:  15850
+Completed bootstrapping:  15852
+Startup:  2025-01-30 15:40:22.18773788 +0100 CET m=+0.000847952
+Starting hinters for  DNS-SDHinter :  326
+Starting hinters for  DNS-SDHinter  NAPTR:  422
+Completed hinter  DNS-SDHinter NAPTR hint:  3519
+Starting hinters for  DNS-SDHinter  NAPTR:  3526
+Starting fetch config:  3600
+Start fetching TRCs: 3607
+Completed fetching TRCs: 16367
+Start fetching topo: 16371
+Completed fetching topo: 17068
+Completed fetch config:  17072
+Completed bootstrapping:  17074
+Startup:  2025-01-30 15:40:23.210590071 +0100 CET m=+0.000555252
+Starting hinters for  DNS-SDHinter :  295
+Starting hinters for  DNS-SDHinter  NAPTR:  368
+Completed hinter  DNS-SDHinter NAPTR hint:  3637
+Starting hinters for  DNS-SDHinter  NAPTR:  3648
+Starting fetch config:  3678
+Start fetching TRCs: 3698
+Completed fetching TRCs: 15064
+Start fetching topo: 15068
+Completed fetching topo: 15982
+Completed fetch config:  15986
+Completed bootstrapping:  15988
+Startup:  2025-01-30 15:40:24.232176723 +0100 CET m=+0.000567913
+Starting hinters for  DNS-SDHinter :  25190
+Starting hinters for  DNS-SDHinter  NAPTR:  25266
+Completed hinter  DNS-SDHinter NAPTR hint:  29019
+Starting hinters for  DNS-SDHinter  NAPTR:  29029
+Starting fetch config:  29067
+Start fetching TRCs: 29080
+Completed fetching TRCs: 40229
+Start fetching topo: 40233
+Completed fetching topo: 40884
+Completed fetch config:  40889
+Completed bootstrapping:  40890
+Startup:  2025-01-30 15:40:25.278533459 +0100 CET m=+0.000557255
+Starting hinters for  DNS-SDHinter :  293
+Starting hinters for  DNS-SDHinter  NAPTR:  357
+Completed hinter  DNS-SDHinter NAPTR hint:  4024
+Starting hinters for  DNS-SDHinter  NAPTR:  4035
+Starting fetch config:  4056
+Start fetching TRCs: 4068
+Completed fetching TRCs: 15122
+Start fetching topo: 15127
+Completed fetching topo: 15749
+Completed fetch config:  15752
+Completed bootstrapping:  15754
+Startup:  2025-01-30 15:40:26.29979843 +0100 CET m=+0.000518984
+Starting hinters for  DNS-SDHinter :  337
+Starting hinters for  DNS-SDHinter  NAPTR:  471
+Completed hinter  DNS-SDHinter NAPTR hint:  3391
+Starting hinters for  DNS-SDHinter  NAPTR:  3398
+Starting fetch config:  3423
+Start fetching TRCs: 3444
+Completed fetching TRCs: 16308
+Start fetching topo: 16313
+Completed fetching topo: 16938
+Completed fetch config:  16942
+Completed bootstrapping:  16944
+Startup:  2025-01-30 15:40:27.322209214 +0100 CET m=+0.000569003
+Starting hinters for  DNS-SDHinter :  295
+Starting hinters for  DNS-SDHinter  NAPTR:  362
+Completed hinter  DNS-SDHinter NAPTR hint:  3636
+Starting hinters for  DNS-SDHinter  NAPTR:  3644
+Starting fetch config:  3709
+Start fetching TRCs: 3717
+Completed fetching TRCs: 14504
+Start fetching topo: 14509
+Completed fetching topo: 15098
+Completed fetch config:  15102
+Completed bootstrapping:  15104
+Startup:  2025-01-30 15:39:59.707453244 +0100 CET m=+0.000556766
+Starting hinters for  DNS-SDHinter :  320
+Starting hinters for  DNS-SDHinter  NAPTR:  452
+Completed hinter  DNS-SDHinter NAPTR hint:  3206
+Starting hinters for  DNS-SDHinter  NAPTR:  3214
+Starting fetch config:  3250
+Start fetching TRCs: 3264
+Completed fetching TRCs: 13766
+Start fetching topo: 13770
+Completed fetching topo: 14357
+Completed fetch config:  14361
+Completed bootstrapping:  14363
+Startup:  2025-01-30 15:40:28.342474549 +0100 CET m=+0.000553902
+Starting hinters for  DNS-SDHinter :  297
+Starting hinters for  DNS-SDHinter  NAPTR:  415
+Completed hinter  DNS-SDHinter NAPTR hint:  3418
+Starting hinters for  DNS-SDHinter  NAPTR:  3427
+Starting fetch config:  3501
+Start fetching TRCs: 3514
+Completed fetching TRCs: 15190
+Start fetching topo: 15195
+Completed fetching topo: 15766
+Completed fetch config:  15771
+Completed bootstrapping:  15772
+Startup:  2025-01-30 15:40:00.727129443 +0100 CET m=+0.000578811
+Starting hinters for  DNS-SDHinter :  293
+Starting hinters for  DNS-SDHinter  NAPTR:  411
+Completed hinter  DNS-SDHinter NAPTR hint:  3681
+Starting hinters for  DNS-SDHinter  NAPTR:  3688
+Starting fetch config:  3759
+Start fetching TRCs: 3767
+Completed fetching TRCs: 15430
+Start fetching topo: 15434
+Completed fetching topo: 16105
+Completed fetch config:  16110
+Completed bootstrapping:  16111
+Startup:  2025-01-30 15:40:01.748679557 +0100 CET m=+0.000558990
+Starting hinters for  DNS-SDHinter :  312
+Starting hinters for  DNS-SDHinter  NAPTR:  445
+Completed hinter  DNS-SDHinter NAPTR hint:  2972
+Starting hinters for  DNS-SDHinter  NAPTR:  2980
+Starting fetch config:  3042
+Start fetching TRCs: 3051
+Completed fetching TRCs: 14284
+Start fetching topo: 14288
+Completed fetching topo: 14845
+Completed fetch config:  14849
+Completed bootstrapping:  14850
+Startup:  2025-01-30 15:40:02.768820602 +0100 CET m=+0.000506631
+Starting hinters for  DNS-SDHinter :  323
+Starting hinters for  DNS-SDHinter  NAPTR:  388
+Completed hinter  DNS-SDHinter NAPTR hint:  2997
+Starting hinters for  DNS-SDHinter  NAPTR:  3007
+Starting fetch config:  3084
+Start fetching TRCs: 3093
+Completed fetching TRCs: 14868
+Start fetching topo: 14872
+Completed fetching topo: 15594
+Completed fetch config:  15599
+Completed bootstrapping:  15600
+Startup:  2025-01-30 15:40:03.789871093 +0100 CET m=+0.000550644
+Starting hinters for  DNS-SDHinter :  415
+Starting hinters for  DNS-SDHinter  NAPTR:  532
+Completed hinter  DNS-SDHinter NAPTR hint:  3258
+Starting hinters for  DNS-SDHinter  NAPTR:  3266
+Starting fetch config:  3336
+Start fetching TRCs: 3344
+Completed fetching TRCs: 16211
+Start fetching topo: 16216
+Completed fetching topo: 16766
+Completed fetch config:  16771
+Completed bootstrapping:  16773
+Startup:  2025-01-30 15:40:04.812604639 +0100 CET m=+0.000930024
+Starting hinters for  DNS-SDHinter :  303
+Starting hinters for  DNS-SDHinter  NAPTR:  378
+Completed hinter  DNS-SDHinter NAPTR hint:  2910
+Starting hinters for  DNS-SDHinter  NAPTR:  2917
+Starting fetch config:  2979
+Start fetching TRCs: 2988
+Completed fetching TRCs: 14578
+Start fetching topo: 14583
+Completed fetching topo: 15107
+Completed fetch config:  15111
+Completed bootstrapping:  15113
+Startup:  2025-01-30 15:40:05.833205253 +0100 CET m=+0.000514174
+Starting hinters for  DNS-SDHinter :  296
+Starting hinters for  DNS-SDHinter  NAPTR:  390
+Completed hinter  DNS-SDHinter NAPTR hint:  2944
+Starting hinters for  DNS-SDHinter  NAPTR:  2952
+Starting fetch config:  3018
+Start fetching TRCs: 3026
+Completed fetching TRCs: 13756
+Start fetching topo: 13760
+Completed fetching topo: 14397
+Completed fetch config:  14401
+Completed bootstrapping:  14402
+Startup:  2025-01-30 15:40:06.853010149 +0100 CET m=+0.000559623
+Starting hinters for  DNS-SDHinter :  298
+Starting hinters for  DNS-SDHinter  NAPTR:  407
+Completed hinter  DNS-SDHinter NAPTR hint:  3177
+Starting hinters for  DNS-SDHinter  NAPTR:  3185
+Starting fetch config:  3249
+Start fetching TRCs: 3257
+Completed fetching TRCs: 14878
+Start fetching topo: 14883
+Completed fetching topo: 15656
+Completed fetch config:  15661
+Completed bootstrapping:  15663
+Startup:  2025-01-30 16:07:33.307634608 +0100 CET m=+0.000548791
+Starting hinters for  DNS-SDHinter :  320
+Starting hinters for  DNS-SDHinter  SRV:  462
+Completed hinter  DNS-SDHinter  SRV hint:  2610
+Starting hinters for  DNS-SDHinter  SRV:  2618
+Starting fetch config:  2687
+Start fetching TRCs: 2696
+Completed fetching TRCs: 15203
+Start fetching topo: 15208
+Completed fetching topo: 16048
+Completed fetch config:  16052
+Completed bootstrapping:  16054
+Startup:  2025-01-30 16:07:34.329402163 +0100 CET m=+0.000590996
+Starting hinters for  DNS-SDHinter :  22585
+Starting hinters for  DNS-SDHinter  SRV:  22706
+Completed hinter  DNS-SDHinter  SRV hint:  24579
+Starting hinters for  DNS-SDHinter  SRV:  24587
+Starting fetch config:  24633
+Start fetching TRCs: 24647
+Completed fetching TRCs: 36502
+Start fetching topo: 36507
+Completed fetching topo: 37156
+Completed fetch config:  37161
+Completed bootstrapping:  37163
+Startup:  2025-01-30 16:07:35.37196688 +0100 CET m=+0.000511758
+Starting hinters for  DNS-SDHinter :  314
+Starting hinters for  DNS-SDHinter  SRV:  453
+Completed hinter  DNS-SDHinter  SRV hint:  2474
+Starting hinters for  DNS-SDHinter  SRV:  2482
+Starting fetch config:  2526
+Start fetching TRCs: 2537
+Completed fetching TRCs: 13787
+Start fetching topo: 13818
+Completed fetching topo: 14307
+Completed fetch config:  14311
+Completed bootstrapping:  14312
+Startup:  2025-01-30 16:07:36.391964632 +0100 CET m=+0.000543717
+Starting hinters for  DNS-SDHinter :  318
+Starting hinters for  DNS-SDHinter  SRV:  413
+Completed hinter  DNS-SDHinter  SRV hint:  2634
+Starting hinters for  DNS-SDHinter  SRV:  2645
+Starting fetch config:  2669
+Start fetching TRCs: 2697
+Completed fetching TRCs: 13785
+Start fetching topo: 13789
+Completed fetching topo: 14454
+Completed fetch config:  14458
+Completed bootstrapping:  14460
+Startup:  2025-01-30 16:07:37.412302878 +0100 CET m=+0.000626124
+Starting hinters for  DNS-SDHinter :  300
+Starting hinters for  DNS-SDHinter  SRV:  419
+Completed hinter  DNS-SDHinter  SRV hint:  2608
+Starting hinters for  DNS-SDHinter  SRV:  2616
+Starting fetch config:  2663
+Start fetching TRCs: 2674
+Completed fetching TRCs: 14748
+Start fetching topo: 14752
+Completed fetching topo: 15369
+Completed fetch config:  15373
+Completed bootstrapping:  15375
+Startup:  2025-01-30 16:07:38.433201835 +0100 CET m=+0.000574939
+Starting hinters for  DNS-SDHinter :  289
+Starting hinters for  DNS-SDHinter  SRV:  398
+Completed hinter  DNS-SDHinter  SRV hint:  2610
+Starting hinters for  DNS-SDHinter  SRV:  2618
+Starting fetch config:  2690
+Start fetching TRCs: 2698
+Completed fetching TRCs: 14648
+Start fetching topo: 14653
+Completed fetching topo: 15232
+Completed fetch config:  15237
+Completed bootstrapping:  15239
+Startup:  2025-01-30 16:07:39.453990044 +0100 CET m=+0.000552330
+Starting hinters for  DNS-SDHinter :  589
+Starting hinters for  DNS-SDHinter  SRV:  697
+Completed hinter  DNS-SDHinter  SRV hint:  2404
+Starting hinters for  DNS-SDHinter  SRV:  2414
+Starting fetch config:  2457
+Start fetching TRCs: 2472
+Completed fetching TRCs: 15071
+Start fetching topo: 15100
+Completed fetching topo: 15676
+Completed fetch config:  15680
+Completed bootstrapping:  15682
+Startup:  2025-01-30 16:07:40.475142814 +0100 CET m=+0.000576957
+Starting hinters for  DNS-SDHinter :  292
+Starting hinters for  DNS-SDHinter  SRV:  418
+Completed hinter  DNS-SDHinter  SRV hint:  2789
+Starting hinters for  DNS-SDHinter  SRV:  2798
+Starting fetch config:  2836
+Start fetching TRCs: 2846
+Completed fetching TRCs: 15721
+Start fetching topo: 15726
+Completed fetching topo: 16815
+Completed fetch config:  16819
+Completed bootstrapping:  16821
+Startup:  2025-01-30 16:07:41.497588006 +0100 CET m=+0.000587345
+Starting hinters for  DNS-SDHinter :  291
+Starting hinters for  DNS-SDHinter  SRV:  431
+Completed hinter  DNS-SDHinter  SRV hint:  2289
+Starting hinters for  DNS-SDHinter  SRV:  2296
+Starting fetch config:  2382
+Start fetching TRCs: 2391
+Completed fetching TRCs: 14270
+Start fetching topo: 14276
+Completed fetching topo: 14879
+Completed fetch config:  14884
+Completed bootstrapping:  14886
+Startup:  2025-01-30 16:07:42.518060196 +0100 CET m=+0.000565516
+Starting hinters for  DNS-SDHinter :  293
+Starting hinters for  DNS-SDHinter  SRV:  405
+Completed hinter  DNS-SDHinter  SRV hint:  2509
+Starting hinters for  DNS-SDHinter  SRV:  2517
+Starting fetch config:  2598
+Start fetching TRCs: 2606
+Completed fetching TRCs: 13850
+Start fetching topo: 13863
+Completed fetching topo: 14476
+Completed fetch config:  14480
+Completed bootstrapping:  14482
+Startup:  2025-01-30 16:07:24.126501564 +0100 CET m=+0.000635258
+Starting hinters for  DNS-SDHinter :  340
+Starting hinters for  DNS-SDHinter  SRV:  404
+Completed hinter  DNS-SDHinter  SRV hint:  2624
+Starting hinters for  DNS-SDHinter  SRV:  2635
+Starting fetch config:  2712
+Start fetching TRCs: 2721
+Completed fetching TRCs: 13542
+Start fetching topo: 13548
+Completed fetching topo: 14213
+Completed fetch config:  14217
+Completed bootstrapping:  14218
+Startup:  2025-01-30 16:07:43.538075246 +0100 CET m=+0.000558289
+Starting hinters for  DNS-SDHinter :  302
+Starting hinters for  DNS-SDHinter  SRV:  415
+Completed hinter  DNS-SDHinter  SRV hint:  2286
+Starting hinters for  DNS-SDHinter  SRV:  2294
+Starting fetch config:  2329
+Start fetching TRCs: 2348
+Completed fetching TRCs: 12850
+Start fetching topo: 12855
+Completed fetching topo: 13650
+Completed fetch config:  13653
+Completed bootstrapping:  13655
+Startup:  2025-01-30 16:07:44.557161666 +0100 CET m=+0.000583478
+Starting hinters for  DNS-SDHinter :  21509
+Starting hinters for  DNS-SDHinter  SRV:  21594
+Completed hinter  DNS-SDHinter  SRV hint:  23513
+Starting hinters for  DNS-SDHinter  SRV:  23521
+Starting fetch config:  23584
+Start fetching TRCs: 23593
+Completed fetching TRCs: 35638
+Start fetching topo: 35642
+Completed fetching topo: 36306
+Completed fetch config:  36310
+Completed bootstrapping:  36311
+Startup:  2025-01-30 16:07:45.598988544 +0100 CET m=+0.000549813
+Starting hinters for  DNS-SDHinter :  296
+Starting hinters for  DNS-SDHinter  SRV:  360
+Completed hinter  DNS-SDHinter  SRV hint:  2620
+Starting hinters for  DNS-SDHinter  SRV:  2630
+Starting fetch config:  2652
+Start fetching TRCs: 2676
+Completed fetching TRCs: 13518
+Start fetching topo: 13523
+Completed fetching topo: 14138
+Completed fetch config:  14142
+Completed bootstrapping:  14144
+Startup:  2025-01-30 16:07:46.61859808 +0100 CET m=+0.000562516
+Starting hinters for  DNS-SDHinter :  280
+Starting hinters for  DNS-SDHinter  SRV:  400
+Completed hinter  DNS-SDHinter  SRV hint:  2594
+Starting hinters for  DNS-SDHinter  SRV:  2602
+Starting fetch config:  2747
+Start fetching TRCs: 2762
+Completed fetching TRCs: 21747
+Start fetching topo: 21753
+Completed fetching topo: 22389
+Completed fetch config:  22393
+Completed bootstrapping:  22395
+Startup:  2025-01-30 16:07:47.646643198 +0100 CET m=+0.000570371
+Starting hinters for  DNS-SDHinter :  323
+Starting hinters for  DNS-SDHinter  SRV:  389
+Completed hinter  DNS-SDHinter  SRV hint:  2643
+Starting hinters for  DNS-SDHinter  SRV:  2651
+Starting fetch config:  2754
+Start fetching TRCs: 2768
+Completed fetching TRCs: 14250
+Start fetching topo: 14254
+Completed fetching topo: 14926
+Completed fetch config:  14930
+Completed bootstrapping:  14932
+Startup:  2025-01-30 16:07:48.667179257 +0100 CET m=+0.000528753
+Starting hinters for  DNS-SDHinter :  306
+Starting hinters for  DNS-SDHinter  SRV:  390
+Completed hinter  DNS-SDHinter  SRV hint:  2527
+Starting hinters for  DNS-SDHinter  SRV:  2535
+Starting fetch config:  2582
+Start fetching TRCs: 2596
+Completed fetching TRCs: 14456
+Start fetching topo: 14467
+Completed fetching topo: 15029
+Completed fetch config:  15033
+Completed bootstrapping:  15035
+Startup:  2025-01-30 16:07:49.687621462 +0100 CET m=+0.000547623
+Starting hinters for  DNS-SDHinter :  313
+Starting hinters for  DNS-SDHinter  SRV:  426
+Completed hinter  DNS-SDHinter  SRV hint:  3844
+Starting hinters for  DNS-SDHinter  SRV:  3852
+Starting fetch config:  3932
+Start fetching TRCs: 3940
+Completed fetching TRCs: 16711
+Start fetching topo: 16715
+Completed fetching topo: 17717
+Completed fetch config:  17721
+Completed bootstrapping:  17723
+Startup:  2025-01-30 16:07:50.710805541 +0100 CET m=+0.000615515
+Starting hinters for  DNS-SDHinter :  433
+Starting hinters for  DNS-SDHinter  SRV:  535
+Completed hinter  DNS-SDHinter  SRV hint:  2586
+Starting hinters for  DNS-SDHinter  SRV:  2594
+Starting fetch config:  2629
+Start fetching TRCs: 2654
+Completed fetching TRCs: 13259
+Start fetching topo: 13263
+Completed fetching topo: 13869
+Completed fetch config:  13873
+Completed bootstrapping:  13875
+Startup:  2025-01-30 16:07:51.730225551 +0100 CET m=+0.000568970
+Starting hinters for  DNS-SDHinter :  312
+Starting hinters for  DNS-SDHinter  SRV:  426
+Completed hinter  DNS-SDHinter  SRV hint:  2257
+Starting hinters for  DNS-SDHinter  SRV:  2267
+Starting fetch config:  2299
+Start fetching TRCs: 2327
+Completed fetching TRCs: 13575
+Start fetching topo: 13581
+Completed fetching topo: 14181
+Completed fetch config:  14187
+Completed bootstrapping:  14188
+Startup:  2025-01-30 16:07:52.749890739 +0100 CET m=+0.000544223
+Starting hinters for  DNS-SDHinter :  302
+Starting hinters for  DNS-SDHinter  SRV:  412
+Completed hinter  DNS-SDHinter  SRV hint:  2746
+Starting hinters for  DNS-SDHinter  SRV:  2754
+Starting fetch config:  2826
+Start fetching TRCs: 2833
+Completed fetching TRCs: 13751
+Start fetching topo: 13756
+Completed fetching topo: 14606
+Completed fetch config:  14610
+Completed bootstrapping:  14612
+Startup:  2025-01-30 16:07:25.14621628 +0100 CET m=+0.000578823
+Starting hinters for  DNS-SDHinter :  321
+Starting hinters for  DNS-SDHinter  SRV:  423
+Completed hinter  DNS-SDHinter  SRV hint:  2498
+Starting hinters for  DNS-SDHinter  SRV:  2507
+Starting fetch config:  2577
+Start fetching TRCs: 2585
+Completed fetching TRCs: 13675
+Start fetching topo: 13678
+Completed fetching topo: 14280
+Completed fetch config:  14284
+Completed bootstrapping:  14286
+Startup:  2025-01-30 16:07:53.769985749 +0100 CET m=+0.000572826
+Starting hinters for  DNS-SDHinter :  302
+Starting hinters for  DNS-SDHinter  SRV:  441
+Completed hinter  DNS-SDHinter  SRV hint:  2832
+Starting hinters for  DNS-SDHinter  SRV:  2841
+Starting fetch config:  2918
+Start fetching TRCs: 2933
+Completed fetching TRCs: 14462
+Start fetching topo: 14466
+Completed fetching topo: 15105
+Completed fetch config:  15109
+Completed bootstrapping:  15110
+Startup:  2025-01-30 16:07:26.166017704 +0100 CET m=+0.000564628
+Starting hinters for  DNS-SDHinter :  315
+Starting hinters for  DNS-SDHinter  SRV:  447
+Completed hinter  DNS-SDHinter  SRV hint:  2527
+Starting hinters for  DNS-SDHinter  SRV:  2534
+Starting fetch config:  2569
+Start fetching TRCs: 2581
+Completed fetching TRCs: 13817
+Start fetching topo: 13821
+Completed fetching topo: 14352
+Completed fetch config:  14355
+Completed bootstrapping:  14357
+Startup:  2025-01-30 16:07:27.185970875 +0100 CET m=+0.000562554
+Starting hinters for  DNS-SDHinter :  325
+Starting hinters for  DNS-SDHinter  SRV:  469
+Completed hinter  DNS-SDHinter  SRV hint:  2549
+Starting hinters for  DNS-SDHinter  SRV:  2557
+Starting fetch config:  2594
+Start fetching TRCs: 2605
+Completed fetching TRCs: 14076
+Start fetching topo: 14081
+Completed fetching topo: 14748
+Completed fetch config:  14751
+Completed bootstrapping:  14753
+Startup:  2025-01-30 16:07:28.206270043 +0100 CET m=+0.000593095
+Starting hinters for  DNS-SDHinter :  316
+Starting hinters for  DNS-SDHinter  SRV:  436
+Completed hinter  DNS-SDHinter  SRV hint:  3175
+Starting hinters for  DNS-SDHinter  SRV:  3184
+Starting fetch config:  3211
+Start fetching TRCs: 3223
+Completed fetching TRCs: 14463
+Start fetching topo: 14467
+Completed fetching topo: 14994
+Completed fetch config:  14997
+Completed bootstrapping:  14999
+Startup:  2025-01-30 16:07:29.226685622 +0100 CET m=+0.000540614
+Starting hinters for  DNS-SDHinter :  910
+Starting hinters for  DNS-SDHinter  SRV:  979
+Completed hinter  DNS-SDHinter  SRV hint:  3286
+Starting hinters for  DNS-SDHinter  SRV:  3294
+Starting fetch config:  3365
+Start fetching TRCs: 3373
+Completed fetching TRCs: 15462
+Start fetching topo: 15466
+Completed fetching topo: 16046
+Completed fetch config:  16050
+Completed bootstrapping:  16052
+Startup:  2025-01-30 16:07:30.248310792 +0100 CET m=+0.000613107
+Starting hinters for  DNS-SDHinter :  300
+Starting hinters for  DNS-SDHinter  SRV:  430
+Completed hinter  DNS-SDHinter  SRV hint:  2352
+Starting hinters for  DNS-SDHinter  SRV:  2359
+Starting fetch config:  2423
+Start fetching TRCs: 2432
+Completed fetching TRCs: 13656
+Start fetching topo: 13661
+Completed fetching topo: 14472
+Completed fetch config:  14476
+Completed bootstrapping:  14478
+Startup:  2025-01-30 16:07:31.268471943 +0100 CET m=+0.000579506
+Starting hinters for  DNS-SDHinter :  301
+Starting hinters for  DNS-SDHinter  SRV:  409
+Completed hinter  DNS-SDHinter  SRV hint:  2652
+Starting hinters for  DNS-SDHinter  SRV:  2659
+Starting fetch config:  2705
+Start fetching TRCs: 2719
+Completed fetching TRCs: 13994
+Start fetching topo: 13998
+Completed fetching topo: 14594
+Completed fetch config:  14599
+Completed bootstrapping:  14601
+Startup:  2025-01-30 16:07:32.288587516 +0100 CET m=+0.000559052
+Starting hinters for  DNS-SDHinter :  297
+Starting hinters for  DNS-SDHinter  SRV:  417
+Completed hinter  DNS-SDHinter  SRV hint:  2352
+Starting hinters for  DNS-SDHinter  SRV:  2360
+Starting fetch config:  2410
+Start fetching TRCs: 2420
+Completed fetching TRCs: 12994
+Start fetching topo: 12998
+Completed fetching topo: 13615
+Completed fetch config:  13619
+Completed bootstrapping:  13621

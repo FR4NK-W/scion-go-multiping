@@ -1,0 +1,875 @@
+Startup:  2025-01-29 17:15:46.4133985 +0100 CET m=+0.002578201
+Starting hinters for  DNS-SDHinter :  1225
+Starting hinters for  DNS-SDHinter  NAPTR:  10016
+t=2025-01-29T17:15:48+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:59067->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2017596
+Starting hinters for  DNS-SDHinter  NAPTR:  2017596
+t=2025-01-29T17:15:50+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50170->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4018490
+Starting hinters for  DNS-SDHinter  NAPTR:  4018490
+t=2025-01-29T17:15:52+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:58734->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6021427
+Starting hinters for  DNS-SDHinter  NAPTR:  6021427
+t=2025-01-29T17:15:54+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:58735->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8022412
+Starting hinters for  DNS-SDHinter  NAPTR:  8022412
+t=2025-01-29T17:15:56+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:58736->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10023928
+Starting hinters for  DNS-SDHinter  NAPTR:  10023928
+t=2025-01-29T17:15:58+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:58737->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12025244
+Starting hinters for  DNS-SDHinter  NAPTR:  12025244
+t=2025-01-29T17:16:00+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:58738->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14026056
+Starting hinters for  DNS-SDHinter  NAPTR:  14026056
+t=2025-01-29T17:16:01+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:16:02.6969668 +0100 CET m=+0.002636601
+Starting hinters for  DNS-SDHinter :  1116
+Starting hinters for  DNS-SDHinter  NAPTR:  9172
+t=2025-01-29T17:16:04+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:58740->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2017999
+Starting hinters for  DNS-SDHinter  NAPTR:  2017999
+t=2025-01-29T17:16:06+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:58741->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4019242
+Starting hinters for  DNS-SDHinter  NAPTR:  4019242
+t=2025-01-29T17:16:08+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65319->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6021007
+Starting hinters for  DNS-SDHinter  NAPTR:  6021007
+t=2025-01-29T17:16:10+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65320->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8022938
+Starting hinters for  DNS-SDHinter  NAPTR:  8022938
+t=2025-01-29T17:16:12+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65321->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10023846
+Starting hinters for  DNS-SDHinter  NAPTR:  10023846
+t=2025-01-29T17:16:14+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:56863->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12024993
+Starting hinters for  DNS-SDHinter  NAPTR:  12024993
+t=2025-01-29T17:16:16+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:49284->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14025775
+Starting hinters for  DNS-SDHinter  NAPTR:  14025775
+t=2025-01-29T17:16:17+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:16:19.5864617 +0100 CET m=+0.003128001
+Starting hinters for  DNS-SDHinter :  1116
+Starting hinters for  DNS-SDHinter  NAPTR:  10074
+t=2025-01-29T17:16:21+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:63066->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2017088
+Starting hinters for  DNS-SDHinter  NAPTR:  2017088
+t=2025-01-29T17:16:23+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:63067->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4017728
+Starting hinters for  DNS-SDHinter  NAPTR:  4017728
+t=2025-01-29T17:16:25+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:53006->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6019462
+Starting hinters for  DNS-SDHinter  NAPTR:  6019462
+t=2025-01-29T17:16:27+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:53007->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8020712
+Starting hinters for  DNS-SDHinter  NAPTR:  8020712
+t=2025-01-29T17:16:29+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:53008->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10021847
+Starting hinters for  DNS-SDHinter  NAPTR:  10021847
+t=2025-01-29T17:16:31+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50668->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12022931
+Starting hinters for  DNS-SDHinter  NAPTR:  12022931
+t=2025-01-29T17:16:33+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50669->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14024692
+Starting hinters for  DNS-SDHinter  NAPTR:  14024692
+t=2025-01-29T17:16:34+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:16:35.8145441 +0100 CET m=+0.005087301
+Starting hinters for  DNS-SDHinter :  1585
+Starting hinters for  DNS-SDHinter  NAPTR:  17062
+t=2025-01-29T17:16:37+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52858->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2027337
+Starting hinters for  DNS-SDHinter  NAPTR:  2027337
+t=2025-01-29T17:16:39+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52859->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4028419
+Starting hinters for  DNS-SDHinter  NAPTR:  4028419
+t=2025-01-29T17:16:41+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52860->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6029342
+Starting hinters for  DNS-SDHinter  NAPTR:  6029958
+t=2025-01-29T17:16:43+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52861->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8031195
+Starting hinters for  DNS-SDHinter  NAPTR:  8031195
+t=2025-01-29T17:16:45+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52862->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10033269
+Starting hinters for  DNS-SDHinter  NAPTR:  10033269
+t=2025-01-29T17:16:47+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52863->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12034868
+Starting hinters for  DNS-SDHinter  NAPTR:  12034868
+t=2025-01-29T17:16:49+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:57756->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14037079
+Starting hinters for  DNS-SDHinter  NAPTR:  14037079
+t=2025-01-29T17:16:50+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:16:51.870807 +0100 CET m=+0.002695801
+Starting hinters for  DNS-SDHinter :  1102
+Starting hinters for  DNS-SDHinter  NAPTR:  10338
+Completed hinter  DNS-SDHinter NAPTR hint:  29417
+Starting hinters for  DNS-SDHinter  NAPTR:  29417
+Starting fetch config:  29417
+Start fetching TRCs: 29417
+Completed hinter  DNS-SDHinter NAPTR hint:  31069
+Starting hinters for  DNS-SDHinter  NAPTR:  31069
+Completed hinter  DNS-SDHinter NAPTR hint:  32402
+Starting hinters for  DNS-SDHinter  NAPTR:  32402
+Completed hinter  DNS-SDHinter NAPTR hint:  33443
+Starting hinters for  DNS-SDHinter  NAPTR:  33443
+Completed hinter  DNS-SDHinter NAPTR hint:  34653
+Starting hinters for  DNS-SDHinter  NAPTR:  34653
+Completed fetching TRCs: 146353
+Start fetching topo: 146353
+Completed fetching topo: 149207
+Completed fetch config:  149207
+Completed bootstrapping:  149207
+Startup:  2025-01-29 17:16:53.1393675 +0100 CET m=+0.002652401
+Starting hinters for  DNS-SDHinter :  1072
+Starting hinters for  DNS-SDHinter  NAPTR:  9583
+Completed hinter  DNS-SDHinter NAPTR hint:  14394
+Starting hinters for  DNS-SDHinter  NAPTR:  14394
+Starting fetch config:  14915
+Start fetching TRCs: 14915
+Completed hinter  DNS-SDHinter NAPTR hint:  15978
+Starting hinters for  DNS-SDHinter  NAPTR:  15978
+Completed hinter  DNS-SDHinter NAPTR hint:  18027
+Starting hinters for  DNS-SDHinter  NAPTR:  18027
+Completed hinter  DNS-SDHinter NAPTR hint:  19333
+Starting hinters for  DNS-SDHinter  NAPTR:  19333
+Completed hinter  DNS-SDHinter NAPTR hint:  20402
+Starting hinters for  DNS-SDHinter  NAPTR:  20402
+Completed fetching TRCs: 69877
+Start fetching topo: 69877
+Completed fetching topo: 71853
+Completed fetch config:  71853
+Completed bootstrapping:  71853
+Startup:  2025-01-29 17:16:54.296142 +0100 CET m=+0.005001701
+Starting hinters for  DNS-SDHinter :  1657
+Starting hinters for  DNS-SDHinter  NAPTR:  14247
+Completed hinter  DNS-SDHinter NAPTR hint:  19732
+Starting hinters for  DNS-SDHinter  NAPTR:  19732
+Starting fetch config:  19732
+Start fetching TRCs: 19732
+Completed hinter  DNS-SDHinter NAPTR hint:  21641
+Starting hinters for  DNS-SDHinter  NAPTR:  21641
+Completed hinter  DNS-SDHinter NAPTR hint:  22769
+Starting hinters for  DNS-SDHinter  NAPTR:  22769
+Completed hinter  DNS-SDHinter NAPTR hint:  25249
+Starting hinters for  DNS-SDHinter  NAPTR:  25249
+Completed hinter  DNS-SDHinter NAPTR hint:  26496
+Starting hinters for  DNS-SDHinter  NAPTR:  27037
+Completed fetching TRCs: 125404
+Start fetching topo: 125404
+Completed fetching topo: 128507
+Completed fetch config:  128507
+Completed bootstrapping:  128507
+Startup:  2025-01-29 17:16:55.4635223 +0100 CET m=+0.002630301
+Starting hinters for  DNS-SDHinter :  0
+Starting hinters for  DNS-SDHinter  NAPTR:  8947
+Completed hinter  DNS-SDHinter NAPTR hint:  14910
+Starting hinters for  DNS-SDHinter  NAPTR:  14910
+Starting fetch config:  14910
+Start fetching TRCs: 15416
+Completed hinter  DNS-SDHinter NAPTR hint:  15957
+Starting hinters for  DNS-SDHinter  NAPTR:  15957
+Completed hinter  DNS-SDHinter NAPTR hint:  17054
+Starting hinters for  DNS-SDHinter  NAPTR:  17054
+Completed hinter  DNS-SDHinter NAPTR hint:  18014
+Starting hinters for  DNS-SDHinter  NAPTR:  18014
+Completed hinter  DNS-SDHinter NAPTR hint:  19054
+Starting hinters for  DNS-SDHinter  NAPTR:  19054
+Completed fetching TRCs: 96612
+Start fetching topo: 96612
+Completed fetching topo: 99355
+Completed fetch config:  99355
+Completed bootstrapping:  99355
+Startup:  2025-01-29 17:16:56.6141244 +0100 CET m=+0.003164201
+Starting hinters for  DNS-SDHinter :  1129
+Starting hinters for  DNS-SDHinter  NAPTR:  15249
+Completed hinter  DNS-SDHinter NAPTR hint:  20803
+Starting hinters for  DNS-SDHinter  NAPTR:  20803
+Starting fetch config:  21813
+Start fetching TRCs: 21813
+Completed hinter  DNS-SDHinter NAPTR hint:  22862
+Starting hinters for  DNS-SDHinter  NAPTR:  22862
+Completed hinter  DNS-SDHinter NAPTR hint:  23974
+Starting hinters for  DNS-SDHinter  NAPTR:  23974
+Completed hinter  DNS-SDHinter NAPTR hint:  25604
+Starting hinters for  DNS-SDHinter  NAPTR:  25604
+Completed hinter  DNS-SDHinter NAPTR hint:  26726
+Starting hinters for  DNS-SDHinter  NAPTR:  26726
+Completed fetching TRCs: 104953
+Start fetching topo: 104953
+Completed fetching topo: 106889
+Completed fetch config:  106889
+Completed bootstrapping:  106889
+Startup:  2025-01-29 17:16:57.8013153 +0100 CET m=+0.003358301
+Starting hinters for  DNS-SDHinter :  1128
+Starting hinters for  DNS-SDHinter  NAPTR:  13083
+Completed hinter  DNS-SDHinter NAPTR hint:  18640
+Starting hinters for  DNS-SDHinter  NAPTR:  18640
+Starting fetch config:  18640
+Start fetching TRCs: 18640
+Completed hinter  DNS-SDHinter NAPTR hint:  19678
+Starting hinters for  DNS-SDHinter  NAPTR:  19678
+Completed hinter  DNS-SDHinter NAPTR hint:  20534
+Starting hinters for  DNS-SDHinter  NAPTR:  20534
+Completed hinter  DNS-SDHinter NAPTR hint:  21669
+Starting hinters for  DNS-SDHinter  NAPTR:  21669
+Completed hinter  DNS-SDHinter NAPTR hint:  22199
+Starting hinters for  DNS-SDHinter  NAPTR:  22733
+Completed fetching TRCs: 89047
+Start fetching topo: 89047
+Completed fetching topo: 96546
+Completed fetch config:  96546
+Completed bootstrapping:  96546
+Startup:  2025-01-29 17:41:25.1585726 +0100 CET m=+0.003468601
+Starting hinters for  DNS-SDHinter :  535
+Starting hinters for  DNS-SDHinter  NAPTR:  9720
+Completed hinter  DNS-SDHinter NAPTR hint:  17349
+Starting hinters for  DNS-SDHinter  NAPTR:  17349
+Starting fetch config:  17349
+Start fetching TRCs: 17349
+Completed hinter  DNS-SDHinter NAPTR hint:  18595
+Starting hinters for  DNS-SDHinter  NAPTR:  19601
+Completed hinter  DNS-SDHinter NAPTR hint:  20711
+Starting hinters for  DNS-SDHinter  NAPTR:  20711
+Completed hinter  DNS-SDHinter NAPTR hint:  21772
+Starting hinters for  DNS-SDHinter  NAPTR:  21772
+Completed hinter  DNS-SDHinter NAPTR hint:  22958
+Starting hinters for  DNS-SDHinter  NAPTR:  22958
+Completed fetching TRCs: 83702
+Start fetching topo: 83702
+Completed fetching topo: 98670
+Completed fetch config:  98670
+Completed bootstrapping:  98670
+Startup:  2025-01-29 17:41:26.3323049 +0100 CET m=+0.002667701
+Starting hinters for  DNS-SDHinter :  541
+Starting hinters for  DNS-SDHinter  NAPTR:  11323
+Completed hinter  DNS-SDHinter NAPTR hint:  16321
+Starting hinters for  DNS-SDHinter  NAPTR:  16321
+Starting fetch config:  16321
+Start fetching TRCs: 16321
+Completed hinter  DNS-SDHinter NAPTR hint:  17040
+Starting hinters for  DNS-SDHinter  NAPTR:  17040
+Completed hinter  DNS-SDHinter NAPTR hint:  18109
+Starting hinters for  DNS-SDHinter  NAPTR:  18109
+Completed hinter  DNS-SDHinter NAPTR hint:  19416
+Starting hinters for  DNS-SDHinter  NAPTR:  19416
+Completed hinter  DNS-SDHinter NAPTR hint:  20512
+Starting hinters for  DNS-SDHinter  NAPTR:  20512
+Completed fetching TRCs: 91292
+Start fetching topo: 91292
+Completed fetching topo: 94534
+Completed fetch config:  94534
+Completed bootstrapping:  94534
+Startup:  2025-01-29 17:41:27.4814928 +0100 CET m=+0.002648201
+Starting hinters for  DNS-SDHinter :  1062
+Starting hinters for  DNS-SDHinter  NAPTR:  9542
+t=2025-01-29T17:41:29+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:62944->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2016838
+Starting hinters for  DNS-SDHinter  NAPTR:  2016838
+t=2025-01-29T17:41:31+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:62945->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4018336
+Starting hinters for  DNS-SDHinter  NAPTR:  4018336
+t=2025-01-29T17:41:33+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:62946->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6019741
+Starting hinters for  DNS-SDHinter  NAPTR:  6019741
+t=2025-01-29T17:41:35+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:62947->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8020440
+Starting hinters for  DNS-SDHinter  NAPTR:  8020440
+t=2025-01-29T17:41:37+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:57924->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10022149
+Starting hinters for  DNS-SDHinter  NAPTR:  10022149
+t=2025-01-29T17:41:39+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:57925->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12023881
+Starting hinters for  DNS-SDHinter  NAPTR:  12023881
+t=2025-01-29T17:41:41+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:57926->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14024971
+Starting hinters for  DNS-SDHinter  NAPTR:  14024971
+t=2025-01-29T17:41:42+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:41:43.5300914 +0100 CET m=+0.003465501
+Starting hinters for  DNS-SDHinter :  566
+Starting hinters for  DNS-SDHinter  NAPTR:  10779
+Completed hinter  DNS-SDHinter NAPTR hint:  15960
+Starting hinters for  DNS-SDHinter  NAPTR:  15960
+Starting fetch config:  15960
+Start fetching TRCs: 15960
+Completed hinter  DNS-SDHinter NAPTR hint:  16464
+Starting hinters for  DNS-SDHinter  NAPTR:  16464
+Completed hinter  DNS-SDHinter NAPTR hint:  17621
+Starting hinters for  DNS-SDHinter  NAPTR:  17621
+Completed hinter  DNS-SDHinter NAPTR hint:  19182
+Starting hinters for  DNS-SDHinter  NAPTR:  19182
+Completed hinter  DNS-SDHinter NAPTR hint:  19724
+Starting hinters for  DNS-SDHinter  NAPTR:  19724
+Completed fetching TRCs: 86133
+Start fetching topo: 86670
+Completed fetching topo: 89819
+Completed fetch config:  89819
+Completed bootstrapping:  89819
+Startup:  2025-01-29 17:41:44.7281332 +0100 CET m=+0.003839301
+Starting hinters for  DNS-SDHinter :  1663
+Starting hinters for  DNS-SDHinter  NAPTR:  14443
+t=2025-01-29T17:41:46+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:57940->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2022596
+Starting hinters for  DNS-SDHinter  NAPTR:  2022596
+t=2025-01-29T17:41:48+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52465->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4023731
+Starting hinters for  DNS-SDHinter  NAPTR:  4023731
+t=2025-01-29T17:41:50+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:63186->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6025930
+Starting hinters for  DNS-SDHinter  NAPTR:  6025930
+t=2025-01-29T17:41:52+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:63187->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8026588
+Starting hinters for  DNS-SDHinter  NAPTR:  8026588
+t=2025-01-29T17:41:54+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:55965->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10027637
+Starting hinters for  DNS-SDHinter  NAPTR:  10027637
+t=2025-01-29T17:41:56+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:63097->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12029144
+Starting hinters for  DNS-SDHinter  NAPTR:  12029144
+t=2025-01-29T17:41:58+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:63098->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14030241
+Starting hinters for  DNS-SDHinter  NAPTR:  14030241
+t=2025-01-29T17:41:59+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:42:00.8318986 +0100 CET m=+0.002155901
+Starting hinters for  DNS-SDHinter :  1060
+Starting hinters for  DNS-SDHinter  NAPTR:  10163
+Completed hinter  DNS-SDHinter NAPTR hint:  15488
+Starting hinters for  DNS-SDHinter  NAPTR:  15488
+Starting fetch config:  15488
+Start fetching TRCs: 15488
+Completed hinter  DNS-SDHinter NAPTR hint:  16513
+Starting hinters for  DNS-SDHinter  NAPTR:  16513
+Completed hinter  DNS-SDHinter NAPTR hint:  17523
+Starting hinters for  DNS-SDHinter  NAPTR:  17523
+Completed hinter  DNS-SDHinter NAPTR hint:  18027
+Starting hinters for  DNS-SDHinter  NAPTR:  18027
+Completed hinter  DNS-SDHinter NAPTR hint:  19074
+Starting hinters for  DNS-SDHinter  NAPTR:  19074
+Completed fetching TRCs: 85503
+Start fetching topo: 85503
+Completed fetching topo: 87637
+Completed fetch config:  87637
+Completed bootstrapping:  87637
+Startup:  2025-01-29 17:42:02.1040134 +0100 CET m=+0.002870401
+Starting hinters for  DNS-SDHinter :  1039
+Starting hinters for  DNS-SDHinter  NAPTR:  9482
+Completed hinter  DNS-SDHinter NAPTR hint:  15075
+Starting hinters for  DNS-SDHinter  NAPTR:  15075
+Starting fetch config:  15075
+Start fetching TRCs: 15075
+Completed hinter  DNS-SDHinter NAPTR hint:  16107
+Starting hinters for  DNS-SDHinter  NAPTR:  16107
+Completed hinter  DNS-SDHinter NAPTR hint:  17302
+Starting hinters for  DNS-SDHinter  NAPTR:  17302
+Completed hinter  DNS-SDHinter NAPTR hint:  18331
+Starting hinters for  DNS-SDHinter  NAPTR:  18331
+Completed hinter  DNS-SDHinter NAPTR hint:  19392
+Starting hinters for  DNS-SDHinter  NAPTR:  19392
+Completed fetching TRCs: 89812
+Start fetching topo: 89812
+Completed fetching topo: 92020
+Completed fetch config:  92020
+Completed bootstrapping:  92020
+Startup:  2025-01-29 17:42:03.2182716 +0100 CET m=+0.002694301
+Starting hinters for  DNS-SDHinter :  1100
+Starting hinters for  DNS-SDHinter  NAPTR:  12134
+Completed hinter  DNS-SDHinter NAPTR hint:  16706
+Starting hinters for  DNS-SDHinter  NAPTR:  16706
+Starting fetch config:  16706
+Start fetching TRCs: 16706
+Completed hinter  DNS-SDHinter NAPTR hint:  17404
+Starting hinters for  DNS-SDHinter  NAPTR:  17404
+Completed hinter  DNS-SDHinter NAPTR hint:  18466
+Starting hinters for  DNS-SDHinter  NAPTR:  18466
+Completed hinter  DNS-SDHinter NAPTR hint:  19727
+Starting hinters for  DNS-SDHinter  NAPTR:  19727
+Completed hinter  DNS-SDHinter NAPTR hint:  20628
+Starting hinters for  DNS-SDHinter  NAPTR:  20628
+Completed fetching TRCs: 87797
+Start fetching topo: 87797
+Completed fetching topo: 92867
+Completed fetch config:  92867
+Completed bootstrapping:  92867
+Startup:  2025-01-29 17:42:04.266143 +0100 CET m=+0.002787401
+Starting hinters for  DNS-SDHinter :  552
+Starting hinters for  DNS-SDHinter  NAPTR:  10799
+t=2025-01-29T17:42:06+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:63885->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2019203
+Starting hinters for  DNS-SDHinter  NAPTR:  2019203
+t=2025-01-29T17:42:08+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:55823->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4020034
+Starting hinters for  DNS-SDHinter  NAPTR:  4020034
+t=2025-01-29T17:42:10+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52228->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6021976
+Starting hinters for  DNS-SDHinter  NAPTR:  6021976
+t=2025-01-29T17:42:12+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52229->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8022959
+Starting hinters for  DNS-SDHinter  NAPTR:  8022959
+t=2025-01-29T17:42:14+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65525->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10025204
+Starting hinters for  DNS-SDHinter  NAPTR:  10025204
+t=2025-01-29T17:42:16+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:62291->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12026152
+Starting hinters for  DNS-SDHinter  NAPTR:  12026152
+t=2025-01-29T17:42:18+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:54744->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14028171
+Starting hinters for  DNS-SDHinter  NAPTR:  14028171
+t=2025-01-29T17:42:19+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:42:20.4071111 +0100 CET m=+0.002117301
+Starting hinters for  DNS-SDHinter :  540
+Starting hinters for  DNS-SDHinter  NAPTR:  10414
+Completed hinter  DNS-SDHinter NAPTR hint:  15379
+Starting hinters for  DNS-SDHinter  NAPTR:  15379
+Starting fetch config:  15889
+Start fetching TRCs: 15889
+Completed hinter  DNS-SDHinter NAPTR hint:  16808
+Starting hinters for  DNS-SDHinter  NAPTR:  16808
+Completed hinter  DNS-SDHinter NAPTR hint:  18043
+Starting hinters for  DNS-SDHinter  NAPTR:  18043
+Completed hinter  DNS-SDHinter NAPTR hint:  19112
+Starting hinters for  DNS-SDHinter  NAPTR:  19112
+Completed hinter  DNS-SDHinter NAPTR hint:  20610
+Starting hinters for  DNS-SDHinter  NAPTR:  20610
+Completed fetching TRCs: 73587
+Start fetching topo: 73587
+Completed fetching topo: 76704
+Completed fetch config:  76704
+Completed bootstrapping:  76704
+Startup:  2025-01-29 17:42:21.5852494 +0100 CET m=+0.004470101
+Starting hinters for  DNS-SDHinter :  1703
+Starting hinters for  DNS-SDHinter  NAPTR:  12797
+t=2025-01-29T17:42:23+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:59595->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2019293
+Starting hinters for  DNS-SDHinter  NAPTR:  2019293
+t=2025-01-29T17:42:25+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52116->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4021698
+Starting hinters for  DNS-SDHinter  NAPTR:  4021698
+t=2025-01-29T17:42:27+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52117->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6024376
+Starting hinters for  DNS-SDHinter  NAPTR:  6024376
+t=2025-01-29T17:42:29+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52118->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8026099
+Starting hinters for  DNS-SDHinter  NAPTR:  8026099
+t=2025-01-29T17:42:31+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52119->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10027575
+Starting hinters for  DNS-SDHinter  NAPTR:  10027575
+t=2025-01-29T17:42:33+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52120->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12028719
+Starting hinters for  DNS-SDHinter  NAPTR:  12028719
+t=2025-01-29T17:42:35+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52121->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14030093
+Starting hinters for  DNS-SDHinter  NAPTR:  14030093
+t=2025-01-29T17:42:36+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:42:37.6648399 +0100 CET m=+0.002654401
+Starting hinters for  DNS-SDHinter :  1043
+Starting hinters for  DNS-SDHinter  NAPTR:  9214
+Completed hinter  DNS-SDHinter NAPTR hint:  14487
+Starting hinters for  DNS-SDHinter  NAPTR:  14487
+Starting fetch config:  14487
+Start fetching TRCs: 14487
+Completed hinter  DNS-SDHinter NAPTR hint:  15265
+Starting hinters for  DNS-SDHinter  NAPTR:  15265
+Completed hinter  DNS-SDHinter NAPTR hint:  15799
+Starting hinters for  DNS-SDHinter  NAPTR:  15799
+Completed hinter  DNS-SDHinter NAPTR hint:  17552
+Starting hinters for  DNS-SDHinter  NAPTR:  17552
+Completed hinter  DNS-SDHinter NAPTR hint:  18140
+Starting hinters for  DNS-SDHinter  NAPTR:  18140
+Completed fetching TRCs: 88374
+Start fetching topo: 88374
+Completed fetching topo: 91236
+Completed fetch config:  91236
+Completed bootstrapping:  91236
+Startup:  2025-01-29 17:42:38.8907618 +0100 CET m=+0.002755301
+Starting hinters for  DNS-SDHinter :  1038
+Starting hinters for  DNS-SDHinter  NAPTR:  10623
+Completed hinter  DNS-SDHinter NAPTR hint:  14685
+Starting hinters for  DNS-SDHinter  NAPTR:  14685
+Starting fetch config:  14685
+Start fetching TRCs: 14685
+Completed hinter  DNS-SDHinter NAPTR hint:  16803
+Starting hinters for  DNS-SDHinter  NAPTR:  16803
+Completed hinter  DNS-SDHinter NAPTR hint:  17313
+Starting hinters for  DNS-SDHinter  NAPTR:  17313
+Completed hinter  DNS-SDHinter NAPTR hint:  18919
+Starting hinters for  DNS-SDHinter  NAPTR:  18919
+Completed hinter  DNS-SDHinter NAPTR hint:  19955
+Starting hinters for  DNS-SDHinter  NAPTR:  19955
+Completed fetching TRCs: 71415
+Start fetching topo: 71415
+Completed fetching topo: 73994
+Completed fetch config:  73994
+Completed bootstrapping:  73994
+Startup:  2025-01-29 17:42:40.1110709 +0100 CET m=+0.002667201
+Starting hinters for  DNS-SDHinter :  539
+Starting hinters for  DNS-SDHinter  NAPTR:  10726
+t=2025-01-29T17:42:42+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:54470->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2019270
+Starting hinters for  DNS-SDHinter  NAPTR:  2019270
+t=2025-01-29T17:42:44+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:54471->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4019938
+Starting hinters for  DNS-SDHinter  NAPTR:  4019938
+t=2025-01-29T17:42:46+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51472->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6021752
+Starting hinters for  DNS-SDHinter  NAPTR:  6021752
+t=2025-01-29T17:42:48+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:56561->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8023464
+Starting hinters for  DNS-SDHinter  NAPTR:  8023464
+t=2025-01-29T17:42:50+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:52252->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10024447
+Starting hinters for  DNS-SDHinter  NAPTR:  10024447
+t=2025-01-29T17:42:52+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:62969->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12026100
+Starting hinters for  DNS-SDHinter  NAPTR:  12026100
+t=2025-01-29T17:42:54+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:62970->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14027771
+Starting hinters for  DNS-SDHinter  NAPTR:  14027771
+t=2025-01-29T17:42:55+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:42:56.096167 +0100 CET m=+0.002912601
+Starting hinters for  DNS-SDHinter :  577
+Starting hinters for  DNS-SDHinter  NAPTR:  12552
+t=2025-01-29T17:42:58+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:53319->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2025947
+Starting hinters for  DNS-SDHinter  NAPTR:  2025947
+t=2025-01-29T17:43:00+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51798->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4027177
+Starting hinters for  DNS-SDHinter  NAPTR:  4027177
+t=2025-01-29T17:43:02+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51799->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6028197
+Starting hinters for  DNS-SDHinter  NAPTR:  6028197
+t=2025-01-29T17:43:04+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51800->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8030027
+Starting hinters for  DNS-SDHinter  NAPTR:  8030027
+t=2025-01-29T17:43:06+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51801->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10031456
+Starting hinters for  DNS-SDHinter  NAPTR:  10031456
+t=2025-01-29T17:43:08+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51802->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12032601
+Starting hinters for  DNS-SDHinter  NAPTR:  12032601
+t=2025-01-29T17:43:10+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51803->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14035169
+Starting hinters for  DNS-SDHinter  NAPTR:  14035169
+t=2025-01-29T17:43:11+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:43:12.2005668 +0100 CET m=+0.002666401
+Starting hinters for  DNS-SDHinter :  536
+Starting hinters for  DNS-SDHinter  NAPTR:  10248
+t=2025-01-29T17:43:14+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51805->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2019668
+Starting hinters for  DNS-SDHinter  NAPTR:  2019668
+t=2025-01-29T17:43:16+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51806->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4021060
+Starting hinters for  DNS-SDHinter  NAPTR:  4021060
+t=2025-01-29T17:43:18+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51807->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6022837
+Starting hinters for  DNS-SDHinter  NAPTR:  6022837
+t=2025-01-29T17:43:20+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51808->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8024571
+Starting hinters for  DNS-SDHinter  NAPTR:  8024571
+t=2025-01-29T17:43:22+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51809->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10026044
+Starting hinters for  DNS-SDHinter  NAPTR:  10026044
+t=2025-01-29T17:43:24+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:51810->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12027703
+Starting hinters for  DNS-SDHinter  NAPTR:  12027703
+t=2025-01-29T17:43:26+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:62170->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14029738
+Starting hinters for  DNS-SDHinter  NAPTR:  14029738
+t=2025-01-29T17:43:27+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:43:28.2108809 +0100 CET m=+0.002640001
+Starting hinters for  DNS-SDHinter :  527
+Starting hinters for  DNS-SDHinter  NAPTR:  9673
+t=2025-01-29T17:43:30+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50437->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2017322
+Starting hinters for  DNS-SDHinter  NAPTR:  2017322
+t=2025-01-29T17:43:32+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50438->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4018849
+Starting hinters for  DNS-SDHinter  NAPTR:  4018849
+t=2025-01-29T17:43:34+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50439->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6020636
+Starting hinters for  DNS-SDHinter  NAPTR:  6020636
+t=2025-01-29T17:43:36+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50440->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8022897
+Starting hinters for  DNS-SDHinter  NAPTR:  8022897
+t=2025-01-29T17:43:38+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50441->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10024720
+Starting hinters for  DNS-SDHinter  NAPTR:  10024720
+t=2025-01-29T17:43:40+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50442->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12026476
+Starting hinters for  DNS-SDHinter  NAPTR:  12026476
+t=2025-01-29T17:43:42+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:50443->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14028218
+Starting hinters for  DNS-SDHinter  NAPTR:  14028218
+t=2025-01-29T17:43:43+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:43:44.3211066 +0100 CET m=+0.002631801
+Starting hinters for  DNS-SDHinter :  1055
+Starting hinters for  DNS-SDHinter  NAPTR:  10098
+t=2025-01-29T17:43:46+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:59507->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2018012
+Starting hinters for  DNS-SDHinter  NAPTR:  2018012
+t=2025-01-29T17:43:48+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:59508->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4020054
+Starting hinters for  DNS-SDHinter  NAPTR:  4020054
+t=2025-01-29T17:43:50+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:53705->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6021411
+Starting hinters for  DNS-SDHinter  NAPTR:  6021411
+t=2025-01-29T17:43:52+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:53706->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8024230
+Starting hinters for  DNS-SDHinter  NAPTR:  8024230
+t=2025-01-29T17:43:54+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65267->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10025274
+Starting hinters for  DNS-SDHinter  NAPTR:  10025274
+t=2025-01-29T17:43:56+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65268->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12026973
+Starting hinters for  DNS-SDHinter  NAPTR:  12026973
+t=2025-01-29T17:43:58+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65269->[fec0:0:0:ffff::3]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14029093
+Starting hinters for  DNS-SDHinter  NAPTR:  14029093
+t=2025-01-29T17:43:59+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:44:00.3502328 +0100 CET m=+0.003149801
+Starting hinters for  DNS-SDHinter :  1107
+Starting hinters for  DNS-SDHinter  NAPTR:  11136
+Completed hinter  DNS-SDHinter NAPTR hint:  18557
+Starting hinters for  DNS-SDHinter  NAPTR:  18557
+Starting fetch config:  18557
+Start fetching TRCs: 18557
+Completed hinter  DNS-SDHinter NAPTR hint:  20447
+Starting hinters for  DNS-SDHinter  NAPTR:  20447
+Completed hinter  DNS-SDHinter NAPTR hint:  21590
+Starting hinters for  DNS-SDHinter  NAPTR:  21590
+Completed hinter  DNS-SDHinter NAPTR hint:  22120
+Starting hinters for  DNS-SDHinter  NAPTR:  22120
+Completed hinter  DNS-SDHinter NAPTR hint:  24371
+Starting hinters for  DNS-SDHinter  NAPTR:  24371
+Completed fetching TRCs: 98523
+Start fetching topo: 98523
+Completed fetching topo: 101412
+Completed fetch config:  101412
+Completed bootstrapping:  101412
+Startup:  2025-01-29 17:44:01.4771189 +0100 CET m=+0.002839401
+Starting hinters for  DNS-SDHinter :  544
+Starting hinters for  DNS-SDHinter  NAPTR:  10152
+t=2025-01-29T17:44:03+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65283->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2019842
+Starting hinters for  DNS-SDHinter  NAPTR:  2019842
+t=2025-01-29T17:44:05+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65284->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4021761
+Starting hinters for  DNS-SDHinter  NAPTR:  4021761
+t=2025-01-29T17:44:07+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:65285->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6022563
+Starting hinters for  DNS-SDHinter  NAPTR:  6022563
+t=2025-01-29T17:44:09+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:60389->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8023876
+Starting hinters for  DNS-SDHinter  NAPTR:  8023876
+t=2025-01-29T17:44:11+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:60390->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10025976
+Starting hinters for  DNS-SDHinter  NAPTR:  10025976
+t=2025-01-29T17:44:13+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:60391->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12027420
+Starting hinters for  DNS-SDHinter  NAPTR:  12027420
+t=2025-01-29T17:44:15+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:56574->[fec0:0:0:ffff::1]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14029513
+Starting hinters for  DNS-SDHinter  NAPTR:  14029513
+t=2025-01-29T17:44:16+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
+Startup:  2025-01-29 17:44:17.5207525 +0100 CET m=+0.002707701
+Starting hinters for  DNS-SDHinter :  560
+Starting hinters for  DNS-SDHinter  NAPTR:  9754
+Completed hinter  DNS-SDHinter NAPTR hint:  15637
+Starting hinters for  DNS-SDHinter  NAPTR:  15637
+Starting fetch config:  15637
+Start fetching TRCs: 15637
+Completed hinter  DNS-SDHinter NAPTR hint:  16141
+Starting hinters for  DNS-SDHinter  NAPTR:  16141
+Completed hinter  DNS-SDHinter NAPTR hint:  18422
+Starting hinters for  DNS-SDHinter  NAPTR:  18422
+Completed hinter  DNS-SDHinter NAPTR hint:  21356
+Starting hinters for  DNS-SDHinter  NAPTR:  21356
+Completed hinter  DNS-SDHinter NAPTR hint:  26476
+Starting hinters for  DNS-SDHinter  NAPTR:  26476
+Completed fetching TRCs: 87679
+Start fetching topo: 87679
+Completed fetching topo: 90699
+Completed fetch config:  90699
+Completed bootstrapping:  90699
+Startup:  2025-01-29 17:44:18.7293017 +0100 CET m=+0.003900701
+Starting hinters for  DNS-SDHinter :  1123
+Starting hinters for  DNS-SDHinter  NAPTR:  14684
+Completed hinter  DNS-SDHinter NAPTR hint:  20895
+Starting hinters for  DNS-SDHinter  NAPTR:  20895
+Starting fetch config:  20895
+Start fetching TRCs: 20895
+Completed hinter  DNS-SDHinter NAPTR hint:  22003
+Starting hinters for  DNS-SDHinter  NAPTR:  22003
+Completed hinter  DNS-SDHinter NAPTR hint:  23167
+Starting hinters for  DNS-SDHinter  NAPTR:  23167
+Completed hinter  DNS-SDHinter NAPTR hint:  25108
+Starting hinters for  DNS-SDHinter  NAPTR:  25108
+Completed hinter  DNS-SDHinter NAPTR hint:  26339
+Starting hinters for  DNS-SDHinter  NAPTR:  26339
+Completed fetching TRCs: 103691
+Start fetching topo: 104233
+Completed fetching topo: 107990
+Completed fetch config:  107990
+Completed bootstrapping:  107990
+Startup:  2025-01-29 17:44:19.9259047 +0100 CET m=+0.002822701
+Starting hinters for  DNS-SDHinter :  1108
+Starting hinters for  DNS-SDHinter  NAPTR:  9945
+Completed hinter  DNS-SDHinter NAPTR hint:  16271
+Starting hinters for  DNS-SDHinter  NAPTR:  16271
+Starting fetch config:  16271
+Start fetching TRCs: 16271
+Completed hinter  DNS-SDHinter NAPTR hint:  17321
+Starting hinters for  DNS-SDHinter  NAPTR:  17321
+Completed hinter  DNS-SDHinter NAPTR hint:  18409
+Starting hinters for  DNS-SDHinter  NAPTR:  18409
+Completed hinter  DNS-SDHinter NAPTR hint:  19522
+Starting hinters for  DNS-SDHinter  NAPTR:  19522
+Completed hinter  DNS-SDHinter NAPTR hint:  21047
+Starting hinters for  DNS-SDHinter  NAPTR:  21047
+Completed fetching TRCs: 87318
+Start fetching topo: 87318
+Completed fetching topo: 90107
+Completed fetch config:  90107
+Completed bootstrapping:  90107
+Startup:  2025-01-29 17:44:21.1398006 +0100 CET m=+0.004241101
+Starting hinters for  DNS-SDHinter :  1101
+Starting hinters for  DNS-SDHinter  NAPTR:  10255
+Completed hinter  DNS-SDHinter NAPTR hint:  15719
+Starting hinters for  DNS-SDHinter  NAPTR:  15719
+Starting fetch config:  15719
+Start fetching TRCs: 15719
+Completed hinter  DNS-SDHinter NAPTR hint:  16751
+Starting hinters for  DNS-SDHinter  NAPTR:  16751
+Completed hinter  DNS-SDHinter NAPTR hint:  18373
+Starting hinters for  DNS-SDHinter  NAPTR:  18373
+Completed hinter  DNS-SDHinter NAPTR hint:  19435
+Starting hinters for  DNS-SDHinter  NAPTR:  19435
+Completed hinter  DNS-SDHinter NAPTR hint:  20759
+Starting hinters for  DNS-SDHinter  NAPTR:  20759
+Completed fetching TRCs: 69852
+Start fetching topo: 69852
+Completed fetching topo: 80724
+Completed fetch config:  80724
+Completed bootstrapping:  80724
+Startup:  2025-01-29 17:44:22.2870341 +0100 CET m=+0.003360501
+Starting hinters for  DNS-SDHinter :  538
+Starting hinters for  DNS-SDHinter  NAPTR:  10730
+Completed hinter  DNS-SDHinter NAPTR hint:  16520
+Starting hinters for  DNS-SDHinter  NAPTR:  16520
+Starting fetch config:  16520
+Start fetching TRCs: 16520
+Completed hinter  DNS-SDHinter NAPTR hint:  17635
+Starting hinters for  DNS-SDHinter  NAPTR:  17635
+Completed hinter  DNS-SDHinter NAPTR hint:  18202
+Starting hinters for  DNS-SDHinter  NAPTR:  18202
+Completed hinter  DNS-SDHinter NAPTR hint:  21017
+Starting hinters for  DNS-SDHinter  NAPTR:  21017
+Completed hinter  DNS-SDHinter NAPTR hint:  23022
+Starting hinters for  DNS-SDHinter  NAPTR:  23022
+Completed fetching TRCs: 109227
+Start fetching topo: 109227
+Completed fetching topo: 111354
+Completed fetch config:  111354
+Completed bootstrapping:  111354
+Startup:  2025-01-29 17:44:23.420463 +0100 CET m=+0.002685901
+Starting hinters for  DNS-SDHinter :  539
+Starting hinters for  DNS-SDHinter  NAPTR:  9917
+Completed hinter  DNS-SDHinter NAPTR hint:  15226
+Starting hinters for  DNS-SDHinter  NAPTR:  15226
+Starting fetch config:  15226
+Start fetching TRCs: 15226
+Completed hinter  DNS-SDHinter NAPTR hint:  16255
+Starting hinters for  DNS-SDHinter  NAPTR:  16255
+Completed hinter  DNS-SDHinter NAPTR hint:  16777
+Starting hinters for  DNS-SDHinter  NAPTR:  16777
+Completed hinter  DNS-SDHinter NAPTR hint:  17836
+Starting hinters for  DNS-SDHinter  NAPTR:  17836
+Completed hinter  DNS-SDHinter NAPTR hint:  19048
+Starting hinters for  DNS-SDHinter  NAPTR:  19048
+Completed fetching TRCs: 77522
+Start fetching topo: 77522
+Completed fetching topo: 80276
+Completed fetch config:  80276
+Completed bootstrapping:  80276
+Startup:  2025-01-29 17:44:24.5859509 +0100 CET m=+0.003202501
+Starting hinters for  DNS-SDHinter :  549
+Starting hinters for  DNS-SDHinter  NAPTR:  10225
+Completed hinter  DNS-SDHinter NAPTR hint:  15640
+Starting hinters for  DNS-SDHinter  NAPTR:  15640
+Starting fetch config:  15640
+Start fetching TRCs: 15640
+Completed hinter  DNS-SDHinter NAPTR hint:  16708
+Starting hinters for  DNS-SDHinter  NAPTR:  16708
+Completed hinter  DNS-SDHinter NAPTR hint:  17865
+Starting hinters for  DNS-SDHinter  NAPTR:  17865
+Completed hinter  DNS-SDHinter NAPTR hint:  18935
+Starting hinters for  DNS-SDHinter  NAPTR:  18935
+Completed hinter  DNS-SDHinter NAPTR hint:  19473
+Starting hinters for  DNS-SDHinter  NAPTR:  19473
+Completed fetching TRCs: 101872
+Start fetching topo: 101872
+Completed fetching topo: 104330
+Completed fetch config:  104330
+Completed bootstrapping:  104330
+Startup:  2025-01-29 17:44:25.9218196 +0100 CET m=+0.003271201
+Starting hinters for  DNS-SDHinter :  1095
+Starting hinters for  DNS-SDHinter  NAPTR:  15208
+Completed hinter  DNS-SDHinter NAPTR hint:  21275
+Starting hinters for  DNS-SDHinter  NAPTR:  21275
+Starting fetch config:  21275
+Start fetching TRCs: 21275
+Completed hinter  DNS-SDHinter NAPTR hint:  22331
+Starting hinters for  DNS-SDHinter  NAPTR:  22331
+Completed hinter  DNS-SDHinter NAPTR hint:  23689
+Starting hinters for  DNS-SDHinter  NAPTR:  23689
+Completed hinter  DNS-SDHinter NAPTR hint:  25413
+Starting hinters for  DNS-SDHinter  NAPTR:  25413
+Completed hinter  DNS-SDHinter NAPTR hint:  26553
+Starting hinters for  DNS-SDHinter  NAPTR:  26553
+Completed fetching TRCs: 100575
+Start fetching topo: 100575
+Completed fetching topo: 102147
+Completed fetch config:  102147
+Completed bootstrapping:  102147
+Startup:  2025-01-29 17:44:27.0193165 +0100 CET m=+0.002526401
+Starting hinters for  DNS-SDHinter :  1134
+Starting hinters for  DNS-SDHinter  NAPTR:  9815
+Completed hinter  DNS-SDHinter NAPTR hint:  14953
+Starting hinters for  DNS-SDHinter  NAPTR:  14953
+Starting fetch config:  14953
+Start fetching TRCs: 14953
+Completed hinter  DNS-SDHinter NAPTR hint:  15881
+Starting hinters for  DNS-SDHinter  NAPTR:  15881
+Completed hinter  DNS-SDHinter NAPTR hint:  16805
+Starting hinters for  DNS-SDHinter  NAPTR:  16805
+Completed hinter  DNS-SDHinter NAPTR hint:  17309
+Starting hinters for  DNS-SDHinter  NAPTR:  17827
+Completed hinter  DNS-SDHinter NAPTR hint:  18673
+Starting hinters for  DNS-SDHinter  NAPTR:  18673
+Completed fetching TRCs: 70749
+Start fetching topo: 70749
+Completed fetching topo: 74109
+Completed fetch config:  74109
+Completed bootstrapping:  74109
+Startup:  2025-01-29 17:44:28.2163409 +0100 CET m=+0.002749201
+Starting hinters for  DNS-SDHinter :  549
+Starting hinters for  DNS-SDHinter  NAPTR:  14194
+t=2025-01-29T17:44:30+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:61473->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  2026989
+Starting hinters for  DNS-SDHinter  NAPTR:  2026989
+t=2025-01-29T17:44:32+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:61474->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  4028078
+Starting hinters for  DNS-SDHinter  NAPTR:  4028078
+t=2025-01-29T17:44:34+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:61475->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  6029652
+Starting hinters for  DNS-SDHinter  NAPTR:  6029652
+t=2025-01-29T17:44:36+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:61476->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  8031123
+Starting hinters for  DNS-SDHinter  NAPTR:  8031911
+t=2025-01-29T17:44:38+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:55460->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  10032763
+Starting hinters for  DNS-SDHinter  NAPTR:  10032763
+t=2025-01-29T17:44:40+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:54272->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  12035155
+Starting hinters for  DNS-SDHinter  NAPTR:  12035155
+t=2025-01-29T17:44:42+0100 lvl=eror msg="DNS-SD failed" err="read udp [fe80::4551:bc13:85a6:42f0%Ethernet 3]:55063->[fec0:0:0:ffff::2]:53: i/o timeout"
+Completed hinter  DNS-SDHinter NAPTR hint:  14036346
+Starting hinters for  DNS-SDHinter  NAPTR:  14036346
+t=2025-01-29T17:44:43+0100 lvl=eror msg="Bootstrapping failed" err="bootstrapper timed out"
