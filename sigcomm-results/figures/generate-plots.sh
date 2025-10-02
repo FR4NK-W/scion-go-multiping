@@ -6,6 +6,18 @@
 
 set -e
 
+# Create virtual environment for the requirements:
+python3 -m venv venv
+. ./venv/bin/activate
+pip3 install -r requirements.txt
+
+# Generate the plot for Figure 4: Bootstrapping
+
+cd figure_4_bootstrap_latency
+python3 bootstrap_plot_by_OS.py
+echo "Figure 4: Bootstrap Latency plot generated to figure_4_bootstrap_latency/bootstrap_latency.pdf."
+cd ..
+
 # Generate the plot for Figure 5: Ping Latency
 
 cd figure_5_ping_latency
