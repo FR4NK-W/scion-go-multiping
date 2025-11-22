@@ -29,12 +29,13 @@ func TestSQLiteExporter_WritePingResult(t *testing.T) {
 		t.Fatalf("Failed to initialize SQLiteExporter: %v", err)
 	}
 
+	tNow := time.Now()
 	pingResult := PingResult{
 		SrcSCIONAddr:    "1-ff00:0:110",
 		DstSCIONAddr:    "1-ff00:0:111",
 		Success:         true,
 		RTT:             20.5,
-		PingTime:        time.Now(),
+		PingTime:        &tNow,
 		SuccessfulPings: 5,
 		MaxPings:        10,
 	}
@@ -62,13 +63,14 @@ func TestSQLiteExporter_WritePathStatistic(t *testing.T) {
 		t.Fatalf("Failed to initialize SQLiteExporter: %v", err)
 	}
 
+	tNow := time.Now()
 	pathStatistic := PathStatistics{
 		SrcSCIONAddr: "1-ff00:0:110",
 		DstSCIONAddr: "1-ff00:0:111",
 		Success:      true,
 		MinRTT:       10.2,
 		MaxRTT:       50.8,
-		LookupTime:   time.Now(),
+		LookupTime:   &tNow,
 		ActivePaths:  3,
 		ProbedPaths:  5,
 	}
